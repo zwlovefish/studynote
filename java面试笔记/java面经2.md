@@ -228,3 +228,227 @@ void wait(long timeout, int nanos) 导致当前的线程等待，直到其他线
 [详情见java面经 #16](https://github.com/zwlovefish/studynote/blob/master/java学习笔记/java面经.md)
 
 # 14.类加载机制，双亲委派模型，好处是什么？
+![类加载机制](../images/类加载机制.png)
+应用程序在使用类的时候，这个类的生命周期其实包括了如上图所示的七个阶段。   
+**使用：**就是我们平时在编码过程中用new关键字去创建一个类的实例去使用这个类。   
+**卸载：**虚拟机通过垃圾回收机制将这个类的信息和这个类相关的实例从虚拟机内存区域中移除。  
+
+**加载：**通过这个类的全限定名找到这个类所在的位置，把它从一个文件或者一个字节流转化为虚拟机内存中的一个确确实实的对象。    
+**验证：**验证是为了检查每个java文件所对应的class文件所形成的字节流中包含的信息符不符合虚拟机的要求，有没有危害虚拟机自身安全的代码。   
+**准备：**准备阶段就是为类变量（static修饰）分配内存，并设置初始值（例如int为0）。   
+**解析：**解析就是将常量值的引用替换为实际值的过程   
+**初始化：**初始化是类加载的最后一步，在初始化阶段才开始真正执行类中所定义的java代码，注意这个初始化要和我们平时构造方法初始化（构造方法是在“使用”阶段用new关键字创建实例的时候才会调用）区分开来，**这个初始化动作会把类中所有用了static修饰的变量以及静态语句块执行一遍，按照我们的意愿把类变量赋给我们所定义的变量。**   
+我们能影响的只有加载过程，负责加载动作的是“类加载器”，可以使用系统给我们提供的类加载器，也可以使用自定义的类加载器。自定义的类加载器常常用于部署时的热替换，还有类的加密和解密。在部署程序的时候可能会把我们的class文件进行加密，在实际运行的时候首先要把加密后的class文件通过自定义的类加载器进行解密然后交给虚拟机去执行。   
+
+|类加载器|加载的范围|
+|:-:|:-:|
+|启动类加载器<br>BootStrap ClassLoader|存放在<JAVA_HOME>/lib目录中的，并且是虚拟机识别的类库加载到虚拟机内存中|
+|扩展类加载器<br>Extension ClassLoader|存放在<JAVA_HOME>/lib/ext目录中的所有类库，开发者可以直接使用|
+|应用程序类加载器<br>Application ClassLoader|加载用户类路径上指定的类库，开发者可以直接使用，一般情况下这个就是程序中默认的类加载器。|
+
+启动类加载器Bootstrap ClassLoader，负责加载jdk安装目录<JAVA_HOME>下的lib目录下的jdk自身所带的java类，这个类加载器是我们的应用程序无法调用的。   
+**双亲委派模型**
+
+![双亲委派模型](../images/双亲委派模型.png)
+
+当一个加载器不管是应用程序类加载器还是我们自定义的类加载器在进行类加载的时候它首先不会自己去加载，它首先会把加载任务委派给自己的父类加载器，比如现在有个类需要我们的自定义类加载器来加载，其实它首先会把它交给应用程序类加载器，应用程序类加载器又会把任务交给扩展类加载器，一直往上提交，直到启动类加载器。启动类加载器如果在自己的扫描范围内能找到类，它就会去加载，如果它找不到，它就会交给它的下一级子加载器去加载，以此类推，这就是双亲委派模型。  这里如果父类加载器能够完成加载任务就成功返回，否则就由自己去加载。  
+为什么jdk里要提出双亲委派模型？   
+可以保证我们的类有一个合适的优先级，例如Object类，它是我们系统中所有类的根类，采用双亲委派模型以后，不管是哪个类加载器来加载Object类，哪怕这个加载器是自定义类加载器，通过双亲委派模型，最终都是由启动类加载器去加载的，这样就可以保证Object这个类在程序的各个类加载器环境中都是同一个类。<font color="red">在虚拟机里觉得一个类是不是唯一有两个因素，**第一个就是这个类本身，第二个就是加载这个类的类加载器，**如果同一个类由不同的类加载器去加载，在虚拟机看来，这两个类是不同的类。</font>
+> https://blog.csdn.net/aimashi620/article/details/84836245
+
+类的加载过程    
+
+加载阶段   
+主要完成以下3件事情：   
+1.通过“类全名”来获取定义此类的二进制字节流   
+2.将字节流所代表的静态存储结构转换为方法区的运行时数据结构   
+3.在java堆中生成一个代表这个类的java.lang.Class对象，作为方法区这些数据的访问入口   
+
+验证阶段    
+这个阶段目的在于确保Class文件的字节流中包含信息符合当前虚拟机要求，不会危害虚拟机自身安全。主要包括四种验证：   
+1.文件格式验证：基于字节流验证，验证字节流是否符合Class文件格式的规范，并且能被当前虚拟机处理。   
+2.元数据验证：基于方法区的存储结构验证，对字节码描述信息进行语义验证。   
+3.字节码验证：基于方法区的存储结构验证，进行数据流和控制流的验证。   
+4.符号引用验证：基于方法区的存储结构验证，发生在解析中，是否可以将符号引用成功解析为直接引用。
+
+准备阶段   
+仅仅为类变量(即static修饰的字段变量)分配内存并且设置该类变量的初始值即零值，这里不包含用final修饰的static，因为final在编译的时候就会分配了，同时这里也不会为实例变量分配初始化。类变量会分配在方法区中，而实例变量是会随着对象一起分配到Java堆中。   
+
+解析阶段   
+解析主要就是将常量池中的符号引用替换为直接引用的过程。符号引用就是一组符号来描述目标，可以是任何字面量，而直接引用就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄。有类或接口的解析，字段解析，类方法解析，接口方法解析。这里要注意如果有一个同名字段同时出现在一个类的接口和父类中，那么编译器一般都会拒绝编译。   
+
+初始化阶段   
+初始化阶段依旧是初始化类变量和其他资源，这里将执行用户的static字段和静态语句块的赋值操作。这个过程就是执行类构造器方法的过程。
+
+![类加载过程](../images/类加载过程.png)
+
+#15 静态变量存在哪?
+内存到底分几个区？   
+1、栈区（stack）— 由编译器自动分配释放 ，存放函数的参数值，局部变量的值等。    
+2、堆区（heap） — 一般由程序员分配释放， 若程序员不释放，程序结束时可能由os回收。注意它与数据结构中的堆是两回事，分配方式倒是类似于链表。   
+3、全局区（静态区）（static）—全局变量和静态变量的存储是放在一块的，初始化的全局变量和静态变量在一块区域，未初始化的全局变量和未初始化的静态变量在相邻的另一块区域。程序结束后有系统释放。   
+4、文字常量区 —常量字符串就是放在这里的。 程序结束后由系统释放。   
+5、程序代码区—存放函数体的二进制代码。   
+# 16. 讲讲什么是泛型？
+# 17.解释extends 和super 泛型限定符-上界不存下界不取
+extends 指定上界限，只能传入本类和子类      
+super 指定下界限，只能传入本类和父类    
+T<? super B>对于这个泛型，?代表容器里的元素类型，由于只规定了元素必须是B的超类，导致元素没有明确统一的“根”（除了Object这个必然的根），所以这个泛型你其实无法使用它，对吧，除了把元素强制转成Object。所以，对把参数写成这样形态的函数，你函数体内，只能对这个泛型做插入操作，而无法读     
+T<? extends B>由于指定了B为所有元素的“根”，你任何时候都可以安全的用B来使用容器里的元素，但是插入有问题，由于供奉B为祖先的子树有很多，不同子树并不兼容，由于实参可能来自于任何一颗子树，所以你的插入很可能破坏函数实参，所以，对这种写法的形参，禁止做插入操作，只做读取     
+PECS（Producer Extends Consumer Super）原则：   
+频繁往外读取内容的，适合用上界Extends。   
+经常往里插入的，适合用下界Super。 
+> https://www.jianshu.com/p/276699764aa2
+# 18. 是否可以在static环境中访问非static变量？
+static变量是属于类的，在类加载的时候被初始化，这时候类还没有实例化，因此不可以访问。   
+
+1. 这个要从java的内存机制去分析，首先当你New 一个对象的时候，并不是先在堆中为对象开辟内存空间，而是先将类中的静态方法（带有static修饰的静态函数）的代码加载到一个叫做方法区的地方，然后再在堆内存中创建对象。所以说静态方法会随着类的加载而被加载。当你new一个对象时，该对象存在于对内存中，this关键字一般指该对象，但是如果没有new对象，而是通过类名调用该类的静态方法也可以。   
+2. 程序最终都是在内存中执行，变量只有在内存中占有一席之地时才会被访问，类的静态成员（变态和方法）属于类本身，在类加载的时候就会分配内存，可以通过类名直接去访问，非静态成员（变量和方法）属于类的对象，所以只有在类的对象禅师（创建实例）的时候才会分配内存，然后通过类的对象去访问。   
+3. 在一个类的静态成员中去访问非静态成员之所以会出错是因为在类的非静态成员不存在的时候静态成员就已经存在了，访问一个内存中不存在的东西当然会出错。   
+> https://blog.csdn.net/snail_xinl/article/details/53427572
+# 19.谈谈如何通过反射创建对象？
+假定有一个对象User
+```java
+package com.zhou.entity;
+
+public class User {
+    private Integer id;
+    private String name;
+    public User() {
+        // TODO Auto-generated constructor stub
+    }
+    public User(Integer id, String name) {
+        super();
+        this.id = id;
+        this.name = name;
+    }
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", name=" + name + "]";
+    }
+
+}
+
+```
+```java
+            Class<?> strClass = Class.forName("com.zhou.entity.User");
+            Object   object = strClass.newInstance();
+            System.out.println(object instanceof User);
+```
+打印结果为true。这种clz.newInstance()的方式，只能创建默认无参构造的对象。   
+```java
+            Class<?> strClass = Class.forName("com.zhou.entity.User");
+            Constructor<?> constructor = strClass.getConstructor(Integer.class,String.class);
+            Object object = constructor.newInstance(1,"周健伟");
+            User user = (User)object;
+            System.out.println(user.getId()+user.getName());
+```
+这种方式是通过有参构造器创建对象。   
+这里获取构造器只能获取public的，对于私有的需要暴力反射：
+```java
+constructor.setAccessible(true);
+```
+> https://blog.csdn.net/qq_33236248/article/details/80347884
+# 20.Java支持多继承么？
+不支持。但是java能实现多继承是java当中的接口之间能实现多继承，而java当中的类是不能实现多继承的，类只能实现单继承；
+类不能实现多继承的原因是： 如果类之间实现了多继承，将可能造成程序的紊乱，因为类与类之前可能存在相同的方法，程序在运行子类的对象或者子类调用某一方法，若父类中含有相同的方法，比如父类中都含有show()的方法，子类调用时系统将不知调用哪个父类的方法，从而程序报错，所以java的类与类之间是不能实现多继承的，只能实现单继承。接口之间能实现多继承；
+# 21.接口和抽象类的区别是什么？
+1. 抽象类和接口都不能直接实例化，如果要实例化，抽象类变量必须指向实现所有抽象方法的子类对象，接口变量必须指向实现所有接口方法的类对象。
+2. 抽象类要被子类继承，接口要被类实现。
+3. 接口只能做方法申明，抽象类中可以做方法申明，也可以做方法实现
+4. 接口里定义的变量只能是公共的静态的常量，抽象类中的变量是普通变量。
+5. 抽象类里的抽象方法必须全部被子类所实现，如果子类不能全部实现父类抽象方法，那么该子类只能是抽象类。同样，一个实现接口的时候，如不能全部实现接口方法，那么该类也只能为抽象类。
+6. 抽象方法只能申明，不能实现，接口是设计的结果 ，抽象类是重构的结果
+7. 抽象类里可以没有抽象方法
+8. 如果一个类里有抽象方法，那么这个类只能是抽象类
+9. 抽象方法要被实现，所以不能是静态的，也不能是私有的。
+10. 接口可继承接口，并可多继承接口，但类只能单根继承。
+# 22.Comparable和Comparator接口是干什么的？列出它们的区别。
+相同点：他们都是java的一个接口, 并且是用来对自定义的class比较大小的。   
+Comparator 和 Comparable 的区别：   
+Comparable 定义在自定义类内部<font color="red">(覆盖compareTo()方法)</font>:
+```java
+class User implements Comparable<User>{
+    private Integer id;
+    private String name;
+    
+    public User(Integer id, String name) {
+        super();
+        this.id = id;
+        this.name = name;
+    }
+    @Override
+    public int compareTo(User o) {
+        return this.id-o.id;
+    }
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", name=" + name + "]";
+    }
+    
+    
+}
+```
+对其排序用Collectins.Sort(User)   
+Comparator定义在外部<font color="red">(覆盖compare()方法)</font>:
+```java
+class User{
+    private Integer id;
+    private String name;
+    
+    public User(Integer id, String name) {
+        super();
+        this.id = id;
+        this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", name=" + name + "]";
+    }
+    
+}
+class UserComparator implements Comparator<User>{
+
+    @Override
+    public int compare(User o1, User o2) {
+        // TODO Auto-generated method stub
+        return  o1.getId() - o2.getId();//如果是o2.getId() - o1.getId()，则递减次序
+    }
+    
+}
+```
+对齐排序用Collections.sort(users, new UserComparator());   
+两种方法各有优劣, 用Comparable 简单, 只要实现Comparable 接口的对象直接就成为一个可以比较的对象,
+但是需要修改源代码, 用Comparator 的好处是不需要修改源代码, 而是另外实现一个比较器, 当某个自定义
+的对象需要作比较的时候,把比较器和对象一起传递过去就可以比大小了, 并且在Comparator 里面用户可以自
+己实现复杂的可以通用的逻辑,使其可以匹配一些比较简单的对象,那样就可以节省很多重复劳动了。
+>https://www.cnblogs.com/sunflower627/p/3158042.html
