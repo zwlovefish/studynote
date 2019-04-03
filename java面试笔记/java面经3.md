@@ -11,6 +11,7 @@ finally是在异常处理时提供finally块来执行任何清除操作的，如
 
 finalize:
 要宣告一个对象有没有真正死亡，至少要经历俩次标记过程：如果对象在进行可达性分析后发现没有与GC Roots相连，那么他将第一次标记，并进行一次筛选，筛选的条件是对象有没有覆盖finalize方法或者改finalize方法有没有被调用过，如果没有覆盖或者已经执行过finalize之后，虚拟机将这俩种情况均视为没有必要执行。如果一个对象被判定为有必要执行finalize()方法，那么这个对象将会放置在一个F-Queue的队列中，并在稍后由一个虚拟机自动建立，低优先级的Finalizer线程去执行它，不保证等待它运行结束。这里引用深入理解java虚拟机上面的一段代码：   
+
 ```java
 public class FinalizeEscapeGC{
 	public static FinalizeEscapeGC SAVE_HOOK = null;
@@ -47,6 +48,7 @@ public class FinalizeEscapeGC{
 	}
 }
 ```
+
 这里一次成功逃脱一次逃脱失败的原因是任何一个对象的finalize()方法都只会被系统自动调用一次。
 # 3. Overload和Override的区别。Overloaded的方法是否可以改变返回值的类型?
 Overload是重载的意思，Override是覆盖的意思，也就是重写。   
@@ -133,6 +135,7 @@ Finally 为确保一段代码不管发生什么“异常”都被执行一段代
 成员内部类是最普通的内部类，它可以无条件访问外内类的成员变量或者方法(包括私有成员和静态成员)。<font color='red'>当成员内部类拥有和外部类相同的成员变量或者方法时，会发生隐藏即默认访问的是成员内部类的成员。如果要访问外部的同名成员，需要外部类.this.成员变量以及外部类.this.成员方法</font>
 3. 局部内部类   
 局部内部类是定义在外部成员类的方法中的，在访问的时候，他可以直接访问外部类的所有成员，但是不能访问局部变量，除非这个局部变量是被final修饰的
+
 ```java
 public void getinfo() {
          final int a = 0;//重点：这里如果没有final修饰的话，编译的时候就会报错
@@ -152,6 +155,7 @@ public void getinfo() {
 - 匿名内部类的格式：new 父类或者接口(){定义子类的内容}
 - 匿名内部类就是一个匿名子类对象
 - 匿名内部类的方法最好不要超过三个
+
 ```java
 interface Person {
 
@@ -176,6 +180,7 @@ interface Person {
               }
         }
 ```
+
 内部类访问规则:   
 内部类的访问规则：
 
