@@ -664,3 +664,655 @@ Mybatis：小巧、方便、高效、简单、直接、半自动化
 
 Hibernate：强大、方便、高效、复杂、间接、全自动化
 
+# 9. 启动项目时如何实现不在链接里输入项目名就能启动?
+修改Tomcat配置文件 server.xml。找到自己的项目配置 ：
+```XML
+<Context docBase="oneProject" path="/one Project" reloadable="true" source="org.eclipse.jst.jee.server:userManager"/>
+```
+改为如下配置:
+```XML
+<Context docBase="oneProject" path="/" reloadable="true" source="org.eclipse.jst.jee.server:userManager"/>
+```
+
+# 10. 1分钟之内只能处理1000个请求，你怎么实现，手撕代码?
+Application 对所有用户访问的次数计数。同时定义一个计时器，单位为一分钟。如果Application 中的用户在单位时间内超出请求次数，就拒绝处理该请求。一分钟再刷新application的值为0.
+
+使用一个Map 维护变量：
+```JAVA
+// 泛型 String 表示用户标识，List中存放用户不同请求的时间戳。
+private Map<String, List> map = new ConcurrentHashMap<>();
+```
+我们只需要在单位计数中判断 List中数量是否超出限制即可。
+
+使用 aop 实现请求的限制，在需要限制的请求方法上加上 aop 逻辑。即可实现，思路如下：
+![一分钟之内只能处理1000个请求](../images/一分钟之内只能处理1000个请求.png)
+
+自定义注解类实现请求限制的拦截逻辑，在需要限制的方法上使用注解，超出限制后拒绝处理请求。
+
+# 10. 什么时候用assert
+断言在软件开发中是一种常用的调试方式，很多开发语言中都支持这种机制。一般来说，断言用于保证程序最基本、关键的正确性。断言检查通常在开发和测试时开启。为了保证程序的执行效率，在软件发布后断言检查通常是关闭的。断言是一个包含布尔表达式的语句，在执行这个语句时假定该表达式为true；如果表达式的值为false，那么系统会报告一个AssertionError。断言的使用如下面的代码所示：
+```JAVA
+assert(a > 0); // throws an AssertionError if a <= 0
+```
+
+断言可以有两种形式：
+
+1. assert Expression1;
+2. assert Expression1 : Expression2 ;
+
+Expression1 应该总是产生一个布尔值。
+Expression2 可以是得出一个值的任意表达式；这个值用于生成显示更多调试信息的字符串消息。
+
+要在运行时启用断言，可以在启动JVM时使用-enableassertions或者-ea标记。要在运行时选择禁用断言，可以在启动JVM时使用-da或者-disableassertions标记。要在系统类中启用或禁用断言，可使用-esa或-dsa标记。还可以在包的基础上启用或者禁用断言。
+
+<font color="red">断言不应该以任何方式改变程序的状态。简单的说，如果希望在不满足某些条件时阻止代码的执行，就可以考虑用断言来阻止它。
+</font>
+
+# 11. JAVA应用服务器有那些
+BEA WebLogic Server，
+
+IBM WebSphere Application Server，
+
+Oracle9i Application Server
+
+jBoss，
+
+Tomcat
+
+# 12. JSP的内置对象及方法
+![JSP九大内置对象常用方法1](../images/JSP九大内置对象常用方法1.png)
+![JSP九大内置对象常用方法2](../images/JSP九大内置对象常用方法2.png)
+![JSP九大内置对象常用方法3](../images/JSP九大内置对象常用方法3.png)
+![JSP九大内置对象常用方法4](../images/JSP九大内置对象常用方法4.png)
+![JSP九大内置对象常用方法5](../images/JSP九大内置对象常用方法5.png)
+![JSP九大内置对象常用方法6](../images/JSP九大内置对象常用方法6.png)
+![JSP九大内置对象常用方法7](../images/JSP九大内置对象常用方法7.png)
+![JSP九大内置对象常用方法8](../images/JSP九大内置对象常用方法8.png)
+![JSP九大内置对象常用方法9](../images/JSP九大内置对象常用方法9.png)
+![JSP九大内置对象常用方法10](../images/JSP九大内置对象常用方法10.png)
+>https://blog.csdn.net/qq_39299893/article/details/80470392
+![JSP九大内置对象及其作用域](../images/JSP九大内置对象及其作用域.png)
+
+### 何为作用域?
+大概流程是这样的，我们访问index.jsp的时候，分别对pageContext, request, session,application四个作用域中的变量进行累加。（当然先判断这个变量是不是存在，如果变量不存在，则要把变量初始化成1）。计算完成后就从index.jsp执行forward跳转到test.jsp。在test.jsp里再进行一次累加，然后显示出这四个整数来。
+
+从显示的结果来看，我们可以直观的得出结论：
+
+page里的变量没法从index.jsp传递到test.jsp。只要页面跳转了，它们就不见了。
+
+request里的变量可以跨越forward前后的两页。但是只要刷新页面，它们就重新计算了。
+
+session和application里的变量一直在累加，开始还看不出区别，只要关闭浏览器，再次重启浏览器访问这页，session里的变量就重新计算了。
+
+application里的变量一直在累加，除非你重启tomcat，否则它会一直变大。
+
+### 作用域规定的是变量的有效期限
+如果把变量放到pageContext里，就说明它的作用域是page，它的有效范围只在当前jsp页面里。
+
+从把变量放到pageContext开始，到jsp页面结束，你都可以使用这个变量。
+
+如果把变量放到request里，就说明它的作用域是request，它的有效范围是当前请求周期。
+
+所谓请求周期，就是指从http请求发起，到服务器处理结束，返回响应的整个过程。在这个过程中可能使用forward的方式跳转了多个jsp页面，在这些页面里你都可以使用这个变量。
+
+如果把变量放到session里，就说明它的作用域是session，它的有效范围是当前会话。
+
+所谓当前会话，就是指从用户打开浏览器开始，到用户关闭浏览器这中间的过程。这个过程可能包含多个请求响应。也就是说，只要用户不关浏览器，服务器就有办法知道这些请求是一个人发起的，整个过程被称为一个会话（session），而放到会话中的变量，就可以在当前会话的所有请求里使用。
+
+如果把变量放到application里，就说明它的作用域是application，它的有效范围是整个应用。
+
+整个应用是指从应用启动，到应用结束。我们没有说“从服务器启动，到服务器关闭”，是因为一个服务器可能部署多个应用，当然你关闭了服务器，就会把上面所有的应用都关闭了。
+
+application作用域里的变量，它们的存活时间是最长的，如果不进行手工删除，它们就一直可以使用。
+
+与上述三个不同的是，application里的变量可以被所有用户共用。如果用户甲的操作修改了application中的变量，用户乙访问时得到的是修改后的值。这在其他scope中都是不会发生的，page, request,session都是完全隔离的，无论如何修改都不会影响其他人的数据。
+
+### jsp动作及作用
+JSP共有以下6种基本动作：
+
+1. jsp:include：在页面被请求的时候引入一个文件；
+2. jsp:useBean：寻找或者实例化一个JavaBean。；
+3. jsp:setProperty：设置JavaBean的属性。；
+4. jsp:getProperty：输出某个JavaBean的属性；
+5. jsp:forward：把请求转到一个新的页面；
+6. jsp:plugin：根据浏览器类型为Java插件生成OBJECT或EMBED标记
+>https://www.cnblogs.com/MissSu/p/6149244.html
+
+# 13. JSP和Servlet有哪些相同点和不同点，他们之间的联系是什么？（JSP）
+1. jsp经编译后就变成了Servlet.(JSP的本质就是Servlet，JVM只能识别java的类，不能识别JSP的代码,Web容器将JSP的代码编译成JVM能够识别的java类)
+2. jsp更擅长表现于页面显示,servlet更擅长于逻辑控制.
+3. Servlet中没有内置对象，Jsp中的内置对象都是必须通过HttpServletRequest对象，HttpServletResponse对象以及HttpServlet对象得到.
+
+Jsp是Servlet的一种简化，使用Jsp只需要完成程序员需要输出到客户端的内容，Jsp中的Java脚本如何镶嵌到一个类中，由Jsp容器完成。而Servlet则是个完整的Java类，这个类的Service方法用于生成对客户端的响应。
+
+联系： JSP是Servlet技术的扩展，本质上就是Servlet的简易方式。JSP编译后是“类servlet”。Servlet和JSP最主要的不同点在于，Servlet的应用逻辑是在Java文件中，并且完全从表示层中的HTML里分离开来。而JSP的情况是Java和HTML可以组合成一个扩展名为.jsp的文件。JSP侧重于视图，Servlet主要用于控制逻辑。
+
+# 14. 说一说四种会话跟踪技术
+### 什么是会话
+客户端打开与服务器的连接发出请求到服务器响应客户端请求的全过程称之为会话 
+### 什么是会话跟踪
+对同一个用户对服务器的连续的请求和接受响应的监视。（将用户与同一用户发出的不同请求之间关联，为了数据共享）
+### 为什么需要会话跟踪
+浏览器与服务器之间的通信是通过HTTP协议进行通信的，而HTTP协议是”无状态”的协议，它不能保存客户的信息，即一次响应完成之后连接就断开了，下一次的请求需要重新连接，这样就需要判断是否是同一个用户，所以才应会话跟踪技术来实现这种要求
+### 介绍
+当服务器响应客户端的第一次请求时，将会创建一个新的session对象(该对象实现了HttpSession接口)和一个唯一的ID分配给该请求，以后客户将此会话ID与请求一起传给服务器，此会话ID在后续的请求中会将用户与session对象进行匹配，用于识别不同的客户。 
+### 四种会话跟踪技术
+1. URL重写：URL(统一资源定位符)是Web上特定页面的地址，URL地址重写的原理是将该用户Session的id信息重写 到URL地址中，以便在服务器端进行识别不同的用户。URL重写能够在客户端停用cookies或者不支持cookies的时候仍然能够发挥作用。
+2.  隐藏表单域：将会话ID添加到HTML表单元素中提交到服务器，此表单元素并不在客户端显示，浏览时看不到，源代码中有。
+3.  Cookie：Cookie是Web服务器发送给客户端的一小段信息，客户端请求时可以读取该信息发送到服务器端，进而进行用户的识别。对于客户端的每次请求，服务器都会将Cookie发送到客户端,在客户端可以进行保存,以便下次使用。 服务器创建保存于浏览器端，不可跨域名性，大小及数量有限。客户端可以采用两种方式来保存这个Cookie对象，一种方式是 保存在 客户端内存中，称为临时Cookie，浏览器关闭后 这个Cookie对象将消失。另外一种方式是保存在 客户机的磁盘上，称为永久Cookie。以后客户端只要访问该网站，就会将这个Cookie再次发送到服务器上，前提是 这个Cookie在有效期内。 这样就实现了对客户的跟踪。<font color="red">cookie是可以被禁止的</font>
+4.  session： 每一个用户都有一个不同的session，各个用户之间是不能共享的，是每个用户所独享的，在session中可以存放信息。 保存在服务器端。需要解决多台服务器间共享问题。如果Session内容过于复杂，当大量客户访问服务器时可能会导致内存溢出。因此，Session里的信息应该尽量精简。 在服务器端会创建一个session对象，产生一个sessionID来标识这个session对象，然后将这个sessionID放入到Cookie中发送到客户端，下一次访问时，sessionID会发送到服务器，在服务器端进行识别不同的用户。 
+Session是依赖Cookie的，如果Cookie被禁用，那么session也将失效。
+
+创建Session对象：
+```JAVA
+HttpSession session=request.getSession(); 
+HttpSession session=request.getSession(true); 
+```
+上面二种创建session的方法效果是一样的。首先获取传递进来的在Cookie中存放的sessionID，再根据sessionID查找session对象，如果没有找到将创建一个新的session对象，并保存到Cookie中发送到客户端。如果找到了，就将session对象赋予给引用 
+```JAVA
+HttpSession session=request.getSession(false); 
+```
+这种方式创建过程: 首先获取传递进来的在Cookie中存放的sessionID，再根据sessionID查找session对象，如果没有找到将返回null，如果找到了，就将session对象赋予给引用 
+
+### 四种会话跟踪技术的对比
+- 隐藏表单域：
+```XML
+<input type="hidden" id="xxx" value="xxx">
+```
+ 
+     特点：
+         (参数存放)参数是存放在请求实体里的，因此没有长度限制，但是不支持 GET 请求方法，因为 GET 没有请求实体
+         （Cookie禁用）当Cookie被禁用时依旧能够工作
+         持久性）不存在持久性，一旦浏览器关闭就结束
+- URL重写
+
+可以在 URL 后面附加参数，和服务器的请求一起发送，这些参数为键/值对
+
+__重写原理：__当服务器程序调用request.getSession();代码时，其会先看request.getCookies()方法中有没有名为JSESSIONID的cookie带过来，如果没有，就看URL有没有被重写(即附带JSESSIONID)，如果有，则从服务器中找key为JSESSIONID的session对象，如果都没有，则创建一个新的session。如果用户禁用了cookie，则只能通过URL重写方式实现会话跟踪！
+
+    特点:
+        （参数存放）参数是存放在 url 里的，有1024长度限制
+            （Cookie禁用）当Cookie被禁用时依旧能够工作
+            持久性）不存在持久性，一旦浏览器关闭就结束
+
+- Cookie
+
+ Cookie 是浏览器保存的一个小文件，其包含多个键值对
+
+服务器首先使用 Set-Cookie 响应头传输多个参数给浏览器，浏览器将其保存为 Cookie，后续对同一服务器的请求都使用Cookie 请求头将这些参数传输给服务器
+
+    特点：
+        （参数存放）参数是存放在请求头部里的，也存在长度限制，但这个限制是服务器配置的限制，可以更改
+        Cookie禁用）可能会禁用Cookie
+        （持久性）浏览器可以保存Cookie一段时间，在此期间Cookie持续有效
+
+- Session
+
+基于前三种会话跟踪技术之一（一般是基于Cookie技术基础，如果浏览器禁用Cookie则可以采用URL重写技术），在每一次请求中只传输唯一一个参数：JSESSIONID，即会话id，服务器根据此会话id开辟一块会话内存空间，以存放其他参数
+
+    特点：
+        会话数据全部存放在服务端，减轻了客户端及网络压力，但加剧了服务端压力
+        既然是基于前三种会话技术之一（Cookie、url重写、隐藏表单域），因此也具备其对应的几个特点
+
+### Session和Cookie区别：
+1. cookie数据存放在客户的浏览器上，session数据放在服务器上。
+2. cookie不是很安全，别人可以分析存放在本地的cookie并进行cookie欺骗，考虑到安全应当使用session。
+3. session会在一定时间内保存在服务器上。当访问增多，会比较占用你服务器的性能，考虑到减轻服务器性能方面，应当使用cookie。
+4. 单个cookie保存的数据不能超过4K，很多浏览器都限制一个站点最多保存20个cookie。
+
+[深入理解Cookie和Session](https://blog.csdn.net/canot/article/details/50667793)
+
+>https://blog.csdn.net/qq_33098039/article/details/78184535
+
+>https://blog.csdn.net/hi_kevin/article/details/7302868
+
+>https://www.baidu.com/link?url=71PEsVhGYA-bT4_VzPdhCB-gufIK92A54MuzE_iQcoHVR9ictdPByquAq733t4HvjaV8yWpE0zk7-UX9yK2wtN5aX6OGL-t3A32YHM7DTOa&wd=&eqid=ae65d8330008167a000000055cd0df11
+
+# 15. 讲讲Request对象的主要方法
+1. setAttribute(String name,Object)：设置名字为name的request的参数值
+2. getAttribute(String name)：返回由name指定的属性值
+3. getAttributeNames()：返回request对象所有属性的名字集合，结果是一个枚举的实例
+4. getCookies()：返回客户端的所有Cookie对象，结果是一个Cookie数组
+5. getCharacterEncoding()：返回请求中的字符编码方式
+6. getContentLength()：返回请求的Body的长度
+7. getHeader(String name)：获得HTTP协议定义的文件头信息
+8. getHeaders(String name)：返回指定名字的request Header的所有值，结果是一个枚举的实例
+9. getHeaderNames()：返回所以request Header的名字，结果是一个枚举的实例
+10. getInputStream()：返回请求的输入流，用于获得请求中的数据
+11. getMethod()：获得客户端向服务器端传送数据的方法
+12. getParameter(String name)：获得客户端传送给服务器端的有name指定的参数值
+13. getParameterNames()：获得客户端传送给服务器端的所有参数的名字，结果是一个枚举的实例
+14. getParameterValues(String name)：获得有name指定的参数的所有值
+15. getProtocol()：获取客户端向服务器端传送数据所依据的协议名称
+16. getQueryString()：获得查询字符串
+17. getRequestURI()：获取发出请求字符串的客户端地址
+18. getRemoteAddr()：获取客户端的IP地址
+19. getRemoteHost()：获取客户端的名字
+20. getSession([Boolean create])：返回和请求相关Session
+21. getServerName()：获取服务器的名字
+22. getServletPath()：获取客户端所请求的脚本文件的路径
+23. getServerPort()：获取服务器的端口号
+24. removeAttribute(String name)：删除请求中的一个属性
+
+# 16. 说说weblogic中一个Domain的缺省目录结构?比如要将一个简单的helloWorld.jsp放入何目录下,然后在浏览器上就可打入主机？
+<font color="red">什么是weblogic啊？需要学习一波</font>
+
+# 17. 请谈谈JSP有哪些内置对象？作用分别是什么？
+1. request 用户端请求，此请求会包含来自GET/POST请求的参数。request表示HttpServletRequest对象。它包含了有关浏览器请求的信息，并且提供了几个用于获取cookie, header,和session数据的有用的方法。
+2. response 网页传回用户端的回应。response表示HttpServletResponse对象，并提供了几个用于设置送回浏览器的响应的方法（如cookies,头信息等）
+3. pageContext 网页的属性是在这里管理。pageContext表示一个javax.servlet.jsp.PageContext对象。它是用于方便存取各种范围的名字空间、servlet相关的对象的API，并且包装了通用的
+4. session 与请求有关的会话期。session表示一个请求的javax.servlet.http.HttpSession对象。Session可以存贮用户的状态信息
+5. application servlet 正在执行的内容。applicaton 表示一个javax.servle.ServletContext对象。这有助于查找有关servlet引擎和servlet环境的信息
+6. out 用来传送回应的输出。out对象是javax.jsp.JspWriter的一个实例，并提供了几个方法使你能用于向浏览器回送输出结果。
+7. config servlet的构架部件。config表示一个javax.servlet.ServletConfig对象。该对象用于存取servlet实例的初始化参数。
+8. page JSP网页本身。page表示从该页面产生的一个servlet实例
+9. exception 针对错误网页，未捕捉的例外。
+
+# 18. 说一下表达式语言（EL）的隐式对象及其作用
+EL的隐式对象包括：
+
+1. pageContext
+2. initParam（访问上下文参数）
+3. param（访问请求参数）
+4. paramValues
+5. header（访问请求头）
+6. headerValues
+7. cookie（访问cookie）
+8. applicationScope（访问application作用域）
+9. sessionScope（访问session作用域）
+10. requestScope（访问request作用域）
+11. pageScope（访问page作用域）。
+
+# 19. JSP中的静态包含和动态包含有什么区别？
+1. <%@ include file=” ”%>是指令元素。<jsp:include page=” ”/\>是行为元素
+2. 最终编译成java文件的数目不同。
+    1. 静态包含在转换成为java文件的时候将包含文件的内容“复制”到主体文件，然后作为一个整体编译。最终编译为一个java文件。
+    2. 动态包含是各个jsp文件分别转换，分别编译。最终编程成多个java文件。
+3. 执行时间不同
+    1. 静态包含发生在：JSP---->java文件阶段。
+    2. 动态包含发生在：执行class文件阶段。动态加入。
+    3. 静态包含是编译时包含，如果包含的页面不存在则会产生编译错误，而且两个页面的"contentType"属性应保持一致，因为两个页面会合二为一，只产生一个class文件，因此被包含页面发生的变动再包含它的页面更新前不会得到更新。动态包含是运行时包含，可以向被包含的页面传递参数，包含页面和被包含页面是独立的，会编译出两个class文件，如果被包含的页面不存在，不会产生编译错误，也不影响页面其他部分的执行。
+4. 静态包含在两个文件中不能有相同的变量，动态包含允许。   
+    - 由于静态包含相当于将包含文件内容直接复制到主体文件中，如果出现相同的变量，就会出现覆盖等问题，导致文件出错。而动态包含相当于调用不同的jsp，变量所在的空间不同，自然不会出现覆盖等现象。
+5. 无论是动态包含还是静态包含，其request对象都是相同的。也就是同一个request对象。   
+    - 静态包含最终编译成一个java文件，有一个request对象很好理解。而动态包含最终编译成多个jsp文件，为何会使用一个request对象呢？其实这些jsp组合的过程是一个请求转发的过程，自然也使用同一个request对象了。
+>https://www.cnblogs.com/wxgblogs/p/5602689.html
+
+# 20. 过滤器有哪些作用和用法？
+### 什么是过滤器
+过滤器是向WEB应用程序的请求和响应添加功能的WEB服务组件
+### 过滤器的作用
+1. 可以统一的集中处理请求和响应
+2. 可以实现对请求数据的过滤
+
+### 过滤器的工作方式
+![过滤器的工作方式](../images/过滤器的工作方式.png)
+
+### 使用场合
+1. 对请求和响应统一处理
+2. 对请求进行日志记录和审核
+3. 对数据进行屏蔽和替换
+4. 对数据进行加密和解密
+
+### 使用步骤
+1. 在java类里面实现Fileter接口
+2. 在WEB.xml文件中配置过滤器
+```XML
+<filter>
+    <filter-name>过滤器名称</filter-name>
+    <filter-class>过滤器的完全限定名</filter-calss>
+</filter>
+<filter-mapping>
+    <filter-name>过滤器名称</filter-name>
+    <url-pattern>需要过滤的页面地址</url-pattern>
+</filter-mapping>
+```
+可选配置：
+![WebFilter可选配置](../images/WebFilter可选配置.png)
+
+#### 常用配置项
+- urlPatterns:配置要拦截的资源
+    - 以指定资源匹配。例如"/index.jsp"
+    - 以目录匹配。例如"/servlet/*"
+    - 以后缀名匹配，例如"*.jsp"
+    - 通配符，拦截所有web资源。"/*"
+- initParams:配置初始化参数，跟Servlet配置一样
+    - initParams = {
+        @WebInitParam(name = "key",value = "value")
+        }
+- dispatcherTypes:配置拦截的类型，可配置多个。默认为DispatcherType.REQUEST
+    - dispatcherTypes = {DispatcherType.ASYNC,DispatcherType.ERROR}
+    - 其中DispatcherType是个枚举类型，有下面几个值:
+        - FORWARD,//转发的
+        - INCLUDE,//包含在页面的
+        - REQUEST,//请求的
+        - ASYNC,//异步的
+        - ERROR;//出错的
+
+### 过滤器链，有多个过滤器就会形成过滤器连
+关于chain.doFilter(request,response)它的作用是将请求转发给过滤器链上下一个对象。这里的下一个指的是下一个filter，如果没有filter那就是你请求的资源。 一般filter都是一个链,web.xml 里面配置了几个就有几个。一个一个的连在一起 
+
+request -> filter1 -> filter2 ->filter3 -> .... -> request resource.
+
+1. 在web.xml中，filter执行顺序跟<filter-mapping>的顺序有关，先声明的先执行
+2. 使用注解配置的话，filter的执行顺序跟名称的字母顺序有关，例如AFilter会比BFilter先执行
+3. 如果既有在web.xml中声明的Filter，也有通过注解配置的Filter，那么会优先执行web.xml中配置的Filter
+
+```JAVA
+package filter;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
+import java.io.IOException;
+
+@WebFilter(filterName = "CharsetFilter",
+        urlPatterns = "/*",/*通配符（*）表示对所有的web资源进行拦截*/
+        initParams = {
+                @WebInitParam(name = "charset", value = "utf-8")/*这里可以放一些初始化的参数*/
+        })
+public class CharsetFilter implements Filter {
+    private String filterName;
+    private String charset;
+
+    public void destroy() {
+        /*销毁时调用*/
+
+        System.out.println(filterName + "销毁");
+    }
+
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+        /*过滤方法 主要是对request和response进行一些处理，然后交给下一个过滤器或Servlet处理*/
+        System.out.println(filterName + "doFilter()");
+        req.setCharacterEncoding(charset);
+        resp.setCharacterEncoding(charset);
+        chain.doFilter(req, resp);
+    }
+
+    public void init(FilterConfig config) throws ServletException {
+
+        /*初始化方法  接收一个FilterConfig类型的参数 该参数是对Filter的一些配置*/
+
+        filterName = config.getFilterName();
+        charset = config.getInitParameter("charset");
+
+        System.out.println("过滤器名称：" + filterName);
+        System.out.println("字符集编码：" + charset);
+
+    }
+
+}
+```
+过滤器是在服务器启动时就会创建的，只会创建一个实例，常驻内存，也就是说服务器一启动就会执行Filter的init(FilterConfig config)方法.
+当Filter被移除或服务器正常关闭时，会执行destroy方法.
+
+# 21. 请谈谈你对Javaweb开发中的监听器的理解？
+### 概述
+JavaWeb中的监听器是Servlet规范中定义的一种特殊类，它用于监听web应用程序中的ServletContext，HttpSession和ServletRequest等域对象的创建与销毁事件，以及监听这些域对象中的属性发生修改的事件。
+### Servlet监听器的分类
+在Servlet规范中定义了多种类型的监听器，它们用于监听的事件源分别为ServletContext，HttpSession和ServletRequest这三个域对象。 
+Servlet规范针对这三个对象上的操作，又把多种类型的监听器划分为三种类型：
+
+1. 监听三个域对象创建和销毁的事件监听器。
+2. 监听域对象中的属性的增加和删除的事件监听器。
+3. 监听绑定到HttpSession域中的某个对象的状态的事件监听器。
+
+### 监听ServletContext域对象的创建和销毁
+ServletContextListener接口用于监听ServletContext对象的创建和销毁事件。实现了ServletContextListener接口的类都可以对ServletContext对象的创建和销毁进行监听。
+
+- 当ServletContext对象被创建时，激发contextInitialized (ServletContextEvent sce)方法。
+- 当ServletContext对象被销毁时，激发contextDestroyed(ServletContextEvent sce)方法。
+
+__ServletContext域对象何时创建和销毁？__
+- 创建：服务器启动针对每一个Web应用创建ServletContext
+- 销毁：服务器关闭前先关闭代表每一个Web应用的ServletContext。
+
+编写一个MyServletContextListener类，实现ServletContextListener接口，监听ServletContext对象的创建和销毁。
+
+编写一个监听器:
+```JAVA
+public class MyServletContextListener implements ServletContextListener {
+
+    // 当ServletContext被创建的时候(什么时候创建ServletContext呢？将web工程发布到web服务器里面去了，只要一启动web服务器，web服务器会针对每一个web应用创建ServletContext)，下面方法执行
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        System.out.println("ServletContext被创建了！！！");
+    }
+
+    // 当ServletContext被销毁的时候(停止服务器，服务器就会把针对于每一个web应用的ServletContext摧毁)，下面方法执行
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        System.out.println("ServletContext被销毁了！！！");
+    }
+
+}
+```
+
+在web.xml文件中注册监听器。
+
+MyServletContextListener监听器想要能工作，必须注册到事件源上面去，以前我们注册到事件源上面去，都是自己调方法，往事件源上面注册。现在就不能这么干了，想要把监听器注册到ServletContext这个事件源上面去，只须告诉tomcat服务器，tomcat服务器会自动帮你注册。监听器也属于web资源，只要涉及到对web资源的配置，都要找web.xml文件。
+```XML
+<listener>
+    <listener-class>cn.itcast.web.listener.MyServletContextListener</listener-class>
+</listener>
+```
+
+经过这两个步骤，我们就完成了监听器的编写和注册，Web服务器在启动时，就会自动把在web.xml中配置的监听器注册到ServletContext对象上，这样开发好的MyServletContextListener监听器就可以对ServletContext对象进行监听了。
+
+注意以下三点：
+
+1. 和编写其它事件监听器一样，编写servlet监听器也需要实现一个特定的接口，并针对相应动作覆盖接口中的相应方法。
+2. 和其它事件监听器略有不同的是，servlet监听器的注册不是直接注册在事件源上，而是由WEB容器负责注册，开发人员只需在web.xml文件中使用<listener\>标签配置好监听器，web容器就会自动把监听器注册到事件源中。
+3. 一个web.xml文件中可以配置多个Servlet事件监听器，web服务器按照它们在web.xml文件中的注册顺序来加载和注册这些Serlvet事件监听器。
+
+在做实际开发时，有时候希望web应用启动时，就初始化一些资源，那就把初始化一些资源的代码写到contextInitialized方法里面。
+
+1. web应用一启动时，希望启动一些定时器来定时的执行某些任务。只要把启动定时器的代码写到contextInitialized方法里面，这个web应用一启动，定时器就启动了。
+2. Spring的启动代码就是写在一个ServletContext监听器的contextInitialized方法里面的。Spring是一个框架，我们希望web应用一启动的时候，就把Spring框架启动起来
+
+### 监听HttpSession域对象的创建和销毁
+HttpSessionListener接口用于监听HttpSession对象的创建和销毁。
+
+- 创建一个Session时，激发sessionCreated(HttpSessionEvent se)方法。
+- 销毁一个Session时，激发sessionDestroyed(HttpSessionEvent se)方法。
+
+__Session域对象创建和销毁的时机?__
+
+1. 创建：用户每一次访问时，服务器创建session。
+2. 销毁：如果用户的session30分钟没有使用，服务器就会销毁session，我们在web.xml里面也可以配置session失效时间。
+
+编写一个MyHttpSessionListener类，实现HttpSessionListener接口，监听HttpSession对象的创建和销毁。
+
+编写一个监听器：
+```JAVA
+public class MyHttpSessionListener implements HttpSessionListener {
+
+    @Override
+    public void sessionCreated(HttpSessionEvent se) {
+        System.out.println(se.getSession() + "被创建了！！！");
+        System.out.println("创建好的HttpSession的id是：" + se.getSession().getId());
+    }
+
+    @Override
+    public void sessionDestroyed(HttpSessionEvent se) {
+        System.out.println("session被销毁了！！！");
+    }
+
+}
+```
+
+在web.xml文件中注册监听器
+```XML
+<listener>
+    <listener-class>cn.itcast.web.listener.MyHttpSessionListener</listener-class>
+</listener>
+<!-- 配置HttpSession对象的销毁时机 -->
+<session-config>
+    <!-- 配置HttpSession对象1分钟之后销毁 -->
+    <session-timeout>1</session-timeout>
+</session-config>
+```
+
+当我们访问jsp页面时，HttpSession对象就会创建，此时就可以在HttpSessionListener观察到HttpSession对象的创建过程了，我们可以写一个jsp页面观察HttpSession对象创建的过程。
+```XML
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HttpSessionListener监听器监听HttpSession对象的创建</title>
+</head>
+<body>
+     一访问JSP页面，HttpSession就创建了，创建好的Session的Id是：${pageContext.session.id}
+</body>
+</html>
+```
+
+由于在web.xml里面配置了session的失效时间，所以在一分钟之后session将被销毁。
+
+注意：
+
+1. 现在在客户端把cookie给禁用了，那么再次点击刷新按钮，有没有session被创建？ 
+    答：有，现在在客户端把cookie给禁了，意味着你再去访问服务器，没有带sessionid号过去，服务器看你没有带sessionid，它认为你又是一个新的来访者，它又会帮你创建session。
+2. 现在将浏览器窗口关了，能不能看见session被销毁？ 
+    答：不能，session会驻留在内存里面，30分钟没人用了服务器才将其摧毁。
+
+这个技术在开发里面用在哪里呢？
+
+统计当前在线人数。一般来说，用户都会开一个浏览器访问服务器，只要他一访问，服务器就会针对他创建一个session，每个用户就有一个session，在实际开发里面，只要统计内存里面有多少session，就能知道当前有多少在线人数。为了统计当前在线人数，这时可以写一个这样的监听器，只要有一个session被创建就让一个变量count+1，session被销毁就让变量count-1，输出count这个值，就能知道当前有多少在线人数。 
+
+### 监听ServletRequest域对象的创建和销毁
+ServletRequestListener接口用于监听ServletRequest对象的创建和销毁
+
+- Request对象被创建时，监听器的requestInitialized(ServletRequestEvent sre)方法将会被调用。
+- Request对象被销毁时，监听器的requestDestroyed(ServletRequestEvent sre)方法将会被调用。
+
+__ServletRequest域对象创建和销毁时机?__
+
+1. 创建：用户每一次访问都会创建request对象。
+2. 销毁：当前访问结束，request对象就会销毁。
+
+编写一个MyServletRequestListener类，实现ServletRequestListener接口，监听ServletRequest对象的创建和销毁。
+
+编写监听器:
+```JAVA
+public class MyServletRequestListener implements ServletRequestListener {
+
+    @Override
+    public void requestDestroyed(ServletRequestEvent sre) {
+        System.out.println("request被销毁！！！");
+    }
+
+    @Override
+    public void requestInitialized(ServletRequestEvent sre) {
+        System.out.println("request被创建！！！");
+    }
+
+}
+```
+
+在web.xml文件中注册监听器。
+```XML
+<listener>
+    <listener-class>cn.itcast.web.listener.MyServletRequestListener</listener-class>
+</listener>
+```
+
+这个技术在开发里面用在哪里呢？
+
+这个监听器可以用来做网站性能统计，针对每一个请求，都会有一个request对象创建。
+
+在requestInitialized(ServletRequestEvent sre)方法里面加上一句代码：count++，如下：
+```JAVA
+public void requestInitialized(ServletRequestEvent sre) {
+    System.out.println("request被创建！！！");
+    count++;
+}
+```
+
+也可以在requestInitialized(ServletRequestEvent sre)方法里面加上一句代码：sre.getServletRequest().getRemoteAddr();，如下：
+```JAVA
+public void requestInitialized(ServletRequestEvent sre) {
+    System.out.println("request被创建！！！");
+    sre.getServletRequest().getRemoteAddr();
+}
+```
+
+可以知道当前这个请求是由哪个IP发出来的，在后台可以通过这个监听器监听到哪些IP在给你发请求，这样做的目的是为了防止坏人，有些坏人恶意点击，写机器人点击，在后台写这样的一个监听器可以监听到某个时间段有某个IP重复点击，如果发生这种情况，就说明这个人是坏人，就可以屏蔽其IP。
+>https://blog.csdn.net/yerenyuan_pku/article/details/52468244
+
+# 22. 说说web.xml文件中可以配置哪些内容
+web.xml用于配置Web应用的相关信息，如：监听器（listener）、过滤器（filter）、 Servlet、相关参数、会话超时时间、安全验证方式、错误页面等，下面是一些开发中常见的配置：
+
+- 配置Spring上下文加载监听器加载Spring配置文件并创建IoC容器：
+```XML
+<context-param>
+<param-name>contextConfigLocation</param-name>
+<param-value>classpath:applicationContext.xml</param-value>
+</context-param>
+
+<listener>
+<listener-class>
+org.springframework.web.context.ContextLoaderListener
+</listener-class>
+</listener>
+```
+
+- 配置Spring的OpenSessionInView过滤器来解决延迟加载和Hibernate会话关闭的矛盾：
+```XML
+<filter>
+<filter-name>openSessionInView</filter-name>
+<filter-class>
+org.springframework.orm.hibernate3.support.OpenSessionInViewFilter
+</filter-class>
+</filter>
+
+<filter-mapping>
+<filter-name>openSessionInView</filter-name>
+<url-pattern>/*</url-pattern>
+</filter-mapping>
+```
+
+- 配置会话超时时间为10分钟：
+```XML
+<session-config>
+<session-timeout>10</session-timeout>
+</session-config>
+```
+
+- 配置404和Exception的错误页面：
+```XML
+<error-page>
+<error-code>404</error-code>
+<location>/error.jsp</location>
+</error-page>
+
+<error-page>
+<exception-type>java.lang.Exception</exception-type>
+<location>/error.jsp</location>
+</error-page>
+```
+
+- 配置安全认证方式：
+```XML
+<security-constraint>
+<web-resource-collection>
+<web-resource-name>ProtectedArea</web-resource-name>
+<url-pattern>/admin/*</url-pattern>
+<http-method>GET</http-method>
+<http-method>POST</http-method>
+</web-resource-collection>
+<auth-constraint>
+<role-name>admin</role-name>
+</auth-constraint>
+</security-constraint>
+
+<login-config>
+<auth-method>BASIC</auth-method>
+</login-config>
+
+<security-role>
+<role-name>admin</role-name>
+</security-role>
+```
