@@ -75,7 +75,7 @@ C需要把数据存放到多个介质上。
 1. 部分业务表无法join，只能通过接口方式解决，提高了系统复杂度。
 2. 受每种业务不同的限制存在单库性能瓶颈，不易数据扩展跟性能提高。
 3. 事务处理复杂。
- 
+
 # 3. 数据库索引介绍一下。介绍一下什么时候用Innodb什么时候用MyISAM。
 索引是对数据库表中一列或多列的值进行排序的一种结构，使用索引可快速访问数据库表中的特定信息。如果想按特定职员的姓来查找他或她，则与在表中搜索所有的行相比，索引有助于更快地获取信息。索引的一个主要目的就是加快检索表中数据的方法，亦即能协助信息搜索者尽快的找到符合限制条件的记录ID的辅助数据结构。
 
@@ -98,7 +98,7 @@ InnoDB引擎索引结构的叶子节点的数据域，存放的就是实际的�
 
 1. 如果是读多写少的项目,可以考虑使用MyISAM,MYISAM索引和数据是分开的，而且其索引是压缩的，可以更好地利用内存。所以它的查询性能明显优于INNODB。压缩后的索引也能节约一些磁盘空间。MYISAM拥有全文索引的功能，这可以极大地优化LIKE查询的效率。
 2. 如果你的应用程序一定要使用事务，毫无疑问你要选择INNODB引擎
-3. 如果是用MyISAM的话，merge引擎可以大大加快应用部门的开发速度，他们只要对这个merge表做一些select count(*)操作，非常适合大项目总量约几亿的rows某一类型(如日志，调查统计)的业务表。
+3. 如果是用MyISAM的话，merge引擎可以大大加快应用部门的开发速度，他们只要对这个merge表做一些select count(\*)操作，非常适合大项目总量约几亿的rows某一类型(如日志，调查统计)的业务表。
 
 # 4. 索引了解嘛，底层怎么实现的，什么时候会失效
 B+树实现的。
@@ -221,7 +221,7 @@ Slave的IO进程接收到信息后，将接收到的日志内容依次添加到S
 Slave的Sql进程检测到relay-log中新增加了内容后，会马上解析relay-log的内容成为在Master端真实执行时候的那些可执行的内容，并在自身执行。
 
 # 9. leftjoin和rightjoin的区别？
-left join(左联接) 返回包括左表中的所有记录和右表中联结字段相等的记录 
+left join(左联接) 返回包括左表中的所有记录和右表中联结字段相等的记录
 
 right join(右联接) 返回包括右表中的所有记录和左表中联结字段相等的记录
 
@@ -367,3 +367,47 @@ JDO 是Java对象持久化的新的规范，为java data object的简称,也是�
 
 # 16. 使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？
 要提升读取数据的性能，可以指定通过结果集（ResultSet）对象的setFetchSize()方法指定每次抓取的记录数（典型的空间换时间策略）；要提升更新数据的性能可以使用PreparedStatement语句构建批处理，将若干SQL语句置于一个批处理中执行。
+
+# 17. XML文档定义有几种形式？它们之间有何本质区别？解析XML文档有哪几种方式？
+**XML文档定义方式**：有两种定义形式，dtd文档类型定义和schema模式  
+schema本身是xml的，可以被XML解析器解析(这也是从DTD上发展schema的根本目的)
+
+**普通区别**
+1. schema是内容开发模型，可扩展，功能性强，而DTD可扩展性差。
+2. shema支持丰富的数据类型，而DTD不支持元素的数据类型，对属性的类型定义也很有限
+3. schema支持命名空间机制，而DTD不支持
+4. scchema可针对不同情况对整个XML文档或文档局部进行验证；而DTD缺乏这种灵活性
+5. schema完全遵循XML规范，符合XML语法，可以和DOM结合使用，功能强大；而DTD语法本身有自身的语法和要求，难以学习
+
+**解析XML文档方式**
+1. DOM解析:DOM的全称是Document Object Model，即文档对象类型。在应用程序中，给予DOM的XML分析器将一个XML文档转换成一个对象模型的集合(通常称DOM树)，应用程序正是通过对这个对象模型的操作，来实现对XML文档数据的操作。通过DOM接口，应用程序可以在任何时候访问XML文档中的任何一部分数据，因此，这种利用DOM接口的机制也被称作随机访问机制
+2. SAX解析：SAX的全称是SImplt APIs for XML. 即XML简单应用程序接口。与DOM不同，SAX提供的访问模式是一种顺序模式，这是一种快速读写XML数据的方式。当使用SAX分析器对XML文档进行分析时，会触发一系列事件，并激活相应的事件处理函数，应用程序通过这些事件处理函数实现对XML文档的访问，因而SAX接口也被称作事件驱动接口
+3. JDOM解析：JDOM采用了Java中的Collection架构来封装集合，是java爱好者更加熟悉的模式
+4. DOM4J解析：XML解析器一次性把整个XML文档加载进内存，然后在内存中构建一颗Document的对象树，通过Document对象，得到书上的节点对象，通过节点对象访问(操作)到XML文档的内容
+
+# 18. WEB SERVICE名词解释，JSWDL开发包的介绍，JAXP、JAXM的解释。SOAP、UDDI,WSDL解释
+**Web Service:** 是基于网络的、分布式的模块化组件，它执行特定的任务，遵守具体的技术规范，这些规范使得WebService能与其他兼容的组件进行互操作。
+
+**JAXP(Java API for XML Parsing):** 定义了在Java中使用DOM, SAX, XSLT的通用的接口。这样在你的程序中你只要使用这些通用的接口，当你需要改变具体的实现时候也不需要修改代码。
+
+**JAXM(Java API for XML Messaging):** 是为SOAP通信提供访问方法和传输机制的API
+
+**WSDL** 是一种XML格式，用于将网络服务描述为一组端点，这些端点对包含面向文档信息或面向过程信息的消息进行操作。这种格式首先对操作和消息进行抽象描述，然后将其绑定到具体的网络协议和消息格式上以定义端点。相关的具体端点即组合成为抽象端点（服务）。
+
+**SOAP** 即简单对象访问协议(Simple Object Access Protocol)，它是用于交换XML编码信息的轻量级协议。soap是web service最关键的技术，是web service中数据和方法调传输的介质。WSDL（web service definition language）描述了web service的接口和功能。
+
+**UDDI** 的目的是为电子商务建立标准；UDDI是一套基于Web的、分布式的、为Web Service提供的、信息注册中心的实现标准规范，同时也包含一组使企业能将自身提供的Web Service注册，以使别的企业能够发现的访问协议的实现标准。
+
+# 19. 请你谈谈对SOAP、WSDL、UDDI的了解？
+
+- SOAP：简单对象访问协议（Simple Object Access Protocol），是Web Service中交换数据的一种协议规范。
+- WSDL：Web服务描述语言（Web Service Description Language），它描述了Web服务的公共接口。这是一个基于XML的关于如何与Web服务通讯和使用的服务描述；也就是描述与目录中列出的Web服务进行交互时需要绑定的协议和信息格式。通常采用抽象语言描述该服务支持的操作和信息，使用的时候再将实际的网络协议和信息格式绑定给该服务。
+- UDDI：统一描述、发现和集成（Universal Description, Discovery and Integration），它是一个基于XML的跨平台的描述规范，可以使世界范围内的企业在互联网上发布自己所提供的服务。简单的说，UDDI是访问各种WSDL的一个门面（可以参考设计模式中的门面模式）。
+# 20. 谈谈Java规范中和Web Service相关的规范有哪些？
+Java规范中和Web Service相关的有三个：
+- **JAX-WS(JSR 224)：** 这个规范是早期的基于SOAP的Web Service规范JAX-RPC的替代版本，它并不提供向下兼容性，因为RPC样式的WSDL以及相关的API已经在Java EE5中被移除了。WS-MetaData是JAX-WS的依赖规范，提供了基于注解配置Web Service和SOAP消息的相关API。
+- **JAXM(JSR 67):** 定义了发送和接收消息所需的API,相当于Web Service的服务器端。
+- **JAX-RS(JSR 311 & JSR 339 & JSR 370):** 是Java针对REST（Representation State Transfer）架构风格制定的一套Web Service规范。REST是一种软件架构模式，是一种风格，它不像SOAP那样本身承载着一种消息协议， (两种风格的Web Service均采用了HTTP做传输协议，因为HTTP协议能穿越防火墙，Java的远程方法调用（RMI）等是重量级协议，通常不能穿越防火墙），因此可以将REST视为基于HTTP协议的软件架构。REST中最重要的两个概念是资源定位和资源操作，而HTTP协议恰好完整的提供了这两个点。HTTP协议中的URI可以完成资源定位，而GET、POST、OPTION、DELETE方法可以完成资源操作。因此REST完全依赖HTTP协议就可以完成Web Service，而不像SOAP协议那样只利用了HTTP的传输特性，定位和操作都是由SOAP协议自身完成的，也正是由于SOAP消息的存在使得基于SOAP的Web Service显得笨重而逐渐被淘汰。
+
+# 21. TCP协议在哪一层？IP协议在那一层？HTTP在哪一层？
+运输层，网络层，应用层。
