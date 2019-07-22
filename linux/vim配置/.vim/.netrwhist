@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/home/zhou/Atheros_CSI_tool_OpenWRT_src_bak/package/kernel/mac80211/scripts'
+let g:netrw_dirhist_2='/home/zhou/Atheros_CSI_tool_OpenWRT_src_bak/build_dir/target-mips_24kc_musl/sendData-1.0/ipkg-mips_24kc'
+let g:netrw_dirhist_3='/home/zhou/Atheros_CSI_tool_OpenWRT_src/config'
