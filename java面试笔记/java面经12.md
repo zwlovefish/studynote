@@ -473,3 +473,258 @@ public class ConsistentHash<T> {
 Consistent Hashing最大限度地抑制了hash键的重新分布。另外要取得比较好的负载均衡的效果，往往在服务器数量比较少的时候需要增加虚拟节点来保证服务器能均匀的分布在圆环上。因为使用一般的hash方法，服务器的映射地点的分布非常不均匀。使用虚拟节点的思想，为每个物理节点（服务器）在圆上分配100～200个点。这样就能抑制分布不均匀，最大限度地减小服务器增减时的缓存重新分布。用户数据映射在虚拟节点上，就表示用户数据真正存储位置是在该虚拟节点代表的实际物理服务器上。
 
 # 8. 说一下B+树和B-树
+
+# 9. java增强for循环实现原理
+在java中，遍历集合和数组一般有以下三种方式:
+
+```JAVA
+for (int i = 0; i < list.size(); i++) {
+   System.out.print(list.get(i) + ",");
+}
+
+Iterator iterator = list.iterator();
+while (iterator.hasNext()) {
+   System.out.print(iterator.next() + ",");
+}
+
+for (Integer i : list) {
+   System.out.print(i + ",");
+}
+```
+
+1. 第一种是普通的for循环遍历
+2. 第二种是使用迭代器进行遍历
+3. 第三种我们一般称之为增强for循环（foreach）。
+
+第三种形式是JAVA提供的语法糖，这里我们剖析一下，这种增强for循环底层是如何实现的。
+
+我们对以下代码进行反编译：
+```JAVA
+for (Integer i : list) {
+   System.out.println(i);
+}
+```
+
+反编译后：
+```JAVA
+Integer i;
+for(Iterator iterator = list.iterator(); iterator.hasNext(); System.out.println(i)){
+   i = (Integer)iterator.next();        
+}
+```
+
+反编译后的代码其实比较复杂，我们按照执行顺序拆解一下：
+```
+Integer i; 定义一个临时变量i
+Iterator iterator = list.iterator(); 获取List的迭代器
+iterator.hasNext(); 判断迭代器中是否有未遍历过的元素
+i = (Integer)iterator.next(); 获取第一个未遍历的元素，赋值给临时变量i
+System.out.println(i) 输出临时变量i的值
+```
+
+如此循环往复，直到遍历完List中的所有元素。
+
+通过反编译，我们看到，其实JAVA中的增强for循环底层是通过迭代器模式来实现的。
+
+### 增强for循环的坑
+这里说是增强for循环的坑，其实主要是因为有些人不了解增强for循环的实现原理而可能踩入的坑。
+
+既然增强for循环通过迭代器实现，那么必然有迭代器的特性。
+
+Java中有fail-fast机制。在使用迭代器遍历元素的时候，在对集合进行删除的时候一定要注意，使用不当有可能发生ConcurrentModificationException，这是一种运行时异常，编译期并不会发生。只有在程序真正运行时才会爆发。
+
+如以下代码：
+```JAVA
+for (Student stu : students) {    
+   if (stu.getId() == 2)    
+       students.remove(stu);    
+}
+```
+
+会抛出ConcurrentModificationException异常。
+
+```
+Iterator是工作在一个独立的线程中，并且拥有一个 mutex 锁。Iterator被创建之后会建立一个指向原来对象的单链索引表，当原来的对象数量发生变化时，这个索引表的内容不会同步改变，所以当索引指针往后移动的时候就找不到要迭代的对象，所以按照 fail-fast 原则 Iterator 会马上抛出
+java.util.ConcurrentModificationException异常。
+```
+
+__所以 Iterator 在工作的时候是不允许被迭代的对象被改变的。__
+
+但你可以使用 Iterator 本身的方法 remove() 来删除对象，Iterator.remove() 方法会在删除当前迭代对象的同时维护索引的一致性。
+
+正确的在遍历的同时删除元素的姿势：
+```JAVA
+Iterator<Student> stuIter = students.iterator();    
+while (stuIter.hasNext()) {    
+   Student student = stuIter.next();    
+   if (student.getId() == 2)    
+       stuIter.remove();//这里要使用Iterator的remove方法移除当前对象，如果使用List的remove方法，则同样会出现ConcurrentModificationException    
+}
+```
+
+好啦，这里给你介绍了增强for循环的实现原理，以及使用不当可能踩入的坑。所以，虽然是一个简单的for-each语法，但是也要了解其原理，不然可能导致一些莫名其妙的问题。
+
+# ThreadLocal
+### ThreadLocal用在什么地方
+讨论ThreadLocal用在什么地方前，我们先明确下，如果仅仅就一个线程，那么都不用谈ThreadLocal的，__ThreadLocal是用在多线程的场景的__！！！
+
+ThreadLocal归纳下来就2类用途：
+
+1. 保存线程上下文信息，在任意需要的地方可以获取！！！
+2. 线程安全的，避免某些情况需要考虑线程安全必须同步带来的性能损失！！！
+
+- 保存线程上下文信息，在任意需要的地方可以获取！！！
+
+由于ThreadLocal的特性，同一线程在某地方进行设置，在随后的任意地方都可以获取到。从而可以用来保存线程上下文信息。
+
+常用的比如每个请求怎么把一串后续关联起来，就可以用ThreadLocal进行set，在后续的任意需要记录日志的方法里面进行get获取到请求id，从而把整个请求串起来。
+
+还有比如Spring的事务管理，用ThreadLocal存储Connection，从而各个DAO可以获取同一Connection，可以进行事务回滚，提交等操作。
+
+```JAVA
+备注：ThreadLocal的这种用处，很多时候是用在一些优秀的框架里面的，一般我们很少接触，反而下面的场景我们接触的更多一些！
+```
+
+- 线程安全的，避免某些情况需要考虑线程安全必须同步带来的性能损失！！！
+
+ThreadLocal为解决多线程程序的并发问题提供了一种新的思路。但是ThreadLocal也有局限性，我们来看看阿里规范
+
+ThreadLocal无法解决共享对象的更新问题，ThreadLocal对象建议使用static修饰。这个变量是针对一个线程内所有操作共享的，所以设置为静态变量，所有此类实例共享此静态变量，也就是说在类第一次被使用时装载，只分配一块存储空间，所有此类的对象(只要是这个线程内定义的)都可以这个操控这个变量。
+
+每个线程往ThreadLocal中读写数据是线程隔离，互相之间不会影响的，所以ThreadLocal无法解决共享对象的更新问题。
+
+```JAVA
+由于不需要共享信息，自然就不存在竞争问题了，从而保证了某些情况下线程的安全，以及避免了某些情况需要考虑线程安全必须同步带来的性能损失！！！
+```
+
+这类场景阿里规范里面也提到了：
+
+```JAVA
+[强制]SimpleDateFormat是线程不安全的类，一般不要定义为static变量，如果定义为static，必须加锁，或者使用DateUtils工具类。
+正例：注意线程安全，使用DateUtils。亦推荐入下处理：
+private static final ThreadLocal<DateFormat> df = new ThreadLocal<DateFormat>(){
+    @Override
+    protected DateFormat initValue(){
+        return new SimpleDateFormat("yyyy-MM-dd");
+    }
+}
+```
+
+ThreadLocal使用示例代码：
+```JAVA
+public class ThreadLocalTest {
+    private static ThreadLocal<Integer> threadLocal = new ThreadLocal<>();
+
+    public static void main(String[] args) {
+
+        new Thread(() -> {
+            try {
+                for (int i = 0; i < 100; i++) {
+                    threadLocal.set(i);
+                    System.out.println(Thread.currentThread().getName() + "====" + threadLocal.get());
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } finally {
+                threadLocal.remove();
+            }
+        }, "threadLocal1").start();
+
+
+        new Thread(() -> {
+            try {
+                for (int i = 0; i < 100; i++) {
+                    System.out.println(Thread.currentThread().getName() + "====" + threadLocal.get());
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } finally {
+                threadLocal.remove();
+            }
+        }, "threadLocal2").start();
+    }
+}
+```
+
+代码截图：
+![ThreadLocal](../images/ThreadLocal.png)
+
+代码运行结果:
+![ThreadLocal代码运行结果](../images/ThreadLocal代码运行结果.png)
+
+从运行的结果我们可以看到threadLocal1进行set值对threadLocal2并没有任何影响！
+
+Thread、ThreadLocalMap、ThreadLocal总览图：
+![Thread和ThreadLocalMap以及ThreadLocal总览图](../images/Thread和ThreadLocalMap以及ThreadLocal总览图.jpg)
+
+![ThreadLocal2](../images/ThreadLocal2.jpg)
+
+Thread类有属性变量threadLocals（类型是ThreadLocal.ThreadLocalMap），也就是说每个线程有一个自己的ThreadLocalMap，所以每个线程往这个ThreadLocal中读写隔离的，并且是互相不会影响的。
+
+__一个ThreadLocal只能存储一个Object对象，如果需要存储多个Object对象那么就需要多个ThreadLocal！！！__
+
+如图:
+![ThreadLocal3](../images/ThreadLocal3.jpg)
+
+看到上面的几个图，大概思路应该都清晰了，我们Entry的key指向ThreadLocal用虚线表示弱引用 ，下面我们来看看ThreadLocalMap:
+![ThreadLocalMap](../images/ThreadLocalMap.jpg)
+
+java对象的引用包括 ：强引用，软引用，弱引用，虚引用 。
+
+因为这里涉及到弱引用，简单说明下：
+
+弱引用也是用来描述非必需对象的，当JVM进行垃圾回收时，无论内存是否充足，该对象仅仅被弱引用关联，那么就会被回收。
+
+当仅仅只有ThreadLocalMap中的Entry的key指向ThreadLocal的时候，ThreadLocal会进行回收的！！！
+
+ThreadLocal被垃圾回收后，在ThreadLocalMap里对应的Entry的键值会变成null，但是Entry是强引用，那么Entry里面存储的Object，并没有办法进行回收，所以ThreadLocalMap 做了一些额外的回收工作。
+![ThreadLocalMap1](../images/ThreadLocalMap1.jpg)
+
+虽然做了但是也会存在内存泄漏风险（我没有遇到过，网上很多类似场景，所以会提到后面的ThreadLocal最佳实践！！！）
+
+### ThreadLocal的最佳实践
+ThreadLocal被垃圾回收后，在ThreadLocalMap里对应的Entry的键值会变成null，但是Entry是强引用，那么Entry里面存储的Object，并没有办法进行回收，所以ThreadLocalMap做了一些额外的回收工作。
+![ThreadLocal最佳实践](../images/ThreadLocal最佳实践.jpg)
+```
+备注：很多时候，我们都是用在线程池的场景，程序不停止，线程基本不会销毁！！！
+```
+
+由于线程的生命周期很长，如果我们往ThreadLocal里面set了很大很大的Object对象，虽然set、get等等方法在特定的条件会调用进行额外的清理，但是 __ThreadLocal被垃圾回收后，在ThreadLocalMap里对应的Entry的键值会变成null，但是后续在也没有操作set、get等方法了__。
+
+__所以最佳实践，应该在我们不使用的时候，主动调用remove方法进行清理。__
+
+```
+ThreadLocal无法解决共享对象的更新问题，ThreadLocal对象建议使用static修饰。这个变量是针对一个线程内所有操作共享的，所以设置为静态变量，所有此类实例共享此静态变量，也就是说在类第一次被使用时装载，只分配一块存储空间，所有此类的对象
+```
+
+这里把ThreadLocal定义为static还有一个好处就是，由于ThreadLocal有强引用在，那么在ThreadLocalMap里对应的Entry的键会永远存在，那么执行remove的时候就可以正确进行定位到并且删除！！！
+
+最佳实践做法应该为：
+![ThreadLocal最佳实践2](../images/ThreadLocal最佳实践2.jpg)
+
+抽象为:
+```JAVA
+try {
+    // 其它业务逻辑
+} finally {
+    threadLocal对象.remove();
+}
+```
+
+### 思考
+如果面试的时候，可以把上面的内容都可以讲到，个人觉得就非常好了，回答的就挺完美了。但是如果你可以进行下面的回答，那么就更完美了。
+
+对于ThreadLocal，我在看Netty源码的时候，还了解过FastThreadLocal，xxxxx一些列内容，那就是一个升级了。
+![ThreadLocal完美面试](../images/ThreadLocal完美面试.jpg)
+
+在我本地进行测试，FastThreadLocal的吞吐量是jdkThreadLocal的3倍左右。
+```
+备注：由于FastThreadLocal内容也非常非常多，而且有很多技巧，所以准备后续专门在开一篇进行串起来！！！
+```
+
