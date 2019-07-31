@@ -1,7 +1,7 @@
 # java面试结构
 ![java体系结构](../images/arch.png)
 # 1.为什么重写equals还要重写hashcode
-```java
+```JAVA
 public native int hashcode();
 public boolean equals(Object paramObject){
     return (this == paramObject);
@@ -86,14 +86,14 @@ JVM的PermGen空间被移除：取代它的是Metaspace（JEP 122）。
             检查内部数组的空间是否足够。   
 ArrayList构造方法：   
             1.执行完构造方法时，还是一个空数组，等到add方法执行的时候回初始化容量为10   
-```java
+```JAVA
     public ArrayList() {
         this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
     }
 ```
 2.自己传入想要的容量参数，对容量进行判断，如果容量小于0，则
                     会抛出异常，否则会创建一个容量为initialCapacity的空ArrayList
-```java
+```JAVA
 public ArrayList(int initialCapacity) {
         if (initialCapacity > 0) {
             this.elementData = new Object[initialCapacity];
@@ -107,7 +107,7 @@ public ArrayList(int initialCapacity) {
 ```
 3.构造一个包含指定collection的元素的列表，这些元素是按照该
                     collection的迭代器返回他们的顺序排列的。
-```java
+```JAVA
     public ArrayList(Collection<? extends E> c) {
         elementData = c.toArray();
         if ((size = elementData.length) != 0) {
@@ -122,7 +122,7 @@ public ArrayList(int initialCapacity) {
 ```
 扩容机制：   
 首先add方法会调用ensureCapacityInternal (size + 1)方法，
-```java
+```JAVA
    public void ensureCapacity(int minCapacity) {
         if(elementData ==  DEFAULTCAPACITY_EMPTY_ELEMENTDATA){
             minCapacity = Math.max(DEFAULT_CAPATY,minCapacity);
@@ -134,7 +134,7 @@ ensureCapacityInternal (size + 1)进行容量检查，界定扩容的想要的�
                     小容量。ensureCapacityInternal (size + 1)传入的参数小于默认参数，把
                     默认参数当做想要的最小容量，如果大于默认参数就把你想要的参数
                     当做想要的最小容量。
-```java     
+```JAVA     
     private void ensureExplicitCapacity(int minCapacity) {
         modCount++;
         // overflow-conscious code
@@ -145,7 +145,7 @@ ensureCapacityInternal (size + 1)进行容量检查，界定扩容的想要的�
 这个方法用来判断是否扩容，如果你想要的最小容量大于数组长度则
                     会调用grow方法进行扩容。   
 
-```java
+```JAVA
     private void grow(int minCapacity) {
         // overflow-conscious code
         int oldCapacity = elementData.length;
@@ -158,6 +158,7 @@ ensureCapacityInternal (size + 1)进行容量检查，界定扩容的想要的�
         elementData = Arrays.copyOf(elementData, newCapacity);
     }
 ``` 
+
 真正实现扩容其实是Arrays.copyof()方法，就是复制数组实现扩容，
                     新增加的容量为原来容量的1.5倍。   
 方法上的比较： ArrayList方法上比Array更多样化，比如添加全部addAll()，删除全部
@@ -186,7 +187,7 @@ String，StringBuffer以及StringBuilder的继承结构：
 String：不可变字符串。   
 StringBuffer：可变字符串，效率低，线程安全。   
 StringBuilder：可变字符串序列，效率高，线程不安全。   
-2.初始化上的区别String可以赋空值，后者不行，报错    
+  
 小结：   
     如果要操作少量的数据用String    
     多线程操作字符串缓冲区下操作大量数据用StringBuffer    
@@ -241,8 +242,9 @@ StringBuilder：可变字符串序列，效率高，线程不安全。
 &&：只要符号左边为false，则结果为false，当左边为true，看符号右边是否为true。   
 #  19.在Java中，如何跳出当前的多重嵌套循环？
 1.标号方式   
-在java中，要想跳出多重循环，可以在外面的循环语句前定义一个标号，然后在里面层循环体的代码中使用带有标号break语句，即可跳出外层循环。例如：   
-```java
+在java中，要想跳出多重循环，可以在外面的循环语句前定义一个标号，然后在里面层循环体的代码中使用带有标号break语句，即可跳出外层循环。例如： 
+
+```JAVA
 ok:
 for(int i=0;i<10;i++){
     for(int j=0;j<10;j++){
@@ -251,7 +253,7 @@ for(int i=0;i<10;i++){
 }
 ```
 2.通过内部跳出条件控制跳出外部循环   
-```java
+```JAVA
 int array[][]={
     {1,2,3,4},
     {5,6,7,8},
@@ -282,7 +284,7 @@ Java和JavaScript最重要的区别是一个是静态语言，一个是动态语
 3. 根据模式匹配从字符串中提取一个子字符串。可以用来在文本或者输入字段中查找特定的文字。   
 #  22.Java中是如何支持正则表达式操作的？
 ava中的String类提供了支持正则表达式操作的方法，包括：matches()、replaceAll()、replaceFirst()、split()。此外，Java中可以用Pattern类表示正则表达式对象，它提供了丰富的API进行各种正则表达式操作。例如:
-```java
+```JAVA
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 class RegExpTest{
