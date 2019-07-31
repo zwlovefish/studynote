@@ -61,7 +61,7 @@
     - [何为作用域](#何为作用域)
     - [作用域规定的是变量的有效期限](#作用域规定的是变量的有效期限)
     - [jsp动作及作用](#jsp动作及作用)
-- [14.JSP和Servlet有哪些相同点和不同点,他们之间的联系是什么?(JSP）](#14jsp和servlet有哪些相同点和不同点他们之间的联系是什么jsp）)
+- [14.JSP和Servlet有哪些相同点和不同点,他们之间的联系是什么(JSP）](#14jsp和servlet有哪些相同点和不同点他们之间的联系是什么jsp）)
 - [15.说一说四种会话跟踪技术](#15说一说四种会话跟踪技术)
     - [什么是会话](#什么是会话)
     - [什么是会话跟踪](#什么是会话跟踪)
@@ -872,7 +872,7 @@ JSP共有以下6种基本动作：
 6. jsp:plugin：根据浏览器类型为Java插件生成OBJECT或EMBED标记
 >https://www.cnblogs.com/MissSu/p/6149244.html
 
-# 14.JSP和Servlet有哪些相同点和不同点,他们之间的联系是什么?(JSP）
+# 14.JSP和Servlet有哪些相同点和不同点,他们之间的联系是什么(JSP）
 1. jsp经编译后就变成了Servlet.(JSP的本质就是Servlet，JVM只能识别java的类，不能识别JSP的代码,Web容器将JSP的代码编译成JVM能够识别的java类)
 2. jsp更擅长表现于页面显示,servlet更擅长于逻辑控制.
 3. Servlet中没有内置对象，Jsp中的内置对象都是必须通过HttpServletRequest对象，HttpServletResponse对象以及HttpServlet对象得到.
