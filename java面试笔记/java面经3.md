@@ -1,6 +1,35 @@
-# 1. 面向对象的特征有哪些方面
+<!-- MarkdownTOC -->
+
+- 1.面向对象的特征有哪些方面
+- 2.final, finally, finalize的区别
+- 3.Overload和Override的区别。Overloaded的方法是否可以改变返回值的类型?
+- 4.Static Nested Class 和 Inner Class的不同
+- 5.当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递?
+- 6.Java的接口和C++的虚类的相同和不同处。
+- 7.JAVA语言如何进行异常处理，关键字：throws,throw,try,catch,finally分别代表什么意义？在try块中可以抛出异常吗？
+- 8.内部类可以引用他包含类的成员吗？有没有什么限制？
+- 9.两个对象值相同\(x.equals(y\) == true)，但却可有不同的hash code说法是否正确？
+- 10.重载（Overload）和重写（Override）的区别。重载的方法能否根据返回类型进行区分？
+- 11.如何通过反射获取和设置对象私有字段的值？
+- 12.谈一下面向对象的"六原则一法则"。
+- 13.请问Query接口的list方法和iterate方法有什么区别？
+- 13.Java中，什么是构造函数？什么是构造函数重载？什么是复制构造函数？
+- 14.Map和ConcurrentHashMap的区别？
+- 15.如果hashMap的key是一个自定义的类，怎么办？
+- 16.ArrayList和LinkedList的区别，如果一直在list的尾部添加元素，用哪个效率高？
+- 17.ConcurrentHashMap锁加在了哪些地方？
+- 18.TreeMap底层，红黑树原理？
+- 19.concurrenthashmap有啥优势，1.7，1.8区别？
+- 20.ArrayList是否会越界？
+- 21.Java集合类框架的基本接口有哪些？
+
+<!-- /MarkdownTOC -->
+
+
+
+# 1.面向对象的特征有哪些方面
 继承，封装和多态
-# 2. final, finally, finalize的区别
+# 2.final, finally, finalize的区别
 final修饰变量，方法和类。
 final修饰变量时，该变量不可变。修饰引用变量时，引用不用变，但是引用变量里面的值可以变。
 final修饰方法时，该方法不可被覆盖
@@ -50,7 +79,7 @@ public class FinalizeEscapeGC{
 ```
 
 这里一次成功逃脱一次逃脱失败的原因是任何一个对象的finalize()方法都只会被系统自动调用一次。
-# 3. Overload和Override的区别。Overloaded的方法是否可以改变返回值的类型?
+# 3.Overload和Override的区别。Overloaded的方法是否可以改变返回值的类型?
 Overload是重载的意思，Override是覆盖的意思，也就是重写。   
 
 重载Overload表示同一个类中可以有多个名称相同的方法，但这些方法的参数列表各不相同（即参数个数或类型不同）  
@@ -68,7 +97,7 @@ Overload是重载的意思，Override是覆盖的意思，也就是重写。
 子类抛出异常小于等于父类方法抛出异常   
 子类访问权限大于等于父类方法访问权限
 </font>   
-# 4. Static Nested Class 和 Inner Class的不同
+# 4.Static Nested Class 和 Inner Class的不同
 Static Nested是嵌套类，Inner Class是内部类   
 
 Nested Class 一般是C++的说法，Inner Class 一般是JAVA的说法。    
@@ -93,7 +122,7 @@ Anonymous Inner Class （匿名内部类）匿名的内部类是没有名字的�
 
 匿名类和内部类中的中的this :  有时候，我们会用到一些内部类和匿名类。当在匿名类中用this时，这个this则指的是匿名类或内部类本身。 这时如果我们要使用外部类的方法和变量的话，则应该加上外部类的类名。
 
-# 5. 当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递?
+# 5.当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递?
 Java编程语言只有值传递参数。当一个对象实例作为一个参数被传递到方法中时，参数的值就是该对象的引用一个副本。指向同一个对象,对象的内容可以在被调用的方法中改变，但对象的引用(不是引用的副本)是永远不会改变的。  
 
 在 Java应用程序中永远不会传递对象，而只传递对象引用。因此是按引用传递对象。但重要的是要区分参数是如何传递的，这才是该节选的意图。Java应用程序按引用传递对象这一事实并不意味着 Java 应用程序按引用传递参数。参数可以是对象引用，而 Java应用程序是按值传递对象引用的。
@@ -107,7 +136,7 @@ Java应用程序中的变量可以为以下两种类型之一：引用类型或�
 Java 应用程序按值传递参数(引用类型或基本类型)，其实都是传递他们的一份拷贝.而不是数据本身.(不是像 C++中那样对原始值进行操作。)
 >https://blog.csdn.net/u012726702/article/details/72236968
 
-# 6. Java的接口和C++的虚类的相同和不同处。
+# 6.Java的接口和C++的虚类的相同和不同处。
 C++虚类相当于java中的抽象类，与接口的不同处是:
 
 1. 一个子类只能继承一个抽象类（虚类），但能实现多个接口
@@ -119,7 +148,7 @@ C++虚类相当于java中的抽象类，与接口的不同处是:
 相同之处是：都不能实例化。
 补充：接口是一类特殊的抽象类，是更抽象的抽象类，你可以这样理解。抽象类是一个不完整的类，接口只定义了一些功能。
 
-# 7. JAVA语言如何进行异常处理，关键字：throws,throw,try,catch,finally分别代表什么意义？在try块中可以抛出异常吗？
+# 7.JAVA语言如何进行异常处理，关键字：throws,throw,try,catch,finally分别代表什么意义？在try块中可以抛出异常吗？
 try 用来指定一块预防所有“异常”的程序；   
 catch 子句紧跟在 try 块后面，用来指定你想要捕捉的“异常”的类型；   
 throw 语句用来明确地抛出一个“异常”；   
@@ -211,11 +240,11 @@ outer.Inner.function();
 2. 可以直接访问外部类中的成员，因为还持有外部类中的引用。但是不可以访问它所在的局部中的变量。只能访问被final修饰的局部变量。
 > http://www.cnblogs.com/dolphin0520/p/3811445.html
 
-# 9. 两个对象值相同(x.equals(y) == true)，但却可有不同的hash code说法是否正确？
+# 9.两个对象值相同(x.equals(y) == true)，但却可有不同的hash code说法是否正确？
 不对，hashcode相同，俩个对象值可能不同，俩个对象值相同，则hash code一定相同。
-# 10. 重载（Overload）和重写（Override）的区别。重载的方法能否根据返回类型进行区分？
+# 10.重载（Overload）和重写（Override）的区别。重载的方法能否根据返回类型进行区分？
 不能，重载对返回值类型没有要求，
-# 11. 如何通过反射获取和设置对象私有字段的值？
+# 11.如何通过反射获取和设置对象私有字段的值？
 ```java
 /**
   * 数据字典转换
@@ -276,7 +305,7 @@ iterator()方法在执行时不会一次初始化所有的对象，而是根据�
 2. Java中构造函数重载和方法重载很相似。可以为一个类创建多个构造函数。每一个构造函数必须有它自己唯一的参数列表。
 3. Java不支持像C++中那样的复制构造函数，这个不同点是因为如果你不自己写构造函数的情况下，Java不会创建默认的复制构造函数
 
-# 14. Map和ConcurrentHashMap的区别？
+# 14.Map和ConcurrentHashMap的区别？
 HashTable:   
 
 - 底层数组+链表实现，无论key还是value都不能为null，线程安全，实现线程安全的方式是在修改数据时锁住整个HashTable，效率低，ConcurrentHashMap做了相关优化
@@ -327,7 +356,7 @@ ConcurrentHashMap提供了与Hashtable和SynchronizedMap不同的锁机制。Has
 ConcurrentHashMap默认将hash表分为16个桶，诸如get、put、remove等常用操作只锁住当前需要用到的桶。这样，原来只能一个线程进入，现在却能同时有16个写线程执行，并发性能的提升是显而易见的。   
 >https://www.cnblogs.com/heyonggang/p/9112731.html
 
-# 15. 如果hashMap的key是一个自定义的类，怎么办？
+# 15.如果hashMap的key是一个自定义的类，怎么办？
 使用HashMap，如果key是自定义的类，就必须重写hashcode()和equals()。  
 HashMap是基于散列函数，以数组和链表的方式实现的。   
  而对于每一个对象，通过其hashCode()方法可为其生成一个整形值（散列码），该整型值被处理后，将会作为数组下标，存放该对象所对应的Entry（存放该对象及其对应值）。   
@@ -339,19 +368,19 @@ Student st2 = new Student("wei","man"); 
 正常理解这两个对象再存入到hashMap中应该是相等的，但如果你不重写 hashcode（）方法的话，比较是其地址，不相等！    
 HashMap中的比较key是这样的，先求出key的hashcode(),比较其值是否相等，若相等再比较equals(),若相等则认为他们是相等 的。若equals()不相等则认为他们不相等。如果只重写hashcode()不重写equals()方法，当比较equals()时只是看他们是否为 同一对象（即进行内存地址的比较）,所以必定要两个方法一起重写。HashMap用来判断key是否相等的方法，其实是调用了HashSet判断加入元素 是否相等。   
 >https://blog.csdn.net/tuolaji8/article/details/48417031 
-# 16. ArrayList和LinkedList的区别，如果一直在list的尾部添加元素，用哪个效率高？
+# 16.ArrayList和LinkedList的区别，如果一直在list的尾部添加元素，用哪个效率高？
 ArrayList底层数组实现，LinkedList底层单向链表，当一直在list尾部增加时，读写效率都是ArrayList高，但是当需要指定位置插入的时候（最坏的情况每次插入放在第一个位置）时，可能LinkedList插入效率高，但是读效率ArrayList始终高于LinkedList
-# 17. ConcurrentHashMap锁加在了哪些地方？
+# 17.ConcurrentHashMap锁加在了哪些地方？
 [很详细的一篇博客](https://blog.csdn.net/zlfprogram/article/details/77524326)
-# 18. TreeMap底层，红黑树原理？
+# 18.TreeMap底层，红黑树原理？
 [很详细的一篇博客](http://cmsblogs.com/?p=1013) 另外红黑树需要了解一下
-# 19. concurrenthashmap有啥优势，1.7，1.8区别？   
+# 19.concurrenthashmap有啥优势，1.7，1.8区别？   
 在JDK1.7版本中，ConcurrentHashMap的数据结构是由一个Segment数组和多个HashEntry组成，如下图所示：   
 ![concurrenthashmap.png](../images/concurrenthashmap.png)   
 Segment数组的意义就是将一个大的table分割成多个小的table来进行加锁，也就是上面的提到的锁分离技术，而每一个Segment元素存储的是HashEntry数组+链表，这个和HashMap的数据存储结构一样   
 JDK1.8的实现已经摒弃了Segment的概念，而是直接用Node数组+链表+红黑树的数据结构来实现，并发控制使用Synchronized和CAS来操作，整个看起来就像是优化过且线程安全的HashMap，虽然在JDK1.8中还能看到Segment的数据结构，但是已经简化了属性，只是为了兼容旧版本。   
 [关于concurrenthashmap你必须要知道的事](https://www.jianshu.com/p/1a01d15df3f0)   
-# 20. ArrayList是否会越界？
+# 20.ArrayList是否会越界？
 ArrayList 底层是基于数组来实现容量大小动态变化的。
 迭代集合每次remove后的size都会发生变化,如果迭代基数不根据remove后的size动态调整,则会发生索引越界异常或内容遍历不全等问题。   
 # 21.Java集合类框架的基本接口有哪些？

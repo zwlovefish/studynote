@@ -1,3 +1,32 @@
+<!-- MarkdownTOC -->
+
+- java面试结构
+- 1.为什么重写equals还要重写hashcode
+- 2.说一下map的分类和常见的情况
+- 3.Object若不重写hashCode\(\)的话，hashCode\(\)如何计算出来的？
+- 4.==比较的是什么？
+- 5.若对一个类不重写，它的equals\(\)方法是如何比较的？
+- 6.java8新特性
+- 7.说说Lamda表达式的优缺点。
+- 8.一个十进制的数在内存中是怎么存的？
+- 9.为啥有时会出现4.0-3.6=0.40000001这种现象？
+- 10.Java支持的数据类型有哪些？什么是自动拆装箱？
+- 11.什么是值传递和引用传递？
+- 12. 数组\(Array\)和列表\(ArrayList\)有什么区别？什么时候应该使用Array而不是ArrayList？
+- 13.你了解大O符号\(big-O notation\)么？你能给出不同数据结构的例子么？
+- 14.String是最基本的数据类型吗?
+- 15.int 和 Integer 有什么区别?
+- 16.String 和StringBuffer的区别 以及StringBuilder
+- 17.我们在web应用开发过程中经常遇到输出某种编码的字符，如iso8859-1等，如何输出一个某种编码的字符串？
+- 18.&和&&的区别？
+- 19.在Java中，如何跳出当前的多重嵌套循环？
+- 20.你能比较一下Java和JavaSciprt吗？
+- 21.简述正则表达式及其用途。
+- 22.Java中是如何支持正则表达式操作的？
+
+<!-- /MarkdownTOC -->
+
+
 # java面试结构
 ![java体系结构](../images/arch.png)
 # 1.为什么重写equals还要重写hashcode

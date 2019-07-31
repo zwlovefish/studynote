@@ -1,4 +1,33 @@
-# 1. 线程池相关
+<!-- MarkdownTOC -->
+
+- 1.线程池相关
+- 2.注解的定义
+      - 注解通过@interface关键字定义
+  - 注解的使用
+  - 元注解
+    - @Retention
+    - @Documented
+    - @Target
+    - @Inherited
+    - @Repeatable
+  - 注解的属性
+  - Java 预置的注解
+  - 注解的提取
+  - 注解与反射
+  - 总结
+- 3.JAVA代理模式
+  - 代理模式定义
+  - 静态代理
+    - 代理模式的作用
+    - 应用举例
+  - 动态代理
+    - 动态代理类的创建
+- 4.回调函数
+
+<!-- /MarkdownTOC -->
+
+
+# 1.线程池相关
 一个程序中线程的创建和销毁是需要时间的。因此可以使用线程池来优化。 
 线程池的接口模型：
 
@@ -80,14 +109,14 @@ setCorePoolSize：设置核心池大小
 setMaximumPoolSize：设置线程池最大能创建的线程数目大小    
 当上述参数从小变大时，ThreadPoolExecutor进行线程赋值，还可能立即创建新的线程来执行任务。
 
-#  2. 注解的定义
+#  2.注解的定义
 #### 注解通过@interface关键字定义
 ```JAVA
 public @interface TestAnnotation {
 }
 ```
 上述代码创建了一个名为TestAnnotation的注解。   
-#### 注解的使用
+## 注解的使用
 ```JAVA
 @TestAnnotation
 public class Test {
@@ -95,10 +124,10 @@ public class Test {
 ```
 简单理解就是给Test类添加了一个TestAnnotation标签    
 不过想让注解正常工作，还需要元注解
-#### 元注解
+## 元注解
 元注解是可以注解到注解上的注解，或者说元注解是一种基本注解，但是它能够应用到其它的注解上面。    
 元标签有 @Retention、@Documented、@Target、@Inherited、@Repeatable 5 种。 
-##### @Retention
+### @Retention
 Retention 的英文意为保留期的意思。当 @Retention 应用到一个注解上的时候，它解释说明了这个注解的的存活时间。       
 他的取值如下：
 
@@ -113,10 +142,10 @@ public @interface TestAnnotation {
 ```
 上述代码指定 TestAnnotation 可以在程序运行周期被获取到，因此它的生命周期非常的长。
 
-##### @Documented
+### @Documented
 这个元注解肯定是和文档有关。它的作用是能够将注解中的元素包含到 Javadoc 中去
 
-##### @Target
+### @Target
 指定了注解运用的地方。类比到标签，原本标签是你想张贴到哪个地方就到哪个地方，但是因为@Target 的存在，它张贴的地方就非常具体了，比如只能张贴到方法上、类上、方法参数上等等。@Target 有下面的取值：
 
 - ElementType.ANNOTATION_TYPE 可以给一个注解进行注解
@@ -128,7 +157,7 @@ public @interface TestAnnotation {
 - ElementType.PARAMETER 可以给一个方法内的参数进行注解
 - ElementType.TYPE 可以给一个类型进行注解，比如类、接口、枚举
 
-##### @Inherited
+### @Inherited
 Inherited 是继承的意思，但是它并不是说注解本身可以继承，而是说如果一个超类被 @Inherited 注解过的注解进行注解的话，那么如果它的子类没有被任何注解应用的话，那么这个子类就继承了超类的注解。
 ```JAVA
 @Inherited
@@ -142,7 +171,7 @@ public class B extends A {}
 ```
 注解 Test 被 @Inherited 修饰，之后类 A 被 Test 注解，类 B 继承 A,类 B 也拥有 Test 这个注解。
 
-##### @Repeatable
+### @Repeatable
 Repeatable 自然是可重复的意思。@Repeatable 是 Java 1.8 才加进来的，所以算是一个新的特性。
 什么样的注解会多次应用呢？通常是注解的值可以同时取多个。
 ```JAVA
@@ -166,7 +195,7 @@ public class SuperMan{
 什么是容器注解呢？就是用来存放其它注解的地方。它本身也是一个注解。
 可以这样理解：Persons 是一张总的标签，上面贴满了 Person 这种同类型但内容不一样的标签。把 Persons 给一个 SuperMan 贴上，相当于同时给他贴了程序员、产品经理、画家的标签。
 
-#### 注解的属性
+## 注解的属性
 <font color="red">注解的属性也叫做成员变量。注解只有成员变量，没有方法。</font>注解的成员变量在注解的定义中以“无形参的方法”形式来声明，其方法名定义了该成员变量的名字，其返回值定义了该成员变量的类型。
 ```JAVA
 @Target(ElementType.TYPE)
@@ -221,7 +250,7 @@ public @interface Perform {}
 public void testMethod(){}
 ```
 
-#### Java 预置的注解
+## Java 预置的注解
 | 注解 | 作用|
 |-------|-------|
 |@Deprecated|这个元素是用来标记过时的元素。编译器在编译阶段遇到这个注解时会发出提醒警告，告诉开发者正在调用一个过时的元素比如过时的方法、过时的类、过时的成员变量。|
@@ -249,9 +278,9 @@ public interface Runnable {
 ```
 我们进行线程开发中常用的 Runnable 就是一个典型的函数式接口，上面源码可以看到它就被 @FunctionalInterface 注解。函数式接口标记有什么用，这个原因是函数式接口可以很容易转换为 Lambda 表达式。
 
-#### 注解的提取
+## 注解的提取
 要想正确检阅注解，离不开一个手段，那就是反射。
-##### 注解与反射
+## 注解与反射
 - 注解通过反射获取。首先可以通过 Class 对象的 isAnnotationPresent() 方法判断它是否应用了某个注解
 
 ```JAVA
@@ -367,7 +396,7 @@ public class Test {
 <font color="red">需要注意的是，如果一个注解要在运行时被成功提取，那么 @Retention(RetentionPolicy.RUNTIME) 是必须的。
 </font>
 
-# 总结
+## 总结
 1. 如果注解难于理解，你就把它类同于标签，标签为了解释事物，注解为了解释代码。
 2. 注解的基本语法，创建如同接口，但是多了个 @ 符号。
 3. 注解的元注解。
@@ -377,7 +406,7 @@ public class Test {
 >https://blog.csdn.net/briblue/article/details/73824058
 
 # 3.JAVA代理模式
-### 代理模式定义
+## 代理模式定义
 定义：给某个对象提供一个代理对象，并由代理对象控制对于原对象的访问，即客户不直接操控原对象，而是通过代理对象间接地操控原对象
 
 ## 静态代理
@@ -471,5 +500,5 @@ public class TestProxy {
 
 每个代理类的对象都会关联一个表示内部处理逻辑的InvocationHandler接口的实现。当使用者调用了代理对象所代理的接口中的方法的时候，这个调用的信息会被传递给InvocationHandler的invoke()方法。在 invoke()方法的参数中可以获取到代理对象、方法对应的Method对象和调用的实际参数。invoke()方法的返回值被返回给使用者。这种做法实际上相 当于对方法调用进行了拦截。熟悉AOP的人对这种使用模式应该不陌生。但是这种方式不需要依赖AspectJ等AOP框架。
 
-# 4. 回调函数
+# 4.回调函数
 当程序跑起来时，一般情况下，应用程序（application program）会时常通过API调用库里所预先备好的函数。但是有些库函数（library function）却要求应用先传给它一个函数，好在合适的时候调用，以完成目标任务。这个被传入的、后又被调用的函数就称为回调函数（callback function）。

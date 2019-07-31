@@ -1,3 +1,36 @@
+
+<!-- MarkdownTOC -->
+
+- 1.为什么集合类没有实现Cloneable和Serializable接口
+- 2.什么是迭代器
+- 3.Iterator和ListIterator的区别是什么
+- 4.快速失败\(fail-fast\)和安全失败\(fail-safe\)的区别是什么
+- 5.ArrayList和LinkedList有什么区别?
+- 6.ArrayList,Vector,LinkedList的存储性能和特性是什么
+- 7.Collection 和 Collections的区别
+- 8.List、Set、Map是否继承自Collection接口？
+- 9.List、Map、Set三个接口存取元素时，各有什么特点？
+- 10.多线程中的i++线程安全吗？为什么？
+- 11.如何线程安全的实现一个计数器
+- 12.多线程同步的方法
+- 13.介绍一下生产者消费者模式？
+- 14.线程，进程，然后线程创建有很大开销，怎么优化？
+- 15.线程池运行流程，参数，策略
+- 16.讲一下AQS吧
+    - acquire\(int\)
+    - release\(int\)
+    - acquireShared\(int\)
+    - releaseShared\(\)
+- 17.创建线程的方法，哪个更好，为什么
+- 18.Java中有几种线程池
+- 19.线程池有什么好处？
+- 20.cyclicbarrier和countdownlatch的区别
+- 21.如何理解Java多线程回调方法
+- 22.概括的解释下线程的几种可用状态
+
+<!-- /MarkdownTOC -->
+
+
 # 1.为什么集合类没有实现Cloneable和Serializable接口
 集合类接口指定了一组叫做元素的对象。集合类接口的每一种具体的实现类都可以选择以它 自己的方式对元素进行保存和排序。有的集合类允许重复的键，有些不允许。   
 克隆(cloning)或者序列化(serialization)的语义和含义是跟具体的实现相关的。因此，应该由集合类的具体实现来决定如何被克隆或者是序列化。
@@ -63,7 +96,7 @@ ArrayList和LinkedList在性能上各有优缺点，都有各自所适用的地�
 
 或者说当操作是在一列数据的后面添加数据而不是在前面或中间,并且需要随机地访问其中的元素时,使用ArrayList会提供比较好的性能；当你的操作是在一列数据的前面或中间添加或删除数据,并且按照顺序访问其中的元素时,就应该使用LinkedList了
 >https://www.cnblogs.com/Jacck/p/8034900.html
-# 6. ArrayList,Vector,LinkedList的存储性能和特性是什么
+# 6.ArrayList,Vector,LinkedList的存储性能和特性是什么
 
 ArrayList 和Vector都是使用<font color="red">数组方式存储数据</font>，此数组元素数大于实际存储的数据以便增加和插入元素，它们都允许直接按序号索引元素，但是插入元素要涉及数组元素移动等内存操作，所以索引数据快而插入数据慢，Vector中的方法由于添加了synchronized修饰，因此Vector是线程安全的容器，但性能上较ArrayList差，因此已经是Java中的遗留容器。
 
@@ -98,7 +131,7 @@ LinkedList使用<font color="red">双向链表实现存储</font>（将内存中
     10. Rotate。根据指定的距离循环移动指定列表中的元素。Collections.rotate(list,-1);如果是负数，则正向移动，正数则方向移动
 >https://www.cnblogs.com/cathyqq/p/5279859.html
 
-# 8. List、Set、Map是否继承自Collection接口？
+# 8.List、Set、Map是否继承自Collection接口？
 Collection 
 
 　　├List 
@@ -142,7 +175,7 @@ Collection是最基本的集合接口，一个Collection代表一组Object，即
 set一般无序不重复map是kv结构list 有序 
 >https://blog.csdn.net/wzw591455350/article/details/48749185 
 
-# 9. List、Map、Set三个接口存取元素时，各有什么特点？
+# 9.List、Map、Set三个接口存取元素时，各有什么特点？
 List与Set都是单列元素的集合，它们有一个功共同的父接口Collection。
 
 Set里面不允许有重复的元素
@@ -167,7 +200,7 @@ Map是双列的集合，存放用put方法:put(obj key,obj value)，每次存储
 List以特定次序来持有元素，可有重复元素。Set 无法拥有重复元素,内部排序。Map 保存key-value值，value可多值。
 >https://www.cnblogs.com/areyouready/p/7580489.html
 
-# 10. 多线程中的i++线程安全吗？为什么？
+# 10.多线程中的i++线程安全吗？为什么？
 ![JMM 模型中对共享变量的读写原理](../images/JVM模型中对共享变量的读写原理.png)    
 每个线程都有自己的工作内存，每个线程需要对共享变量操作时必须先把共享变量从主内存load到自己的工作内存，等完成对共享变量的操作时再 save 到主内存   
 i++：先赋值再自加。   
@@ -180,7 +213,7 @@ i++和++i的线程安全分为两种情况：
 会产生脏读。
 >https://www.jianshu.com/p/0be2689550e7
 
-# 11. 如何线程安全的实现一个计数器
+# 11.如何线程安全的实现一个计数器
 
 在java中volatile关键字可以保证共享数据的可见性，它会把更新后的数据从工作内存刷新进共享内存，并使其他线程中工作内存中的数据失效，进而从主存中读入最新值来保证共享数据的可见性，实现线程安全的计数器通过循环CAS操作来实现。就是先获取一个旧期望值值，再比较获取的值与主存中的值是否一致，一致的话就更新，不一致的话接着循环，直到成功为止。
 
@@ -240,7 +273,7 @@ public class ThreadSafeCount{
 ```
 >http://www.php.cn/java-article-412095.html
 
-# 12. 多线程同步的方法
+# 12.多线程同步的方法
 
 - 同步方法   
 
@@ -485,12 +518,12 @@ class Bank {
 </font>
 >https://www.cnblogs.com/XHJT/p/3897440.html
 
-# 13. 介绍一下生产者消费者模式？
+# 13.介绍一下生产者消费者模式？
 在实际的软件开发过程中，经常会碰到如下场景：某个模块负责产生数据，这些数据由另一个模块来负责处理（此处的模块是广义的，可以是类、函数、线程、进程等）。产生数据的模块，就形象地称为生产者；而处理数据的模块，就称为消费者。     
 单单抽象出生产者和消费者，还够不上是生产者／消费者模式。该模式还需要有一个缓冲区处于生产者和消费者之间，作为一个中介。生产者把数据放入缓冲区，而消费者从缓冲区取出数据。大概的结构如下图。
 ![生产者消费者](../images/生产者消费者.png)     
 
-# 14. 线程，进程，然后线程创建有很大开销，怎么优化？
+# 14.线程，进程，然后线程创建有很大开销，怎么优化？
 进程概念：
 
 进程是表示资源分配的基本单位，又是调度运行的基本单位。例如，用户运行自己的程序，系统就创建一个进程，并为它分配资源，包括各种表格、内存空间、磁盘空间、I/O设备等。然后，把该进程放人进程的就绪队列。进程调度程序选中它，为它分配CPU以及其它有关资源，该进程才真正运行。所以，进程是系统中的并发执行的单位。
@@ -558,7 +591,7 @@ synchronized，volatile会设置memory barrier（内存关卡），要求必需�
 
 通过线程池优化
 
-# 15. 线程池运行流程，参数，策略
+# 15.线程池运行流程，参数，策略
 
 __线程池参数详解__
 ```JAVA
@@ -616,7 +649,7 @@ __handler__
 
 这4中策略不友好，最好自己定义拒绝策略，实现RejectedExecutionHandler接口。
 
-# 16. 讲一下AQS吧
+# 16.讲一下AQS吧
 AbstractQueuedSynchronizer(抽象的队列式同步器，AQS)，AQS定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的ReentrantLock/Semaphore/CountDownLatch...。
 ![AQS](../images/AQS.png)   
 它维护了一个volatile int state（代表共享资源）和一个FIFO线程等待队列（多线程争用资源被阻塞时会进入此队列）。这里volatile是核心关键词，具体volatile的语义，在此不述。state的访问方式有三种:
@@ -792,7 +825,7 @@ class Mutex implements Lock, java.io.Serializable {
 　　除了Mutex，ReentrantLock/CountDownLatch/Semphore这些同步类的实现方式都差不多，不同的地方就在获取-释放资源的方式tryAcquire-tryRelelase。掌握了这点，AQS的核心便被攻破了。
 >http://www.cnblogs.com/waterystone/p/4920797.html
 
-# 17. 创建线程的方法，哪个更好，为什么
+# 17.创建线程的方法，哪个更好，为什么
 1. 继承Thread类（真正意义上的线程类），是Runnable接口的实现。
 2. 实现Runnable接口，并重写里面的run方法。
 3. 实现Callable接口通过FutureTask包装器来创建Thread线程
@@ -821,7 +854,7 @@ Thread的常用方法：
 - getPriority()：返回线程优先值
 - setPriority(int newPriority)：改变线程的优先级
 
-# 18. Java中有几种线程池
+# 18.Java中有几种线程池
 - newCachedThreadPool
 
     创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。     
@@ -932,7 +965,7 @@ public class ThreadPoolExecutorTest {
 }
 ```
 
-# 19. 线程池有什么好处？
+# 19.线程池有什么好处？
 线程池的好处
 
 1. 通过重复利用已创建的线程，减少在创建和销毁线程上所花的时间以及系统资源的开销。 
@@ -946,7 +979,7 @@ public class ThreadPoolExecutorTest {
 2. 并发错误：多线程应用要特别注意并发错误，要从逻辑上保证程序的正确性，注意避免死锁现象的发生。 
 3. 线程泄露：这是线程池应用中的一个严重的问题、当任务执行完毕而线程没能返回池中就会发生线程泄露现象。
 
-# 20. cyclicbarrier和countdownlatch的区别
+# 20.cyclicbarrier和countdownlatch的区别
 __ CountDownLatch__
 
 Countdownlatch是一个同步工具类；用来协调多个线程之间的同步；     
@@ -1223,7 +1256,7 @@ public class MainClass {
 
 >https://blog.csdn.net/wenzhi20102321/article/details/52512536?utm_source=blogxgwz1
 
-# 22. 概括的解释下线程的几种可用状态
+# 22.概括的解释下线程的几种可用状态
 
 1. 新建（new）：新建一个线程对象。
 2. 可运行状态（runnable）：线程对象创建后，其他线程调用该对象的start()方法，该状态的线程位于可运行线程池中，等待线程调度选中，获取CPU使用权。

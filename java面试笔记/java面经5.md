@@ -1,16 +1,53 @@
-# 1. 同步方法和同步代码块的区别是什么
+<!-- MarkdownTOC -->
+
+- 1.同步方法和同步代码块的区别是什么
+- 2.在监视器\(Monitor\)内部，是如何做线程同步的？程序应该做哪种级别的同步
+- 3.sleep\(\) 和 wait\(\) 有什么区别
+- 4.同步和异步有何异同，在什么情况下分别使用他们？举例说明
+- 5.stop\(\)和suspend\(\)方法为何不推荐使用？
+- 6.线程的sleep\(\)方法和yield\(\)方法有什么区别？
+- 7.请说出与线程同步以及线程调度相关的方法
+- 8.如何保证线程安全
+- 9.讲一下非公平锁和公平锁在reetrantlock里的实现。
+    - NonfairSync 非公平锁
+    - FairSync 公平锁
+- 10.讲一下synchronized，可重入怎么实现
+- 11.什么是死锁
+- 12.如何确保N个线程可以访问N个资源同时又不导致死锁？
+- 13.Java中的LongAdder和AtomicLong的区别
+- 14.JDK和JRE的区别是什么？
+- 15.反射的实现与作用
+    - 什么是反射
+    - Java反射框架提供以下功能
+    - 反射的主要用途
+    - 反射的基本运用
+    - 通过反射生成对象主要通过俩种方式
+- 16.怎么打印日志
+- 17.运行时异常与一般异常有何异同？
+- 18.error和exception有什么区别?
+- 19.给我一个你最常见到的runtime exception
+- 20.Java中的异常处理机制的简单原理和应用。
+- 21.java中有几种类型的流？JDK为每种类型的流提供了一些抽象类以供继承，请说出他们分别是哪些类？
+- 22.什么是java序列化，如何实现java序列化？
+- 23.运行时异常与受检异常有什么区别？
+
+<!-- /MarkdownTOC -->
+
+
+
+# 1.同步方法和同步代码块的区别是什么
 1. 同步方法默认用this或者当前类class对象作为锁。
 2. 同步代码可以选择以什么来加锁，比同步方法更细颗粒化，同步代码可以同步有同步问题的部分代码而不是整个方法。
 3. 同步方法用关键字synchronized修饰方法，同步代码主要修饰需要进行同步的代码块，用synchronized（object）｛代码内容｝进行修饰
 
-# 2. 在监视器(Monitor)内部，是如何做线程同步的？程序应该做哪种级别的同步
+# 2.在监视器(Monitor)内部，是如何做线程同步的？程序应该做哪种级别的同步
 在 java 虚拟机中, 每个对象( Object 和 class )通过某种逻辑关联监视器,每个监视器和一个对象引用相关联, 为了实现监视器的互斥功能, 每个对象都关联着一把锁.
 
 一旦方法或者代码块被 synchronized 修饰, 那么这个部分就放入了监视器的监视区域, 确保一次只能有一个线程执行该部分的代码, 线程在获取锁之前不允许执行该部分的代码
 
 另外 java 还提供了显式监视器( Lock )和隐式监视器( synchronized )两种锁方案
 >https://www.nowcoder.com/questionTerminal/26fc16a2a85e49a5bd5fc2b5759dbbc2?pos=102&orderByHotValue=0
-# 3. sleep() 和 wait() 有什么区别
+# 3.sleep() 和 wait() 有什么区别
 1. 这两个方法来自不同的类分别是，sleep来自Thread类，和wait来自Object类
 sleep是Thread的静态类方法，谁调用的谁去睡觉，即使在a线程里调用了b的sleep方法，实际上还是a去睡觉，要让b线程睡觉要在b的代码中调用sleep。
 2. 最主要是sleep方法没有释放锁，而wait方法释放了锁，使得其他线程可以使用同步控制块或者方法。   
@@ -20,7 +57,7 @@ Thread.Sleep(0)的作用是“触发操作系统立刻重新进行一次CPU竞�
 4. sleep必须捕获异常，而wait，notify和notifyAll不需要捕获异常
 >https://www.cnblogs.com/plmnko/archive/2010/10/15/1851854.html
 
-# 4. 同步和异步有何异同，在什么情况下分别使用他们？举例说明
+# 4.同步和异步有何异同，在什么情况下分别使用他们？举例说明
 同步:发送一个请求,等待返回,然后再发送下一个请求 
 
 异步:发送一个请求,不等待返回,随时可以再发送下一个请求
@@ -43,12 +80,12 @@ Thread.Sleep(0)的作用是“触发操作系统立刻重新进行一次CPU竞�
 事件：通过通知操作的方式来保持线程的同步，还可以方便实现对多个线程的优先级比较的操作 。     
 >https://blog.csdn.net/qq_36179561/article/details/53411857
 
-# 5. stop()和suspend()方法为何不推荐使用？
+# 5.stop()和suspend()方法为何不推荐使用？
 反对使用stop()，是因为它不安全。它会解除由线程获取的所有锁定，当在一个线程对象上调用stop()方法时，这个线程对象所运行的线程就会立即停止，假如一个线程正在执行：synchronized void { x = 3; y = 4;}　由于方法是同步的，多个线程访问时总能保证x,y被同时赋值，而如果一个线程正在执行到x = 3;时，被调用了 stop()方法，即使在同步块中，它也干脆地stop了，这样就产生了不完整的残废数据。而多线程编程中最最基础的条件要保证数据的完整性，所以请忘记线程的stop方法，以后我们再也不要说“停止线程”了。而且如果对象处于一种不连贯状态，那么其他线程能在那种状态下检查和修改它们。结果很难检查出真正的问题所在。
 
 suspend()方法容易发生死锁。调用suspend()的时候，目标线程会停下来，但却仍然持有在这之前获得的锁定。此时，其他任何线程都不能访问锁定的资源，除非被"挂起"的线程恢复运行。对任何线程来说，如果它们想恢复目标线程，同时又试图使用任何一个锁定的资源，就会造成死锁。所以不应该使用suspend()，而应在自己的Thread类中置入一个标志，指出线程应该活动还是挂起。若标志指出线程应该挂起，便用 wait()命其进入等待状态。若标志指出线程应当恢复，则用一个notify()重新启动线程。
 
-# 6. 线程的sleep()方法和yield()方法有什么区别？
+# 6.线程的sleep()方法和yield()方法有什么区别？
 yield方法   
 暂停当前正在执行的线程对象。   
 yield()只是使当前线程重新回到可执行状态，所以执行yield()的线程有可能在进入到可执行状态后马上又被执行。   
@@ -60,7 +97,7 @@ yield()只能使同优先级或更高优先级的线程有执行的机会。 
 3.  sleep()方法声明抛出InterruptedException，而yield()方法没有声明任何异常；
 4.  sleep()方法比yield()方法（跟操作系统CPU调度相关）具有更好的可移植性。
 
-# 7. 请说出与线程同步以及线程调度相关的方法
+# 7.请说出与线程同步以及线程调度相关的方法
 线程同步：即当有一个线程在对内存进行操作时，其他线程都不可以对这个内存地址进行操作，直到该线程完成操作，其他线程才能对该内存地址进行操作，而其他线程又处于等待状态，目前实现线程同步的方法有很多，临界区对象就是其中一种。
 
 线程调度：是指按照特定机制为多个线程分配CPU的使用权。
@@ -75,8 +112,9 @@ yield()只能使同优先级或更高优先级的线程有执行的机会。 
 Java 5通过Lock接口提供了显式的锁机制（explicit lock），增强了灵活性以及对线程的协调。Lock接口中定义了加锁（lock()）和解锁（unlock()）的方法，同时还提供了newCondition()方法来产生用于线程之间通信的Condition对象；此外，Java 5还提供了信号量机制（semaphore），信号量可以用来限制对某个共享资源进行访问的线程的数量。在对资源进行访问之前，线程必须得到信号量的许可（调用Semaphore对象的acquire()方法）；在完成对资源的访问后，线程必须向信号量归还许可（调用Semaphore对象的release()方法）。
 >https://www.jianshu.com/p/80963dc65ec8
 
-# 8. 如何保证线程安全
-## 线程安全在三个方面体现
+# 8.如何保证线程安全
+ 线程安全在三个方面体现
+
 1. 原子性：提供互斥访问，同一时刻只能有一个线程对数据进行操作，（atomic,synchronized）；
 2. 可见性：一个线程对主内存的修改可以及时地被其他线程看到，（synchronized,volatile）；
 3. 有序性：一个线程观察其他线程中的指令执行顺序，由于指令重排序，该观察结果一般杂乱无序，（happens-before原则）。
@@ -86,7 +124,7 @@ Java 5通过Lock接口提供了显式的锁机制（explicit lock），增强了
 1. 使用线程安全的类；
 2. 使用synchronized同步代码块，或者用Lock锁；
 
-# 9. 讲一下非公平锁和公平锁在reetrantlock里的实现。
+# 9.讲一下非公平锁和公平锁在reetrantlock里的实现。
 所谓公平锁，就是线程按照执行顺序排成一排，依次获取锁，但是这种方式在高并发的场景下极其损耗性能；
 
 所谓非公平锁，就是不管执行顺序，每个线程获取锁的几率都是相同的，获取失败了，才会采用像公平锁那样的方式。这样做的好处是，JVM可以花比较少的时间在线程调度上，更多的时间则是用在执行逻辑代码里面。
@@ -110,7 +148,7 @@ Lock lock = new ReentrantLock(true);
     }
 ```
 
-### NonfairSync 非公平锁 
+## NonfairSync 非公平锁 
 在谈NonfairSync之前，首先要谈谈ReentrantLock类里面定义的一个类属性Sync，它才是ReentrantLock实现的精髓。它首先在属性里声明，然后以抽象静态内部类的形式实现了AQS，源码如下：
 ```JAVA
 abstract static class Sync extends AbstractQueuedSynchronizer {
@@ -233,7 +271,7 @@ final boolean nonfairTryAcquire(int acquires) {
 
 首先获取当前线程，和当前AQS维护的锁的状态，如果状态为0，则尝试将AQS的status从0设为acquires(实际是1)，如果设置成功，则获取锁成功，把当前锁设置为锁的持有者，返回true；如果当前线程已经是锁的持有者，则把status+acquires，如果结果越界，抛出异常，如果成功，返回true。细心的同学可以发现，一共有两次原子设status从0到1，为什么呢？因为这样可以提高获取锁的概率，因为是非公平的，所以有必要进行这样的操作，而且这样的操作与锁相对来讲损耗微乎其微。
 
-### FairSync 公平锁
+## FairSync 公平锁
 公平锁就是每个线程在获取锁时会先查看此锁维护的等待队列，如果为空，或者当前线程线程是等待队列的第一个，就占有锁，否则就会加入到等待队列中，以后会按照FIFO的规则从队列中获取，下面是FairSync 的源码：
 
 ```JAVA
@@ -294,7 +332,7 @@ ctrl点进acquire(1)是这样的：
 首先通过tryAcquire方法尝试获取锁，如果成功直接返回，否则通过acquireQueued()再次尝试获取。在acquireQueued()中会先通过addWaiter将当前线程加入到CLH队列的队尾，在CLH队列中等待。在等待过程中线程处于休眠状态，直到成功获取锁才会返回。
 >https://blog.csdn.net/rickiyeat/article/details/78307739
 
-# 9. 讲一下synchronized，可重入怎么实现
+# 10.讲一下synchronized，可重入怎么实现
 什么是可重入？
 
 若一个程序或子程序可以“在任意时刻被中断然后操作系统调度执行另外一段代码，这段代码又调用了该子程序不会出错”，则称其为可重入（reentrant或re-entrant）的。即当该子程序正在运行时，执行线程可以再次进入并执行它，仍然获得符合设计时预期的结果。与多线程并发执行的线程安全不同，可重入强调对单个线程执行时重新进入同一个子程序仍然是安全的。
@@ -331,7 +369,7 @@ __synchronized可重入锁的实现__
 >https://www.cnblogs.com/cielosun/p/6684775.html
 >https://www.nowcoder.com/questionTerminal/13c83316cb21460c990d49b0c5388335?toCommentId=2517638
 
-# 10. 什么是死锁
+# 11.什么是死锁
 死锁 :是指两个或两个以上的进程在执行过程中,因争夺资源而造成的一种互相等待的现象,若无外力作用,它们都将无法推进下去
  
 1. 因为系统资源不足。
@@ -357,7 +395,7 @@ __synchronized可重入锁的实现__
 的情况下占用资源。因此，对资源的分配要给予合理的规划。
 >https://www.nowcoder.com/questionTerminal/09b51b00891543d6b08ace80c0704b01
 
-# 11. 如何确保N个线程可以访问N个资源同时又不导致死锁？
+# 12.如何确保N个线程可以访问N个资源同时又不导致死锁？
 
 一下四个条件破坏掉其中一个即可：
 
@@ -366,11 +404,11 @@ __synchronized可重入锁的实现__
 3. 不剥夺条件:进程已获得的资源，在末使用完之前，不能强行剥夺。
 4. 循环等待条件:若干进程之间形成一种头尾相接的循环等待资源关系。
 
-# 12. Java中的LongAdder和AtomicLong的区别
+# 13.Java中的LongAdder和AtomicLong的区别
 AtomicLong是作用是对长整形进行原子操作，显而易见，在java1.8中新加入了一个新的原子类LongAdder，该类也可以保证Long类型操作的原子性，相对于AtomicLong，LongAdder有着更高的性能和更好的表现，可以完全替代AtomicLong的来进行原子操作。 在32位操作系统中，64位的long 和 double 变量由于会被JVM当作两个分离的32位来进行操作，所以不具有原子性。而使用AtomicLong能让long的操作保持原子型。 AtomicLong的实现方式是内部有个value 变量，当多线程并发自增，自减时，均通过cas 指令从机器指令级别操作保证并发的原子性。 唯一会制约AtomicLong高效的原因是高并发，高并发意味着CAS的失败几率更高， 重试次数更多，越多线程重试，CAS失败几率又越高，变成恶性循环，AtomicLong效率降低。 那怎么解决？ LongAdder给了我们一个非常容易想到的解决方案: 减少并发，将单一value的更新压力分担到多个value中去，降低单个value的 “热度”，分段更新！！！ 这样，线程数再多也会分担到多个value上去更新，只需要增加value就可以降低 value的 “热度” AtomicLong中的 恶性循环不就解决了吗？ cells 就是这个 “段” cell中的value 就是存放更新值的， 这样，当我需要总数时，把cells 中的value都累加一下不就可以了么！！ 当然，聪明之处远远不仅仅这里，在看看add方法中的代码，casBase方法可不可以不要，直接分段更新,上来就计算 索引位置，然后更新value？ 答案是不好，不是不行，因为，casBase操作等价于AtomicLong中的cas操作，要知道，LongAdder这样的处理方式是有坏处的，分段操作必然带来空间上的浪费，可以空间换时间，但是，能不换就不换，看空间时间都节约~！ 所以，casBase操作保证了在低并发时，不会立即进入分支做分段更新操作，因为低并发时，casBase操作基本都会成功，只有并发高到一定程度了，才会进入分支，所以，Doug Lead对该类的说明是： 低并发时LongAdder和AtomicLong性能差不多，高并发时LongAdder更高效！ 但是，Doung Lea 还是没这么简单，聪明之处还没有结束…… 如此，retryUpdate中做了什么事，也基本略知一二了，因为cell中的value都更新失败(说明该索引到这个cell的线程也很多，并发也很高时) 或者cells数组为空时才会调用retryUpdate, 因此，retryUpdate里面应该会做两件事： 1. 扩容，将cells数组扩大，降低每个cell的并发量，同样，这也意味着cells数组的rehash动作。 2. 给空的cells变量赋一个新的Cell数组。 LongAdder确实用了很多心思减少并发量，并且，每一步都是在”没有更好的办法“的时候才会选择更大开销的操作，从而尽可能的用最最简单的办法去完成操作。追求简单，但是绝对不粗暴。 AtomicLong可不可以废掉？ 我的想法是可以废掉了，因为，虽然LongAdder在空间上占用略大，但是，它的性能已经足以说明一切了,无论是从节约空的角度还是执行效率上，AtomicLong基本没有优势了。
 >https://www.nowcoder.com/questionTerminal/78101a1ff284496591714f29a502094f?orderByHotValue=1&difficulty=01101&mutiTagIds=643_642_641_639&page=4&onlyReference=false
 
-# 13. JDK和JRE的区别是什么？
+# 14.JDK和JRE的区别是什么？
 1.JDK
 
 JDK是Java Development Kit的缩写，是Java的开发工具包，主要包含了各种类库和工具，当然也包含了另外一个JRE。那么为什么要包含另外一个JRE呢？而且<JDK安装目录>/JRE/bin目录下，包含有server一个文件夹~包含一个jvm.dll，这说明JDK提供了一个虚拟机。
@@ -384,20 +422,20 @@ JDK是Java Development Kit的缩写，是Java的开发工具包，主要包含�
 JRE是Java Runtime Environment的缩写，是Java程序的运行环境。既然是运行，当然要包含JVM，也就是所谓的Java虚拟机，还有所以的Java类库的class文件，都在lib目录下，并且都打包成了jar。
 >https://www.cnblogs.com/dadonggg/p/7799344.html
 
-# 14. 反射的实现与作用
-### 什么是反射
+# 15.反射的实现与作用
+## 什么是反射
 当程序运行时，允许改变程序结构或变量类型，这种语言称为动态语言。我们认为Java并不是动态语言，但是它却又一个非常突出的动态相关的机制，俗称：反射。Reflection是Java程序开发语言的特征之一，它允许运行中的Java程序获取自身的信息，并且可以操作类和对象的内部属性。
 
 通过反射，我们可以在运行时获得程序或程序集中每一个类型成员和成员变量的信息。    
 程序中一般的对象类型都是在编译期就确定下来的，而Java 反射机制可以动态的创建对象并调用其属性，这样对象的类型在编译期是未知的。所以我们可以通过反射机制直接创建对象即使这个对象在编译期是未知的，反射的核心：是JVM在运行时才动态加载的类或调用方法或属性，他不需要事先（写代码的时候或编译期）知道运行对象是谁。
 
-### Java反射框架提供以下功能
+## Java反射框架提供以下功能
 1. 在运行时判断任意一个对象所属的类
 2. 在运行时构造任意一个类的对象
 3. 在运行时判断任意一个类所具有的成员变量和方法（通过反射设置可以调用 private）
 4. 在运行时调用人一个对象的方法
 
-### 反射的主要用途
+## 反射的主要用途
 
 反射最重要的用途就是开发各种通用框架。
 
@@ -416,12 +454,12 @@ JRE是Java Runtime Environment的缩写，是Java程序的运行环境。既然�
 ——比如我们请求login.action，那么StrutsPrepareAndExecuteFilter就会去解析struts.xml文件，检索action中name为login的Action，并根据class属性创建SimpleLoginAction实例，并用invoke方法来调用execute方法，这个过程离不开反射。
 对与框架开发人员来说，反射虽小但作用非常大，它是各种容器实现的核心。而对于一般的开发者来说，不深入框架开发则用反射用的就会少一点，不过了解一下框架的底层机制有助于丰富自己的编程思想，也是很有益的。
 
-### 反射的基本运用
+## 反射的基本运用
 1. 获得Class对象
 2. 判断是否是某一个类的实例
 3. 创建实例
 
-### 通过反射生成对象主要通过俩种方式
+## 通过反射生成对象主要通过俩种方式
 - 使用 Class 对象的 newInstance() 方法来创建对象对应类的实例。
 ```JAVA
 Class<?> c  = String.calss;
@@ -439,7 +477,7 @@ Object str = c.getInstance();
 ```
 >https://www.jianshu.com/p/d6035d5d4d12
 
-# 15. 怎么打印日志
+# 16.怎么打印日志
 在Java 中实现记录日志的方式有很多种， 
 
 1. 最简单的方式，就是system.println.out(error) ,这样直接在控制台打印消息了。 
@@ -448,7 +486,7 @@ Object str = c.getInstance();
 4. commons-logging, 最综合和常见的日志记录方式， 经常是和log4j 结合起来使用。
 >https://blog.csdn.net/weinihecaihktk/article/details/78881398
 
-# 16. 运行时异常与一般异常有何异同？
+# 17.运行时异常与一般异常有何异同？
 ![JAVA异常层次结构图](../images/JAVA异常层次结构图.jpeg)
 
 可以看出，所有的异常都是由Throwable类，下一层分解为两个分支：Error和Exceprion。    
@@ -466,7 +504,7 @@ FileNotFoundException（文件未找到异常。）
 IOException（操作输入流和输出流时可能出现的异常。）    
 EOFException （文件已结束异常    
 
-# 17. error和exception有什么区别?
+# 18.error和exception有什么区别?
 Error类和Exception类都继承自Throwable类
 
 Error的继承关系：    
@@ -495,7 +533,7 @@ Java 中定义了两类异常：
 2. Unchecked exception:这类异常都是RuntimeException的子类，虽然RuntimeException同样也是Exception的子类，但是它们是非凡的，它们不能通过client code来试图解决，所以称为Unchecked exception 。
 >https://blog.csdn.net/min996358312/article/details/65729617
 
-# 18. 给我一个你最常见到的runtime exception
+# 19.给我一个你最常见到的runtime exception
 NullPointerException - 空指针引用异常
 ClassCastException - 类型强制转换异常。
 IllegalArgumentException - 传递非法参数异常。
@@ -661,7 +699,7 @@ java.lang.TypeNotPresentException
 java.lang.UnsupportedOperationException
 不支持的方法异常。指明请求的方法不被支持情况的异常。
 
-# 19. Java中的异常处理机制的简单原理和应用。
+# 20.Java中的异常处理机制的简单原理和应用。
 ```JAVA
 异常处理是与程序执行是并行的.
 
@@ -720,7 +758,7 @@ public class ExceptionTestTwo {
 ```
 >https://blog.csdn.net/qq_23127721/article/details/52856220
 
-# 20. java中有几种类型的流？JDK为每种类型的流提供了一些抽象类以供继承，请说出他们分别是哪些类？
+# 21.java中有几种类型的流？JDK为每种类型的流提供了一些抽象类以供继承，请说出他们分别是哪些类？
 IO流用来处理设备之间的数据传输        
 流的分类：      
 流按处理数据类型分为两种：字节流与字符流。          
@@ -733,7 +771,7 @@ InputStream此抽象类是表示字节输入流的所有类的超类。
 OutputStream此抽象类是表示输出字节流的所有类的超类。   
 ![IO流](../images/IO流.png)
 
-# 21.什么是java序列化，如何实现java序列化？
+# 22.什么是java序列化，如何实现java序列化？
 序列化就是一种用来处理对象流的机制，所谓对象流也就是将对象的内容进行流化。可以对流化后的对象进行读写操作，也可将流化后的对象传输于网络之间。
 
 序列化是为了解决在对对象流进行读写操作时所引发的问题。序列化的实现：将需要被序列化的类实现Serializable接口，该接口没有需要实现的方法，implements Serializable只是为了标注该对象是可被序列化的，然后使用一个输出流(如：FileOutputStream)来构造一个ObjectOutputStream(对象流)对象，接着，使用ObjectOutputStream对象的writeObject(Object obj)方法就可以将参数为obj的对象写出(即保存其状态)，要恢复的话则用输入流。
@@ -798,7 +836,7 @@ class Customer implements Serializable {
 }
 ```
 
-# 22. 运行时异常与受检异常有什么区别？
+# 23.运行时异常与受检异常有什么区别？
 Java提供了两类主要的异常:runtime exception和checked exception。checked 异常也就是我们经常遇到的IO异常，以及SQL异常都是这种异常。对于这种异常，JAVA编译器强制要求我们必需对出现的这些异常进行catch。所以，面对这种异常不管我们是否愿意，只能自己去写一大堆catch块去处理可能的异常。     
 
 但是另外一种异常：runtime exception，也称运行时异常，我们可以不处理。当出现这样的异常时，总是由虚拟机接管。比如：我们从来没有人去处理过NullPointerException异常，它就是运行时异常，并且这种异常还是最常见的异常之一。 

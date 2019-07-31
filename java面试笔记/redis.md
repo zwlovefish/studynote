@@ -1,3 +1,35 @@
+<!-- MarkdownTOC -->
+
+- NoSql
+    - NoSQL数据库的分类
+    - NoSQL的特点
+- redis概述
+  - redis应用场景
+  - jedis在java中的使用
+  - redis持久化
+    - RDB方式
+    - AOF方式
+  - redis分布式锁
+    - Redlock实现
+    - Redlock源码
+  - Redis数据结构底层实现吗？
+    - 字符串处理\(string\)
+    - 链表
+    - 字典\(Hash\)
+    - 跳跃表
+    - 整数集合\(intset\)
+    - 压缩列表\(ziplist\)
+    - 快速列表\(quicklist\)
+  - redis加锁示例
+    - 某公司加锁示例
+    - 某公司释放锁示例
+  - 怎么实现的高可用？
+
+<!-- /MarkdownTOC -->
+
+
+
+
 # NoSql
 ### NoSQL数据库的分类
 1. 键值(key-value)存储 redis
@@ -5,20 +37,21 @@
 3. 文档数据库 mangoDB
 4. 图形数据库 InfiniteGraph
 ![四种NoSQL数据库比较](../images/四种NoSQL数据库比较.png)
-## NoSQL的特点
+
+### NoSQL的特点
 - 易扩展
 - 灵活的数据类型
 - 大数据量 高性能
 - 高可用
 
-### redis概述
+# redis概述
 - 字符串类型 String
 - 列表类型 list
 - 有序集合类型 sorted set
 - 散列类型 hash
 - 集合类型 set
 
-### redis应用场景
+## redis应用场景
 - 缓存
 - 任务队列
 - 应用排行榜
@@ -26,7 +59,7 @@
 - 数据过期处理
 - 分布式集群架构中的分离
 
-### jedis在java中的使用
+## jedis在java中的使用
 ```JAVA
 /*
 单实例模式
@@ -73,11 +106,11 @@ public void jedisPool(){
 }
 ```
 
-# redis持久化
+## redis持久化
 ### RDB方式
 ### AOF方式
 
-# redis分布式锁
+## redis分布式锁
 说道Redis分布式锁大部分人都会想到：setnx+lua，或者知道set key value px milliseconds nx。后一种方式的核心实现命令如下：
 ```SHELL
 - 获取锁（unique_value可以是UUID等）
@@ -229,7 +262,7 @@ protected RFuture<Boolean> unlockInnerAsync(long threadId) {
 }
 ```
 
-# Redis数据结构底层实现吗？
+## Redis数据结构底层实现吗？
 ### 字符串处理(string)
 我们都知道redis是用C语言写，但是C语言处理字符串和数组的成本是很高的，下面我分别说几个例子
 
@@ -612,7 +645,7 @@ list-compress-depth参数:
 - 3: 表示quicklist两端各有3个节点不压缩，中间的节点压缩。 
 - 依此类推…
 
-# redis加锁示例
+## redis加锁示例
 ### 某公司加锁示例
 ![某公司加锁示例](../images/某公司加锁示例.jpg)
 
@@ -636,7 +669,7 @@ list-compress-depth参数:
 
 为什么会这样呢？回想C1被唤醒以后的事情，居然敢直接del，C2活都没干完呢，锁就被C1给释放了，这时C3来直接就加锁成功，所以为了安全起见C3释放锁时得分成两步：1.判断value是否已经过期 2.如果已过期直接忽略，如果没过期就执行del。这样就真的安全了吗？安全了吗？安全了吗？假如第一步和第二步之间相隔了很久是不是也会出现锁被其他人释放的问题呢？是吧？是的！有没有别的解决办法呢？听说借助lua就可以解决这个问题了。
 
-# 怎么实现的高可用？
+## 怎么实现的高可用？
 我们采用Failover机制，初始化redis锁的时候会维护一个redis连接池，加锁或者释放锁的时候采用多写的方式来保障一致性，如果某个节点不可用的时候会自动切换到其他节点，但是这种机制可能会导致多个客户端同时获取到锁的情况，考虑这种情况：
 
 1. C1去redis1加锁，加锁成功后会写到redis2，redis3；

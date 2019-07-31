@@ -1,7 +1,43 @@
-# 1. forward与redirect区别，说一下你知道的状态码，redirect的状态码是多少？
-### forward过程
+<!-- MarkdownTOC -->
+
+- 1.forward与redirect区别，说一下你知道的状态码，redirect的状态码是多少？
+  - forward过程
+  - redirect过程
+- 2.servlet生命周期，是否单例，为什么是单例。
+- 3.Servlet和CGI的区别
+  - 什么是CGI
+  - CGI功能：
+  - 运行环境：
+  - CGI处理步骤
+- 4.Servlet执行时一般实现哪几个方法？
+  - GenericServlet与HttpServlet类
+  - Servlet执行时一般要实现的方法
+- 5.说说Servlet接口中有哪些方法？
+- 6.Servlet 3中的异步处理指的是什么？
+- 7.如何在基于Java的Web项目中实现文件上传和下载？
+- 8.服务器收到用户提交的表单数据，到底是调用Servlet的doGet\(\)还是doPost\(\)方法？
+- 9.Servlet中如何获取用户提交的查询参数或表单数据？
+- 10.Servlet中如何获取用户配置的初始化参数以及服务器上下文参数？
+- 11.缓存的优点？
+- 12.说说MVC的各个部分都有那些技术来实现?如何实现?
+- 13.什么是DAO模式？
+- 14.你的项目中使用过哪些JSTL标签？
+- 15.请问Java Web开发的Model 1和Model 2分别指的是什么？
+- 16.使用标签库有什么好处？如何自定义JSP标签？（JSP标签）
+- 17.get和post区别？
+- 18.请谈谈转发和重定向的区别
+- 19.BS与CS的联系与区别。
+- 20.如何设置请求的编码以及响应内容的类型？
+- 21.什么是Web Service（Web服务）？
+- 22.谈谈Session的save\(\)、update\(\)、merge\(\)、lock\(\)、saveOrUpdate\(\)和persist\(\)方法分别是做什么的？有什么区别
+- 23.大型网站在架构上应当考虑哪些问题？
+
+<!-- /MarkdownTOC -->
+
+# 1.forward与redirect区别，说一下你知道的状态码，redirect的状态码是多少？
+## forward过程
 转发，服务器端行为。web服务器把接受的请求，调用内部的方法在容器内部完成请求处理和转发动作，然后响应客户端，在这里，转发的路径必须是同一个web容器下的url，其不能转向到其他的web路径上去，中间传递的是自己的容器内的request。
-### redirect过程
+## redirect过程
 重定向，客户端行为。客户端发送http请求，web服务器接受后发送302状态码响应及对应新的location给客客户端，客户端发现是302响应，则自动再发送一个新的http请求，请求url是新的location地址，在这里location可以重定向到任意URL，既然是浏览器重新发出了请求，则就没有什么request传递的概念了。重定向行为是浏览器做了至少两次的访问请求的。
 ![Forward和Redirect](../images/Forward和Redirect.jpeg)
 
@@ -62,7 +98,7 @@
 
 redirect的状态码是302
 
-# 2. servlet生命周期，是否单例，为什么是单例。
+# 2.servlet生命周期，是否单例，为什么是单例。
 ![Servlet运行原理](../images/Servlet运行原理.jpg)
 
 Servlet生命周期定义了一个Servlet如何被加载、初始化，以及它怎样接收请求、响应请求，提供服务。在讨论Servlet生命周期之前，先让我们来看一下这几个方法：
@@ -119,14 +155,14 @@ Servlet是非线程安全的，如何实现线程安全的Servlet：
 1. 实现 SingleThreadModel 接口。该接口指定了系统如何处理对同一个Servlet的调用。如果一个Servlet被这个接口指定,那么在这个Servlet中的service方法将不会有两个线程被同时执行，当然也就不存在线程安全的问题。
 2. 同步对共享数据的操作 
 
-# 3. Servlet和CGI的区别
-###  什么是CGI
+# 3.Servlet和CGI的区别
+##  什么是CGI
 CGI(Common Gateway Interface 公共网关接口)是HTTP服务器与你的或其它机器上的程序进行“交谈”的一种工具，其程序须运行在网络服务器上。
-### CGI功能：
+## CGI功能：
 绝大多数的CGI程序被用来解释处理来自表单的输入信息，并在服 务器产生相应的处理，或将相应的信息反馈给浏览器。CGI程序使 网页具有交互功能。
-### 运行环境：
+## 运行环境：
 CGI程序在UNIX操作系统上CERN或NCSA格式的服务器上运行。 在其它操作系统（如：windows NT及windows95等）的服务器上 也广泛地使用CGI程序，同时它也适用于各种类型机器。
-### CGI处理步骤
+## CGI处理步骤
 1. 通过Internet把用户请求送到服务器
 2. 服务器接收用户请求并交给CGI程序处理
 3. CGI程序把处理结果传送给服务器
@@ -147,8 +183,8 @@ Java Servlet与CGI (Common Gateway Interface 公共网关接口)的比较:
 与cgi的区别在于servlet处于服务器进程中，它通过多线程方式运行其service方法，一个实例可以服务于多个请求，并且其实例一般不会销毁，而CGI对每个请求都产生新的进程，服务完成后就销毁，所以效率上低于servlet。
 >http://www.cnblogs.com/MuyouSome/p/3938203.html
 
-# 4. Servlet执行时一般实现哪几个方法？
-### GenericServlet与HttpServlet类
+# 4.Servlet执行时一般实现哪几个方法？
+## GenericServlet与HttpServlet类
 
 GenericServlet类是一个实现了Servlet的基本特征和功能的基类，其完整名称为javax.servlet.GenericServlet，它实现了Servlet和ServletConfig接口。
 
@@ -158,7 +194,7 @@ HttpServlet类是GenericServlet的子类，其完整名称为javax.servlet.HttpS
 
 在HttpServlet类及其子类中，除可以调用HttpServlet类内部新定义的方法外，还可以调用包括Servlet，ServletConfig接口和GenericServlet类中的一些方法。
 
-### Servlet执行时一般要实现的方法
+## Servlet执行时一般要实现的方法
 ```JAVA
 public void init(ServletConfig config)
 public ServletConfig getServletConfig()
@@ -188,7 +224,7 @@ doxxx方法  客户端可以用HTTP协议中规定的各种请求方式来访�
 - doOptions用于处理OPTIONS请求
 >https://blog.csdn.net/tuiroger/article/details/3854076
 
-# 5. 说说Servlet接口中有哪些方法？
+# 5.说说Servlet接口中有哪些方法？
 Servlet接口定义了5个方法，其中前三个方法与Servlet生命周期相关：
 
 - void init(ServletConfig config) throws ServletException
@@ -201,7 +237,7 @@ Web容器加载Servlet并将其实例化后，Servlet生命周期开始，容器
 
 器会将Servlet实例销毁，此时会调用Servlet的destroy()方法。
 
-# 6. Servlet 3中的异步处理指的是什么？
+# 6.Servlet 3中的异步处理指的是什么？
 Servlet 3.0 开始提供了AsyncContext用来支持异步处理请求
 
 Web容器一般来说处理请求的方式是：为每个request分配一个thread。我们都知道thread的创建不是没有代价的，Web容器的thread pool都是有上限的。
@@ -331,7 +367,7 @@ Servlet 3.0的异步处理是通过AsyncContext类来处理的，Servlet可通�
 4. 异步执行完毕时，调用 AsyncListener 的 onComplete(AsyncEvent event) 方法；
 >https://blog.csdn.net/kobejayandy/article/details/12209907
 
-# 7. 如何在基于Java的Web项目中实现文件上传和下载？
+# 7.如何在基于Java的Web项目中实现文件上传和下载？
 在Sevlet 3 以前，Servlet API中没有支持上传功能的API，因此要实现上传功能需要引入第三方工具从POST请求中获得上传的附件或者通过自行处理输入流来获得上传的文件，我们推荐使用Apache的commons-fileupload。
 
 从Servlet 3开始，文件上传变得简单许多。
@@ -379,10 +415,10 @@ request.getRequestDispatcher("index.jsp").forward(request, response);
  }
 ```
 
-# 8. 服务器收到用户提交的表单数据，到底是调用Servlet的doGet()还是doPost()方法？
+# 8.服务器收到用户提交的表单数据，到底是调用Servlet的doGet()还是doPost()方法？
 HTML的<form>元素有一个method属性，用来指定提交表单的方式，其值可以是get或post。我们自定义的Servlet一般情况下会重写doGet()或doPost()两个方法之一或全部，如果是GET请求就调用doGet()方法，如果是POST请求就调用doPost()方法，那为什么为什么这样呢？我们自定义的Servlet通常继承自HttpServlet，HttpServlet继承自GenericServlet并重写了其中的service()方法，这个方法是Servlet接口中定义的。HttpServlet重写的service()方法会先获取用户请求的方法，然后根据请求方法调用doGet()、doPost()、doPut()、doDelete()等方法，如果在自定义Servlet中重写了这些方法，那么显然会调用重写过的（自定义的）方法，这显然是对模板方法模式的应用（如果不理解，请参考阎宏博士的《Java与模式》一书的第37章）。当然，自定义Servlet中也可以直接重写service()方法，那么不管是哪种方式的请求，都可以通过自己的代码进行处理，这对于不区分请求方法的场景比较合适。
 
-# 9. Servlet中如何获取用户提交的查询参数或表单数据？
+# 9.Servlet中如何获取用户提交的查询参数或表单数据？
 可以通过请求对象(HttpServletRequest)的getParameter()方法通过参数名获得参数值。
 ```JAVA
 request.getParameter("username");
@@ -430,7 +466,7 @@ while(it.hasNext()){
 }
 ```
 
-# 10. Servlet中如何获取用户配置的初始化参数以及服务器上下文参数？
+# 10.Servlet中如何获取用户配置的初始化参数以及服务器上下文参数？
 以通过重写Servlet接口的init(ServletConfig)方法并通过ServletConfig对象的getInitParameter()方法来获取Servlet的初始化参数。
 
 可以通过ServletConfig对象的getServletContext()方法获取ServletContext对象，并通过该对象的getInitParameter()方法来获取服务器上下文参数。
@@ -454,7 +490,7 @@ getServletConfig该方法定义在Servlet接口中,返回ServletConfig接口的�
     getServletConfig().getServletContext().getInitParameter()
 2. 也可以在Servlet中直接调用getServletContext().getInitParameter()
 
-# 11. 缓存的优点？
+# 11.缓存的优点？
 优点：
 
 1. 减少了对数据库的读操作，数据库的压力降低 
@@ -467,7 +503,7 @@ getServletConfig该方法定义在Servlet接口中,返回ServletConfig接口的�
 3. 内存的成本高
 4. 内存容量相对硬盘小
 
-# 12. 说说MVC的各个部分都有那些技术来实现?如何实现?
+# 12.说说MVC的各个部分都有那些技术来实现?如何实现?
 MVC 是 Model－View－Controller 的简写
 
 "Model" 代表的是应用的业务逻辑（通过JavaBean，EJB 组件实现），
@@ -478,7 +514,7 @@ MVC 是 Model－View－Controller 的简写
 
 model层实现系统中的业务逻辑，view层用于与用户的交互，controller层是model与view之间沟通的桥梁，可以分派用户的请求并选择恰当的视图以用于显示，同时它也可以解释用户的输入并将它们映射为模型层可执行的操作。
 
-# 13. 什么是DAO模式？
+# 13.什么是DAO模式？
 DAO（Data Access Object）顾名思义是一个为数据库或其他持久化机制提供了抽象接口的对象，在不暴露底层持久化方案实现细节的前提下提供了各种数据访问操作。在实际的开发中，应该将所有对数据源的访问操作进行抽象化后封装在一个公共API中。用程序设计语言来说，就是建立一个接口，接口中定义了此应用程序中将会用到的所有事务方法。在这个应用程序中，当需要和数据源进行交互的时候则使用这个接口，并且编写一个单独的类来实现这个接口，在逻辑上该类对应一个特定的数据存储。
 
 DAO模式实际上是两个某时的组合，Data Accessor模式和Active Domain Object模式。
@@ -498,12 +534,12 @@ Active Domain Object模式：实现业务数据的对象化封装。
 4. 数据抽象：通过对底层数据的封装，开发人员可以使用面向对象思想对数据进行操作。比如通过调用方法获取数据比通过SQL语句访问数据库获取数据，在代码上更易于理解，清晰，对日后维护带来便利。
 >https://www.cnblogs.com/cst11021/p/4774954.html
 
-# 14. 你的项目中使用过哪些JSTL标签？
+# 14.你的项目中使用过哪些JSTL标签？
 项目中主要使用了JSTL的核心标签库，包括<c:if\>、<c:choose\>、<c: when\>、<c: otherwise\>、<c:forEach\>等，主要用于构造循环和分支结构以控制显示逻辑。
 
 虽然JSTL标签库提供了core、sql、fmt、xml等标签库，但是实际开发中建议只使用核心标签库（core），而且最好只使用分支和循环标签并辅以表达式语言（EL），这样才能真正做到数据显示和业务逻辑的分离，这才是最佳实践。
 
-# 15. 请问Java Web开发的Model 1和Model 2分别指的是什么？
+# 15.请问Java Web开发的Model 1和Model 2分别指的是什么？
 Model 1是以页面为中心的Java Web开发，使用JSP+JavaBean技术将页面显示逻辑和业务逻辑处理分开，JSP实现页面显示，JavaBean对象用来保存数据和实现业务逻辑。
 
 Model 2是基于MVC（模型-视图-控制器，Model-View-Controller）架构模式的开发模型，实现了模型和视图的彻底分离，利于团队开发和代码复用，
@@ -516,7 +552,7 @@ model2模式优点：将视图和业务分离，结构清晰，分工明确，�
 
 model2模式缺点：执行效率相对model1低，代码量大，重复代码比较多
 
-# 16. 使用标签库有什么好处？如何自定义JSP标签？（JSP标签）
+# 16.使用标签库有什么好处？如何自定义JSP标签？（JSP标签）
 使用标签库的好处包括以下几个方面： 
 
 - 分离JSP页面的内容和逻辑，简化了Web开发； 
@@ -640,14 +676,14 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 提示：如果要将自定义的标签库发布成JAR文件，需要将标签库描述文件（tld文件）放在JAR文件的META-INF目录下。
 
-# 16. get和post区别？
+# 17.get和post区别？
 1. get请求用来从服务器上获得资源，而post是用来向服务器提交数据；
 2. get将表单中数据按照name=value的形式，添加到action 所指向的URL 后面，并且两者使用"?"连接，而各个变量之间使用"&"连接；post是将表单中的数据放在HTTP协议的请求头或消息体中，传递到action所指向URL；
 3. get传输的数据要受到URL长度限制（1024字节）；而post可以传输大量的数据，上传文件通常要使用post方式；
 4. 使用get时参数会显示在地址栏上，如果这些数据不是敏感数据，那么可以使用get；对于敏感数据还是应用使用post；
 5. get使用MIME类型application/x-www-form-urlencoded的URL编码（也叫百分号编码）文本的格式传递参数，保证被传送的参数由遵循规范的文本组成，例如一个空格的编码是"%20"。
 
-# 17. 请谈谈转发和重定向的区别
+# 18.请谈谈转发和重定向的区别
 __转发过程：__客户浏览器发送http请求----》web服务器接受此请求--》调用内部的一个方法在容器内部完成请求处理和转发动作----》将目标资源发送给客户；在这里，转发的路径必须是同一个web容器下的url，其不能转向到其他的web路径上去，中间传递的是自己的容器内的request。在客户浏览器路径栏显示的仍然是其第一次访问的路径，也就是说客户是感觉不到服务器做了转发的。转发行为是浏览器只做了一次访问请求。
 
 __重定向过程：__客户浏览器发送http请求----》web服务器接受后发送302状态码响应及对应新的location给客户浏览器--》客户浏览器发现是302响应，则自动再发送一个新的http请求，请求url是新的location地址----》服务器根据此请求寻找资源并发送给客户。在这里location可以重定向到任意URL，既然是浏览器重新发出了请求，则就没有什么request传递的概念了。在客户浏览器路径栏显示的是其重定向的路径，客户可以观察到地址的变化的。重定向行为是浏览器做了至少两次的访问请求的。
@@ -666,7 +702,7 @@ __重定向过程：__客户浏览器发送http请求----》web服务器接受�
 4. RequestDispatcher.forward方法的调用者与被调用者之间共享相同的request对象和response对象，它们属于同一个访问请求和响应过程；而HttpServletResponse.sendRedirect方法调用者与被调用者使用各自的request对象和response对象，它们属于两个独立的访问请求和响应过程。对于同一个WEB应用程序的内部资源之间的跳转，特别是跳转之前要对请求进行一些前期预处理，并要使用HttpServletRequest.setAttribute方法传递预处理结果，那就应该使用RequestDispatcher.forward方法。不同WEB应用程序之间的重定向，特别是要重定向到另外一个WEB站点上的资源的情况，都应该使用HttpServletResponse.sendRedirect方法。
 5. 无论是RequestDispatcher.forward方法，还是HttpServletResponse.sendRedirect方法，在调用它们之前，都不能有内容已经被实际输出到了客户端。如果缓冲区中已经有了一些内容，这些内容将被从缓冲区中
 
-# 18. BS与CS的联系与区别。
+# 19.BS与CS的联系与区别。
 C/S是Client/Server的缩写。服务器通常采用高性能的PC、工作站或小型机，并采用大型数据库系统，如Oracle、Sybase、Informix或 SQL Server。客户端需要安装专用的客户端软件。
 B/Ｓ是Brower/Server的缩写，客户机上只要安装一个浏览器（Browser），如Netscape Navigator或Internet Explorer，服务器安装Oracle、Sybase、Informix或 SQL Server等数据库。在这种结构下，用户界面完全通过WWW浏览器实现，一部分事务逻辑在前端实现，但是主要事务逻辑在服务器端实现。浏览器通过Ｗeb Server 同数据库进行数据交互。
 C/S 与 B/S 区别：
@@ -696,19 +732,19 @@ B/S 建立在浏览器上, 有更加丰富和生动的表现方式与用户交�
 C/S 程序一般是典型的中央集权的机械式处理, 交互性相对低
 B/S 信息流向可变化, B-B B-C B-G等信息、流向的变化, 更像交易中心。
 
-# 19. 如何设置请求的编码以及响应内容的类型？
+# 20.如何设置请求的编码以及响应内容的类型？
 通过请求对象（ServletRequest）的setCharacterEncoding(String)方法可以设置请求的编码，其实要彻底解决乱码问题就应该让页面、服务器、请求和响应、Java程序都使用统一的编码，最好的选择当然是UTF-8；通过响应对象（ServletResponse）的setContentType(String)方法可以设置响应内容的类型，当然也可以通过HttpServletResponsed对象的setHeader(String, String)方法来设置。
 ```XML
 response.setContentType("text/html;charset=UTF-8");
 request.setCharacterEncoding("UTF-8"); 
 ```
 
-# 20. 什么是Web Service（Web服务）？
+# 21.什么是Web Service（Web服务）？
 从表面上看，Web Service就是一个应用程序，它向外界暴露出一个能够通过Web进行调用的API。这就是说，你能够用编程的方法透明的调用这个应用程序，不需要了解它的任何细节，跟你使用的编程语言也没有关系。例如可以创建一个提供天气预报的Web Service，那么无论你用哪种编程语言开发的应用都可以通过调用它的API并传入城市信息来获得该城市的天气预报。之所以称之为Web Service，是因为它基于HTTP协议传输数据，这使得运行在不同机器上的不同应用无须借助附加的、专门的第三方软件或硬件，就可相互交换数据或集成。
 
 SOA（Service-Oriented Architecture，面向服务的架构），SOA是一种思想，它将应用程序的不同功能单元通过中立的契约联系起来，独立于硬件平台、操作系统和编程语言，使得各种形式的功能单元能够更好的集成。显然，Web Service是SOA的一种较好的解决方案，它更多的是一种标准，而不是一种具体的技术。
 
-# 21.谈谈Session的save()、update()、merge()、lock()、saveOrUpdate()和persist()方法分别是做什么的？有什么区别
+# 22.谈谈Session的save()、update()、merge()、lock()、saveOrUpdate()和persist()方法分别是做什么的？有什么区别
 1. save(): insert 。调用save方法之后，瞬时态对象可以变成持久态；
 2. update():update。将游离态对象变为持久态
 3. saveOrUpdate():insert or update
@@ -722,7 +758,7 @@ SOA（Service-Oriented Architecture，面向服务的架构），SOA是一种思
 - persist()方法保证当它在一个事务外部被调用的时候并不触发一个INSERT语句，当需要封装一个长会话流程的时候，persist()方法是很有必要的；
 - save()方法不保证第②条，它要返回标识符，所以它会立即执行INSERT语句，不管是在事务内部还是外部。
 
-# 22. 大型网站在架构上应当考虑哪些问题？
+# 23.大型网站在架构上应当考虑哪些问题？
 - 分层：分层是处理任何复杂系统最常见的手段之一，将系统横向切分成若干个层面，每个层面只承担单一的职责，然后通过下层为上层提供的基础设施和服务以及上层对下层的调用来形成一个完整的复杂的系统。计算机网络的开放系统互联参考模型（OSI/RM）和Internet的TCP/IP模型都是分层结构，大型网站的软件系统也可以使用分层的理念将其分为持久层（提供数据存储和访问服务）、业务层（处理业务逻辑，系统中最核心的部分）和表示层（系统交互、视图展示）。需要指出的是：（1）分层是逻辑上的划分，在物理上可以位于同一设备上也可以在不同的设备上部署不同的功能模块，这样可以使用更多的计算资源来应对用户的并发访问；（2）层与层之间应当有清晰的边界，这样分层才有意义，才更利于软件的开发和维护。
 - 分割：分割是对软件的纵向切分。我们可以将大型网站的不同功能和服务分割开，形成高内聚低耦合的功能模块（单元）。在设计初期可以做一个粗粒度的分割，将网站分割为若干个功能模块，后期还可以进一步对每个模块进行细粒度的分割，这样一方面有助于软件的开发和维护，另一方面有助于分布式的部署，提供网站的并发处理能力和功能的扩展。
 - 分布式：除了上面提到的内容，网站的静态资源（JavaScript、CSS、图片等）也可以采用独立分布式部署并采用独立的域名，这样可以减轻应用服务器的负载压力，也使得浏览器对资源的加载更快。数据的存取也应该是分布式的，传统的商业级关系型数据库产品基本上都支持分布式部署，而新生的NoSQL产品几乎都是分布式的。当然，网站后台的业务处理也要使用分布式技术，例如查询索引的构建、数据分析等，这些业务计算规模庞大，可以使用Hadoop以及MapReduce分布式计算框架来处理。
