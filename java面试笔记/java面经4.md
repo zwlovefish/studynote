@@ -1,32 +1,32 @@
 
 <!-- MarkdownTOC -->
 
-- 1.为什么集合类没有实现Cloneable和Serializable接口
-- 2.什么是迭代器
-- 3.Iterator和ListIterator的区别是什么
-- 4.快速失败\(fail-fast\)和安全失败\(fail-safe\)的区别是什么
-- 5.ArrayList和LinkedList有什么区别?
-- 6.ArrayList,Vector,LinkedList的存储性能和特性是什么
-- 7.Collection 和 Collections的区别
-- 8.List、Set、Map是否继承自Collection接口？
-- 9.List、Map、Set三个接口存取元素时，各有什么特点？
-- 10.多线程中的i++线程安全吗？为什么？
-- 11.如何线程安全的实现一个计数器
-- 12.多线程同步的方法
-- 13.介绍一下生产者消费者模式？
-- 14.线程，进程，然后线程创建有很大开销，怎么优化？
-- 15.线程池运行流程，参数，策略
-- 16.讲一下AQS吧
-    - acquire\(int\)
-    - release\(int\)
-    - acquireShared\(int\)
-    - releaseShared\(\)
-- 17.创建线程的方法，哪个更好，为什么
-- 18.Java中有几种线程池
-- 19.线程池有什么好处？
-- 20.cyclicbarrier和countdownlatch的区别
-- 21.如何理解Java多线程回调方法
-- 22.概括的解释下线程的几种可用状态
+- [1.为什么集合类没有实现Cloneable和Serializable接口](#1为什么集合类没有实现cloneable和serializable接口)
+- [2.什么是迭代器](#2什么是迭代器)
+- [3.Iterator和ListIterator的区别是什么](#3iterator和listiterator的区别是什么)
+- [4.快速失败\(fail-fast\)和安全失败\(fail-safe\)的区别是什么](#4快速失败fail-fast和安全失败fail-safe的区别是什么)
+- [5.ArrayList和LinkedList有什么区别?](#5arraylist和linkedlist有什么区别)
+- [6.ArrayList,Vector,LinkedList的存储性能和特性是什么](#6arraylistvectorlinkedlist的存储性能和特性是什么)
+- [7.Collection 和 Collections的区别](#7collection-和-collections的区别)
+- [8.List、Set、Map是否继承自Collection接口？](#8list、set、map是否继承自collection接口？)
+- [9.List、Map、Set三个接口存取元素时，各有什么特点？](#9list、map、set三个接口存取元素时，各有什么特点？)
+- [10.多线程中的i++线程安全吗？为什么？](#10多线程中的i线程安全吗？为什么？)
+- [11.如何线程安全的实现一个计数器](#11如何线程安全的实现一个计数器)
+- [12.多线程同步的方法](#12多线程同步的方法)
+- [13.介绍一下生产者消费者模式？](#13介绍一下生产者消费者模式？)
+- [14.线程，进程，然后线程创建有很大开销，怎么优化？](#14线程，进程，然后线程创建有很大开销，怎么优化？)
+- [15.线程池运行流程，参数，策略](#15线程池运行流程，参数，策略)
+- [16.讲一下AQS吧](#16讲一下aqs吧)
+    - [acquire\(int\)](#acquireint)
+    - [release\(int\)](#releaseint)
+    - [acquireShared\(int\)](#acquiresharedint)
+    - [releaseShared\(\)](#releaseshared)
+- [17.创建线程的方法，哪个更好，为什么](#17创建线程的方法，哪个更好，为什么)
+- [18.Java中有几种线程池](#18java中有几种线程池)
+- [19.线程池有什么好处？](#19线程池有什么好处？)
+- [20.cyclicbarrier和countdownlatch的区别](#20cyclicbarrier和countdownlatch的区别)
+- [21.如何理解Java多线程回调方法](#21如何理解java多线程回调方法)
+- [22.概括的解释下线程的几种可用状态](#22概括的解释下线程的几种可用状态)
 
 <!-- /MarkdownTOC -->
 

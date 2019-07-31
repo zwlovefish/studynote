@@ -1,95 +1,95 @@
 <!-- MarkdownTOC -->
 
-- 1.谈一谈Hibernate的一级缓存、二级缓存和查询缓存
-    - 什么是缓存呢？
-    - 缓存在软件系统中的位置
-    - hibernate的缓存一般分为几种？
-    - 一级缓存
-    - 二级缓存
-    - 查询缓存
-    - 结论
-    - 其他补充：
-- 2.说说STRUTS的应用
-    - struts1与struts2都是mvc框架的经典实现模式。
-    - Struts2的核心是什么,体现了什么思想
-    - 为何继承ActionSupport
-    - Struts2 如何定位action中的方法
-    - 模型驱动和属性驱动的区别是什么
-    - Struts2是怎样进行值封装的？
-    - Struts2如何进行校验
-    - 谈谈Struts2 的国际化
-    - OGNL是什么你在项目中如何使用它
-    - Strust2如何访问Servlet API
-    - 什么是拦截器 说说Struts2用拦截器来干什么 说出6个拦截器来
-    - 如何实现自定义拦截器？
-    - ActionContext是用来干什么的
-    - Struts2是如何实现mvc的：struts2的底层视图默认是freemaker。
-    - 为什么要继承默认的包？
-    - 常见的有那些有十几种结果集类型
-    - 开发项目时struts2在页面怎样拿值
-    - 怎么样用Struts2进行文件的上传或者下载
-    - 简单讲下struts里面的标签,说不少于5个
-    - 默认struts2里面的标签取值都是从那里取值的
-    - ValueStack分为那两部分,组成部分是什么,分别怎么访问
-    - 标签和el表达式有什么区别
-    - struts2的请求处理流程
-- 3.解释一下MyBatis中命名空间（namespace）的作用
-- 4.MyBatis中的动态SQL是什么意思？
-    - if
-    - choose,when和otherwise
-    - where
-    - trim
-    - set
-    - foreach
-- 5.Spring MVC注解的优点
-- 6.springmvc和spring-boot区别？
-    - spring和springMvc：
-    - springMvc和springBoot：
-    - springBoot和springCloud：
-    - 总结：
-- 7.SpringMVC的运行机制，运行机制的每一部分的相关知识？
-    - SpringMVC流程
-    - 组件说明
-    - 核心架构的具体流程步骤如下：
-    - springmvc原理
-- 8.Mybatis和Hibernate区别？
-- 9.启动项目时如何实现不在链接里输入项目名就能启动?
-- 10.1分钟之内只能处理1000个请求，你怎么实现，手撕代码?
-- 11.什么时候用assert
-- 12.JAVA应用服务器有那些
-- 13.JSP的内置对象及方法
-    - 何为作用域?
-    - 作用域规定的是变量的有效期限
-    - jsp动作及作用
-- 14.JSP和Servlet有哪些相同点和不同点，他们之间的联系是什么？（JSP）
-- 15.说一说四种会话跟踪技术
-    - 什么是会话
-    - 什么是会话跟踪
-    - 为什么需要会话跟踪
-    - 介绍
-    - 四种会话跟踪技术
-    - 四种会话跟踪技术的对比
-    - Session和Cookie区别：
-- 16.讲讲Request对象的主要方法
-- 17.说说weblogic中一个Domain的缺省目录结构?比如要将一个简单的helloWorld.jsp放入何目录下,然后在浏览器上就可打入主机？
-- 18.请谈谈JSP有哪些内置对象？作用分别是什么？
-- 19.说一下表达式语言（EL）的隐式对象及其作用
-- 20.JSP中的静态包含和动态包含有什么区别？
-- 21.过滤器有哪些作用和用法？
-    - 什么是过滤器
-    - 过滤器的作用
-    - 过滤器的工作方式
-    - 使用场合
-    - 使用步骤
-    - 常用配置项
-    - 过滤器链，有多个过滤器就会形成过滤器连
-- 22.请谈谈你对Javaweb开发中的监听器的理解？
-    - 概述
-    - Servlet监听器的分类
-    - 监听ServletContext域对象的创建和销毁
-    - 监听HttpSession域对象的创建和销毁
-    - 监听ServletRequest域对象的创建和销毁
-- 23.说说web.xml文件中可以配置哪些内容
+- [1.谈一谈Hibernate的一级缓存、二级缓存和查询缓存](#1谈一谈hibernate的一级缓存、二级缓存和查询缓存)
+    - [什么是缓存呢？](#什么是缓存呢？)
+    - [缓存在软件系统中的位置](#缓存在软件系统中的位置)
+    - [hibernate的缓存一般分为几种？](#hibernate的缓存一般分为几种？)
+    - [一级缓存](#一级缓存)
+    - [二级缓存](#二级缓存)
+    - [查询缓存](#查询缓存)
+    - [结论](#结论)
+    - [其他补充：](#其他补充：)
+- [2.说说STRUTS的应用](#2说说struts的应用)
+    - [struts1与struts2都是mvc框架的经典实现模式。](#struts1与struts2都是mvc框架的经典实现模式。)
+    - [Struts2的核心是什么,体现了什么思想](#struts2的核心是什么体现了什么思想)
+    - [为何继承ActionSupport](#为何继承actionsupport)
+    - [Struts2 如何定位action中的方法](#struts2-如何定位action中的方法)
+    - [模型驱动和属性驱动的区别是什么](#模型驱动和属性驱动的区别是什么)
+    - [Struts2是怎样进行值封装的？](#struts2是怎样进行值封装的？)
+    - [Struts2如何进行校验](#struts2如何进行校验)
+    - [谈谈Struts2 的国际化](#谈谈struts2-的国际化)
+    - [OGNL是什么你在项目中如何使用它](#ognl是什么你在项目中如何使用它)
+    - [Strust2如何访问Servlet API](#strust2如何访问servlet-api)
+    - [什么是拦截器 说说Struts2用拦截器来干什么 说出6个拦截器来](#什么是拦截器-说说struts2用拦截器来干什么-说出6个拦截器来)
+    - [如何实现自定义拦截器？](#如何实现自定义拦截器？)
+    - [ActionContext是用来干什么的](#actioncontext是用来干什么的)
+    - [Struts2是如何实现mvc的：struts2的底层视图默认是freemaker。](#struts2是如何实现mvc的：struts2的底层视图默认是freemaker。)
+    - [为什么要继承默认的包？](#为什么要继承默认的包？)
+    - [常见的有那些有十几种结果集类型](#常见的有那些有十几种结果集类型)
+    - [开发项目时struts2在页面怎样拿值](#开发项目时struts2在页面怎样拿值)
+    - [怎么样用Struts2进行文件的上传或者下载](#怎么样用struts2进行文件的上传或者下载)
+    - [简单讲下struts里面的标签,说不少于5个](#简单讲下struts里面的标签说不少于5个)
+    - [默认struts2里面的标签取值都是从那里取值的](#默认struts2里面的标签取值都是从那里取值的)
+    - [ValueStack分为那两部分,组成部分是什么,分别怎么访问](#valuestack分为那两部分组成部分是什么分别怎么访问)
+    - [标签和el表达式有什么区别](#标签和el表达式有什么区别)
+    - [struts2的请求处理流程](#struts2的请求处理流程)
+- [3.解释一下MyBatis中命名空间（namespace）的作用](#3解释一下mybatis中命名空间（namespace）的作用)
+- [4.MyBatis中的动态SQL是什么意思？](#4mybatis中的动态sql是什么意思？)
+    - [if](#if)
+    - [choose,when和otherwise](#choosewhen和otherwise)
+    - [where](#where)
+    - [trim](#trim)
+    - [set](#set)
+    - [foreach](#foreach)
+- [5.Spring MVC注解的优点](#5spring-mvc注解的优点)
+- [6.springmvc和spring-boot区别？](#6springmvc和spring-boot区别？)
+    - [spring和springMvc：](#spring和springmvc：)
+    - [springMvc和springBoot：](#springmvc和springboot：)
+    - [springBoot和springCloud：](#springboot和springcloud：)
+    - [总结：](#总结：)
+- [7.SpringMVC的运行机制，运行机制的每一部分的相关知识？](#7springmvc的运行机制，运行机制的每一部分的相关知识？)
+    - [SpringMVC流程](#springmvc流程)
+    - [组件说明](#组件说明)
+    - [核心架构的具体流程步骤如下：](#核心架构的具体流程步骤如下：)
+    - [springmvc原理](#springmvc原理)
+- [8.Mybatis和Hibernate区别？](#8mybatis和hibernate区别？)
+- [9.启动项目时如何实现不在链接里输入项目名就能启动?](#9启动项目时如何实现不在链接里输入项目名就能启动)
+- [10.1分钟之内只能处理1000个请求，你怎么实现，手撕代码?](#101分钟之内只能处理1000个请求，你怎么实现，手撕代码)
+- [11.什么时候用assert](#11什么时候用assert)
+- [12.JAVA应用服务器有那些](#12java应用服务器有那些)
+- [13.JSP的内置对象及方法](#13jsp的内置对象及方法)
+    - [何为作用域?](#何为作用域)
+    - [作用域规定的是变量的有效期限](#作用域规定的是变量的有效期限)
+    - [jsp动作及作用](#jsp动作及作用)
+- [14.JSP和Servlet有哪些相同点和不同点，他们之间的联系是什么？（JSP）](#14jsp和servlet有哪些相同点和不同点，他们之间的联系是什么？（jsp）)
+- [15.说一说四种会话跟踪技术](#15说一说四种会话跟踪技术)
+    - [什么是会话](#什么是会话)
+    - [什么是会话跟踪](#什么是会话跟踪)
+    - [为什么需要会话跟踪](#为什么需要会话跟踪)
+    - [介绍](#介绍)
+    - [四种会话跟踪技术](#四种会话跟踪技术)
+    - [四种会话跟踪技术的对比](#四种会话跟踪技术的对比)
+    - [Session和Cookie区别：](#session和cookie区别：)
+- [16.讲讲Request对象的主要方法](#16讲讲request对象的主要方法)
+- [17.说说weblogic中一个Domain的缺省目录结构?比如要将一个简单的helloWorld.jsp放入何目录下,然后在浏览器上就可打入主机？](#17说说weblogic中一个domain的缺省目录结构比如要将一个简单的helloworldjsp放入何目录下然后在浏览器上就可打入主机？)
+- [18.请谈谈JSP有哪些内置对象？作用分别是什么？](#18请谈谈jsp有哪些内置对象？作用分别是什么？)
+- [19.说一下表达式语言（EL）的隐式对象及其作用](#19说一下表达式语言（el）的隐式对象及其作用)
+- [20.JSP中的静态包含和动态包含有什么区别？](#20jsp中的静态包含和动态包含有什么区别？)
+- [21.过滤器有哪些作用和用法？](#21过滤器有哪些作用和用法？)
+    - [什么是过滤器](#什么是过滤器)
+    - [过滤器的作用](#过滤器的作用)
+    - [过滤器的工作方式](#过滤器的工作方式)
+    - [使用场合](#使用场合)
+    - [使用步骤](#使用步骤)
+    - [常用配置项](#常用配置项)
+    - [过滤器链，有多个过滤器就会形成过滤器连](#过滤器链，有多个过滤器就会形成过滤器连)
+- [22.请谈谈你对Javaweb开发中的监听器的理解？](#22请谈谈你对javaweb开发中的监听器的理解？)
+    - [概述](#概述)
+    - [Servlet监听器的分类](#servlet监听器的分类)
+    - [监听ServletContext域对象的创建和销毁](#监听servletcontext域对象的创建和销毁)
+    - [监听HttpSession域对象的创建和销毁](#监听httpsession域对象的创建和销毁)
+    - [监听ServletRequest域对象的创建和销毁](#监听servletrequest域对象的创建和销毁)
+- [23.说说web.xml文件中可以配置哪些内容](#23说说webxml文件中可以配置哪些内容)
 
 <!-- /MarkdownTOC -->
 

@@ -1,27 +1,27 @@
 <!-- MarkdownTOC -->
 
-- 1.面向对象的特征有哪些方面
-- 2.final, finally, finalize的区别
-- 3.Overload和Override的区别。Overloaded的方法是否可以改变返回值的类型?
-- 4.Static Nested Class 和 Inner Class的不同
-- 5.当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递?
-- 6.Java的接口和C++的虚类的相同和不同处。
-- 7.JAVA语言如何进行异常处理，关键字：throws,throw,try,catch,finally分别代表什么意义？在try块中可以抛出异常吗？
-- 8.内部类可以引用他包含类的成员吗？有没有什么限制？
-- 9.两个对象值相同\(x.equals(y\) == true)，但却可有不同的hash code说法是否正确？
-- 10.重载（Overload）和重写（Override）的区别。重载的方法能否根据返回类型进行区分？
-- 11.如何通过反射获取和设置对象私有字段的值？
-- 12.谈一下面向对象的"六原则一法则"。
-- 13.请问Query接口的list方法和iterate方法有什么区别？
-- 13.Java中，什么是构造函数？什么是构造函数重载？什么是复制构造函数？
-- 14.Map和ConcurrentHashMap的区别？
-- 15.如果hashMap的key是一个自定义的类，怎么办？
-- 16.ArrayList和LinkedList的区别，如果一直在list的尾部添加元素，用哪个效率高？
-- 17.ConcurrentHashMap锁加在了哪些地方？
-- 18.TreeMap底层，红黑树原理？
-- 19.concurrenthashmap有啥优势，1.7，1.8区别？
-- 20.ArrayList是否会越界？
-- 21.Java集合类框架的基本接口有哪些？
+- [1.面向对象的特征有哪些方面](#1面向对象的特征有哪些方面)
+- [2.final, finally, finalize的区别](#2final-finally-finalize的区别)
+- [3.Overload和Override的区别。Overloaded的方法是否可以改变返回值的类型?](#3overload和override的区别。overloaded的方法是否可以改变返回值的类型)
+- [4.Static Nested Class 和 Inner Class的不同](#4static-nested-class-和-inner-class的不同)
+- [5.当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递?](#5当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递)
+- [6.Java的接口和C++的虚类的相同和不同处。](#6java的接口和c的虚类的相同和不同处。)
+- [7.JAVA语言如何进行异常处理，关键字：throws,throw,try,catch,finally分别代表什么意义？在try块中可以抛出异常吗？](#7java语言如何进行异常处理，关键字：throwsthrowtrycatchfinally分别代表什么意义？在try块中可以抛出异常吗？)
+- [8.内部类可以引用他包含类的成员吗？有没有什么限制？](#8内部类可以引用他包含类的成员吗？有没有什么限制？)
+- [9.两个对象值相同\(x.equals(y\) == true)，但却可有不同的hash code说法是否正确？](#9两个对象值相同xequalsy--true，但却可有不同的hash-code说法是否正确？)
+- [10.重载（Overload）和重写（Override）的区别。重载的方法能否根据返回类型进行区分？](#10重载（overload）和重写（override）的区别。重载的方法能否根据返回类型进行区分？)
+- [11.如何通过反射获取和设置对象私有字段的值？](#11如何通过反射获取和设置对象私有字段的值？)
+- [12.谈一下面向对象的"六原则一法则"。](#12谈一下面向对象的六原则一法则。)
+- [13.请问Query接口的list方法和iterate方法有什么区别？](#13请问query接口的list方法和iterate方法有什么区别？)
+- [13.Java中，什么是构造函数？什么是构造函数重载？什么是复制构造函数？](#13java中，什么是构造函数？什么是构造函数重载？什么是复制构造函数？)
+- [14.Map和ConcurrentHashMap的区别？](#14map和concurrenthashmap的区别？)
+- [15.如果hashMap的key是一个自定义的类，怎么办？](#15如果hashmap的key是一个自定义的类，怎么办？)
+- [16.ArrayList和LinkedList的区别，如果一直在list的尾部添加元素，用哪个效率高？](#16arraylist和linkedlist的区别，如果一直在list的尾部添加元素，用哪个效率高？)
+- [17.ConcurrentHashMap锁加在了哪些地方？](#17concurrenthashmap锁加在了哪些地方？)
+- [18.TreeMap底层，红黑树原理？](#18treemap底层，红黑树原理？)
+- [19.concurrenthashmap有啥优势，1.7，1.8区别？](#19concurrenthashmap有啥优势，17，18区别？)
+- [20.ArrayList是否会越界？](#20arraylist是否会越界？)
+- [21.Java集合类框架的基本接口有哪些？](#21java集合类框架的基本接口有哪些？)
 
 <!-- /MarkdownTOC -->
 

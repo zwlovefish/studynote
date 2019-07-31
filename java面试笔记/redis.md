@@ -1,29 +1,29 @@
 <!-- MarkdownTOC -->
 
-- NoSql
-    - NoSQL数据库的分类
-    - NoSQL的特点
-- redis概述
-  - redis应用场景
-  - jedis在java中的使用
-  - redis持久化
-    - RDB方式
-    - AOF方式
-  - redis分布式锁
-    - Redlock实现
-    - Redlock源码
-  - Redis数据结构底层实现吗？
-    - 字符串处理\(string\)
-    - 链表
-    - 字典\(Hash\)
-    - 跳跃表
-    - 整数集合\(intset\)
-    - 压缩列表\(ziplist\)
-    - 快速列表\(quicklist\)
-  - redis加锁示例
-    - 某公司加锁示例
-    - 某公司释放锁示例
-  - 怎么实现的高可用？
+- [NoSql](#nosql)
+    - [NoSQL数据库的分类](#nosql数据库的分类)
+    - [NoSQL的特点](#nosql的特点)
+- [redis概述](#redis概述)
+  - [redis应用场景](#redis应用场景)
+  - [jedis在java中的使用](#jedis在java中的使用)
+  - [redis持久化](#redis持久化)
+    - [RDB方式](#rdb方式)
+    - [AOF方式](#aof方式)
+  - [redis分布式锁](#redis分布式锁)
+    - [Redlock实现](#redlock实现)
+    - [Redlock源码](#redlock源码)
+  - [Redis数据结构底层实现吗](#redis数据结构底层实现吗)
+    - [字符串处理\(string\)](#字符串处理string)
+    - [链表](#链表)
+    - [字典\(Hash\)](#字典hash)
+    - [跳跃表](#跳跃表)
+    - [整数集合\(intset\)](#整数集合intset)
+    - [压缩列表\(ziplist\)](#压缩列表ziplist)
+    - [快速列表\(quicklist\)](#快速列表quicklist)
+  - [redis加锁示例](#redis加锁示例)
+    - [某公司加锁示例](#某公司加锁示例)
+    - [某公司释放锁示例](#某公司释放锁示例)
+  - [怎么实现的高可用？](#怎么实现的高可用？)
 
 <!-- /MarkdownTOC -->
 
@@ -262,7 +262,7 @@ protected RFuture<Boolean> unlockInnerAsync(long threadId) {
 }
 ```
 
-## Redis数据结构底层实现吗？
+## Redis数据结构底层实现吗
 ### 字符串处理(string)
 我们都知道redis是用C语言写，但是C语言处理字符串和数组的成本是很高的，下面我分别说几个例子
 

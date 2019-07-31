@@ -1,43 +1,43 @@
 <!-- MarkdownTOC -->
 
-- 1.说一下IOC和AOP?
-    - spring 的优点
-    - 什么是DI机制
-    - 什么是AOP
-    - aop框架具有的两个特征
-- 2.介绍一下bean的生命周期
-- 3.Spring里面注解用过没有？autowired 和resource区别？
-    - @Resource装配顺序
-    - @Autowired 与@Resource的区别：
-- 4.@Controller和@RestController的区别？
-    - 使用@Controller 注解
-    - @RestController注解
-- 5.依赖注入的方式有几种，哪几种？
-- 6.springIOC原理？自己实现IOC要怎么做，哪些步骤？
-    - IOC容器介绍
-    - ApplicationContext
-    - IOC容器工作机制
-        - 容器启动过程
-        - Bean加载过程
-    - 下面是一个例子模拟了Spring的DI和IOC
-- 7.Spring中BeanFactory和ApplicationContext的区别
-    - 我们该用BeanFactory还是ApplicationContent
-- 8.问Spring中Bean的作用域有哪些
-- 9.谈谈Spring中自动装配的方式有哪些
-- 10.aop的应用场景？
-- 11.AOP的原理是什么?
-- 12.你如何理解AOP中的连接点（Joinpoint）、切点（Pointcut）、增强（Advice）、引介（Introduction）、织入（Weaving）、切面（Aspect）这些概念?
-- 13.Spring支持的事务管理类型有哪些？
-- 14.介绍一下spring
-- 15.Struts拦截器和Spring AOP区别
-- 16.持久层设计要考虑的问题有哪些?
-- 17.阐述实体对象的三种状态以及转换关系
-- 18.Hibernate中SessionFactory是线程安全的吗？Session是线程安全的吗（两个线程能够共享同一个Session吗）？
-- 19.Hibernate中Session的load和get方法的区别是什么？
-- 20.如何理解Hibernate的延迟加载机制？在实际应用中，延迟加载与Session关闭的矛盾是如何处理的？
-- 21.简述Hibernate常见优化策略
-- 22.锁机制有什么用？简述Hibernate的悲观锁和乐观锁机制。
-- 23.Hibernate如何实现分页查询？
+- [1.说一下IOC和AOP?](#1说一下ioc和aop)
+    - [spring 的优点](#spring-的优点)
+    - [什么是DI机制](#什么是di机制)
+    - [什么是AOP](#什么是aop)
+    - [aop框架具有的两个特征](#aop框架具有的两个特征)
+- [2.介绍一下bean的生命周期](#2介绍一下bean的生命周期)
+- [3.Spring里面注解用过没有？autowired 和resource区别？](#3spring里面注解用过没有？autowired-和resource区别？)
+    - [@Resource装配顺序](#resource装配顺序)
+    - [@Autowired 与@Resource的区别：](#autowired-与resource的区别：)
+- [4.@Controller和@RestController的区别？](#4controller和restcontroller的区别？)
+    - [使用@Controller 注解](#使用controller-注解)
+    - [@RestController注解](#restcontroller注解)
+- [5.依赖注入的方式有几种，哪几种？](#5依赖注入的方式有几种，哪几种？)
+- [6.springIOC原理？自己实现IOC要怎么做，哪些步骤？](#6springioc原理？自己实现ioc要怎么做，哪些步骤？)
+    - [IOC容器介绍](#ioc容器介绍)
+    - [ApplicationContext](#applicationcontext)
+    - [IOC容器工作机制](#ioc容器工作机制)
+        - [容器启动过程](#容器启动过程)
+        - [Bean加载过程](#bean加载过程)
+    - [下面是一个例子模拟了Spring的DI和IOC](#下面是一个例子模拟了spring的di和ioc)
+- [7.Spring中BeanFactory和ApplicationContext的区别](#7spring中beanfactory和applicationcontext的区别)
+    - [我们该用BeanFactory还是ApplicationContent](#我们该用beanfactory还是applicationcontent)
+- [8.问Spring中Bean的作用域有哪些](#8问spring中bean的作用域有哪些)
+- [9.谈谈Spring中自动装配的方式有哪些](#9谈谈spring中自动装配的方式有哪些)
+- [10.aop的应用场景？](#10aop的应用场景？)
+- [11.AOP的原理是什么?](#11aop的原理是什么)
+- [12.你如何理解AOP中的连接点（Joinpoint）、切点（Pointcut）、增强（Advice）、引介（Introduction）、织入（Weaving）、切面（Aspect）这些概念?](#12你如何理解aop中的连接点（joinpoint）、切点（pointcut）、增强（advice）、引介（introduction）、织入（weaving）、切面（aspect）这些概念)
+- [13.Spring支持的事务管理类型有哪些？](#13spring支持的事务管理类型有哪些？)
+- [14.介绍一下spring](#14介绍一下spring)
+- [15.Struts拦截器和Spring AOP区别](#15struts拦截器和spring-aop区别)
+- [16.持久层设计要考虑的问题有哪些?](#16持久层设计要考虑的问题有哪些)
+- [17.阐述实体对象的三种状态以及转换关系](#17阐述实体对象的三种状态以及转换关系)
+- [18.Hibernate中SessionFactory是线程安全的吗？Session是线程安全的吗（两个线程能够共享同一个Session吗）？](#18hibernate中sessionfactory是线程安全的吗？session是线程安全的吗（两个线程能够共享同一个session吗）？)
+- [19.Hibernate中Session的load和get方法的区别是什么？](#19hibernate中session的load和get方法的区别是什么？)
+- [20.如何理解Hibernate的延迟加载机制？在实际应用中，延迟加载与Session关闭的矛盾是如何处理的？](#20如何理解hibernate的延迟加载机制？在实际应用中，延迟加载与session关闭的矛盾是如何处理的？)
+- [21.简述Hibernate常见优化策略](#21简述hibernate常见优化策略)
+- [22.锁机制有什么用？简述Hibernate的悲观锁和乐观锁机制。](#22锁机制有什么用？简述hibernate的悲观锁和乐观锁机制。)
+- [23.Hibernate如何实现分页查询？](#23hibernate如何实现分页查询？)
 
 <!-- /MarkdownTOC -->
 
