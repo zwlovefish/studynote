@@ -31,7 +31,7 @@
     - [简单讲下struts里面的标签,说不少于5个](#简单讲下struts里面的标签说不少于5个)
     - [默认struts2里面的标签取值都是从那里取值的](#默认struts2里面的标签取值都是从那里取值的)
     - [ValueStack分为那两部分,组成部分是什么,分别怎么访问](#valuestack分为那两部分组成部分是什么分别怎么访问)
-    - [标签和el表达式有什么区别](#标签和el表达式有什么区别)
+    - [标签s:property和el表达式有什么区别](#标签sproperty和el表达式有什么区别)
     - [struts2的请求处理流程](#struts2的请求处理流程)
 - [3.解释一下MyBatis中命名空间\(namespace\)的作用](#3解释一下mybatis中命名空间namespace的作用)
 - [4.MyBatis中的动态SQL是什么意思](#4mybatis中的动态sql是什么意思)
@@ -359,7 +359,7 @@ s:iterater ?s:property s:form s:url s:if 等等
 ## ValueStack分为那两部分,组成部分是什么,分别怎么访问
 分为对象栈和ContextMap ,对象栈里面放入的是Action及其用户定义的对象,在前台可以直接访问,在contextMap里面放入的是Servlet对象转    化后map,譬如requestMap,sessionMap,访问的时候前面加#即可.
 
-## 标签<s:property\>和el表达式有什么区别
+## 标签s:property和el表达式有什么区别
 它们都可以从值栈里面取值,但是el表达式只能取属性有get set方法的简单数据类型,如果要取得数组的一些方法等复杂数据对象类型,那么就要用s:property标签
 
 ## struts2的请求处理流程
