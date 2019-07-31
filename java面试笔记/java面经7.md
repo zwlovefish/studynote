@@ -1,19 +1,19 @@
 <!-- MarkdownTOC -->
 
-- [1.说一下IOC和AOP?](#1说一下ioc和aop)
+- [1.说一下IOC和AOP](#1说一下ioc和aop)
     - [spring 的优点](#spring-的优点)
     - [什么是DI机制](#什么是di机制)
     - [什么是AOP](#什么是aop)
     - [aop框架具有的两个特征](#aop框架具有的两个特征)
 - [2.介绍一下bean的生命周期](#2介绍一下bean的生命周期)
-- [3.Spring里面注解用过没有？autowired 和resource区别？](#3spring里面注解用过没有？autowired-和resource区别？)
+- [3.Spring里面注解用过没有,autowired和resource区别](#3spring里面注解用过没有autowired和resource区别)
     - [@Resource装配顺序](#resource装配顺序)
-    - [@Autowired 与@Resource的区别：](#autowired-与resource的区别：)
-- [4.@Controller和@RestController的区别？](#4controller和restcontroller的区别？)
-    - [使用@Controller 注解](#使用controller-注解)
+    - [@Autowired与@Resource的区别](#autowired与resource的区别)
+- [4.@Controller和@RestController的区别](#4controller和restcontroller的区别)
+    - [使用@Controller注解](#使用controller注解)
     - [@RestController注解](#restcontroller注解)
-- [5.依赖注入的方式有几种，哪几种？](#5依赖注入的方式有几种，哪几种？)
-- [6.springIOC原理？自己实现IOC要怎么做，哪些步骤？](#6springioc原理？自己实现ioc要怎么做，哪些步骤？)
+- [5.依赖注入的方式有几种,哪几种](#5依赖注入的方式有几种哪几种)
+- [6.springIOC原理,自己实现IOC要怎么做哪些步骤](#6springioc原理自己实现ioc要怎么做哪些步骤)
     - [IOC容器介绍](#ioc容器介绍)
     - [ApplicationContext](#applicationcontext)
     - [IOC容器工作机制](#ioc容器工作机制)
@@ -24,24 +24,24 @@
     - [我们该用BeanFactory还是ApplicationContent](#我们该用beanfactory还是applicationcontent)
 - [8.问Spring中Bean的作用域有哪些](#8问spring中bean的作用域有哪些)
 - [9.谈谈Spring中自动装配的方式有哪些](#9谈谈spring中自动装配的方式有哪些)
-- [10.aop的应用场景？](#10aop的应用场景？)
-- [11.AOP的原理是什么?](#11aop的原理是什么)
-- [12.你如何理解AOP中的连接点（Joinpoint）、切点（Pointcut）、增强（Advice）、引介（Introduction）、织入（Weaving）、切面（Aspect）这些概念?](#12你如何理解aop中的连接点（joinpoint）、切点（pointcut）、增强（advice）、引介（introduction）、织入（weaving）、切面（aspect）这些概念)
-- [13.Spring支持的事务管理类型有哪些？](#13spring支持的事务管理类型有哪些？)
+- [10.aop的应用场景](#10aop的应用场景)
+- [11.AOP的原理是什么](#11aop的原理是什么)
+- [12.你如何理解AOP中的连接点\(Joinpoint\),切点\(Pointcut\),增强\(Advice\),引介\(Introduction\),织入\(Weaving\),切面\(Aspect\)这些概念](#12你如何理解aop中的连接点joinpoint切点pointcut增强advice引介introduction织入weaving切面aspect这些概念)
+- [13.Spring支持的事务管理类型有哪些](#13spring支持的事务管理类型有哪些)
 - [14.介绍一下spring](#14介绍一下spring)
 - [15.Struts拦截器和Spring AOP区别](#15struts拦截器和spring-aop区别)
-- [16.持久层设计要考虑的问题有哪些?](#16持久层设计要考虑的问题有哪些)
+- [16.持久层设计要考虑的问题有哪些](#16持久层设计要考虑的问题有哪些)
 - [17.阐述实体对象的三种状态以及转换关系](#17阐述实体对象的三种状态以及转换关系)
-- [18.Hibernate中SessionFactory是线程安全的吗？Session是线程安全的吗（两个线程能够共享同一个Session吗）？](#18hibernate中sessionfactory是线程安全的吗？session是线程安全的吗（两个线程能够共享同一个session吗）？)
-- [19.Hibernate中Session的load和get方法的区别是什么？](#19hibernate中session的load和get方法的区别是什么？)
-- [20.如何理解Hibernate的延迟加载机制？在实际应用中，延迟加载与Session关闭的矛盾是如何处理的？](#20如何理解hibernate的延迟加载机制？在实际应用中，延迟加载与session关闭的矛盾是如何处理的？)
+- [18.Hibernate中SessionFactory是线程安全的吗,Session是线程安全的吗\(两个线程能够共享同一个Session吗\)](#18hibernate中sessionfactory是线程安全的吗session是线程安全的吗两个线程能够共享同一个session吗)
+- [19.Hibernate中Session的load和get方法的区别是什么](#19hibernate中session的load和get方法的区别是什么)
+- [20.如何理解Hibernate的延迟加载机制,在实际应用中,延迟加载与Session关闭的矛盾是如何处理的](#20如何理解hibernate的延迟加载机制在实际应用中延迟加载与session关闭的矛盾是如何处理的)
 - [21.简述Hibernate常见优化策略](#21简述hibernate常见优化策略)
-- [22.锁机制有什么用？简述Hibernate的悲观锁和乐观锁机制。](#22锁机制有什么用？简述hibernate的悲观锁和乐观锁机制。)
-- [23.Hibernate如何实现分页查询？](#23hibernate如何实现分页查询？)
+- [22.锁机制有什么用,简述Hibernate的悲观锁和乐观锁机制](#22锁机制有什么用简述hibernate的悲观锁和乐观锁机制)
+- [23.Hibernate如何实现分页查询](#23hibernate如何实现分页查询)
 
 <!-- /MarkdownTOC -->
 
-# 1.说一下IOC和AOP?
+# 1.说一下IOC和AOP
 ## spring 的优点
 1. 降低了组件之间的耦合性 ，实现了软件各层之间的解耦 
 2. 可以使用容易提供的众多服务，如事务管理，消息服务等
@@ -115,7 +115,7 @@ Spring上下文中的Bean的生命周期，如下：
 10. 最后，如果这个Bean的Spring配置中配置了destroy-method属性，会自动调用其配置的销毁方法。
 >http://www.cnblogs.com/kenshinobiy/p/4652008.html
 
-# 3.Spring里面注解用过没有？autowired 和resource区别？
+# 3.Spring里面注解用过没有,autowired和resource区别
 @Resource的作用相当于@Autowired，只不过@Autowired按byType自动注入，而@Resource默认按 byName自动注入罢了。@Resource有两个属性是比较重要的，分是name和type，Spring将@Resource注解的name属性解析为bean的名字，而type属性则解析为bean的类型。所以如果使用name属性，则使用byName的自动注入策略，而使用type属性时则使用byType自动注入策略。如果既不指定name也不指定type属性，这时将通过反射机制使用byName自动注入策略。
 
 ## @Resource装配顺序
@@ -125,7 +125,7 @@ Spring上下文中的Bean的生命周期，如下：
 3. 如果指定了type，则从上下文中找到类型匹配的唯一bean进行装配，找不到或者找到多个，都会抛出异常
 4. 如果既没有指定name，又没有指定type，则自动按照byName方式进行装配；如果没有匹配，则回退为一个原始类型进行匹配，如果匹配则自动装配；
 
-## @Autowired 与@Resource的区别：
+## @Autowired与@Resource的区别
 - @Autowired与@Resource都可以用来装配bean. 都可以写在字段上,或写在setter方法上。
 - @Autowired默认按类型装配（这个注解是属于spring的），默认情况下必须要求依赖对象必须存在，如果要允许null值，可以设置它的required属性为false，如：@Autowired(required=false) ，如果我们想使用名称装配可以结合@Qualifier注解进行使用，如下：
 ```JAVA
@@ -140,7 +140,7 @@ private BaseDao baseDao;
 ```
 - 推荐使用：@Resource注解在字段上，这样就不用写setter方法了，并且这个注解是属于J2EE的，减少了与spring的耦合。这样代码看起就比较优雅。
 
-# 4.@Controller和@RestController的区别？
+# 4.@Controller和@RestController的区别
 @RestController注解相当于@ResponseBody ＋ @Controller合在一起的作用
 
 1. 如果只是使用@RestController注解Controller，则Controller中的方法无法返回jsp页面，配置的视图解析器InternalResourceViewResolver不起作用，返回的内容就是Return 里的内容。
@@ -148,7 +148,7 @@ private BaseDao baseDao;
 2. 如果需要返回到指定页面，则需要用 @Controller配合视图解析器InternalResourceViewResolver才行。
 3. 如果需要返回JSON，XML或自定义mediaType内容到页面，则需要在对应的方法上加上@ResponseBody注解。
 
-## 使用@Controller 注解
+## 使用@Controller注解
 在对应的方法上，视图解析器可以解析return 的jsp,html页面，并且跳转到相应页面。若返回json等内容到页面，则需要加@ResponseBody注解
 ```JAVA
 @CrossOrigin
@@ -192,7 +192,7 @@ public class HospitalController {
     }
 ```
 
-# 5.依赖注入的方式有几种，哪几种？
+# 5.依赖注入的方式有几种,哪几种
 
 spring的依赖注入有3种方式：
 
@@ -200,7 +200,7 @@ spring的依赖注入有3种方式：
 - 使用构造器注入
 - 使用Filed注入（用于注解方式）
 
-# 6.springIOC原理？自己实现IOC要怎么做，哪些步骤？
+# 6.springIOC原理,自己实现IOC要怎么做哪些步骤
 Bean缓存池：HashMap实现
 
 ## IOC容器介绍
@@ -421,7 +421,7 @@ public class WeatherPrediction {
 
 说明：自动装配没有自定义装配方式那么精确，而且不能自动装配简单属性（基本类型、字符串等），在使用时应注意
 
-# 10.aop的应用场景？
+# 10.aop的应用场景
 AOP用来封装横切关注点，具体可以在下面的场景中使用:
 
 - Authentication 权限
@@ -437,14 +437,14 @@ AOP用来封装横切关注点，具体可以在下面的场景中使用:
 - Synchronization　同步
 - Transactions 事务
 
-# 11.AOP的原理是什么?
+# 11.AOP的原理是什么
 AOP（Aspect Orient Programming），指面向方面（切面）编程，作为面向对象的一种补充，用于处理系统中分布于各个模块的横切关注点，比如事务管理、日志、缓存等等。AOP实现的关键在于AOP框架自动创建的AOP代理，AOP代理主要分为静态代理和动态代理，静态代理的代表为AspectJ；而动态代理则以Spring AOP为代表。通常使用AspectJ的编译时增强实现AOP，AspectJ是静态代理的增强，所谓的静态代理就是AOP框架会在编译阶段生成AOP代理类，因此也称为编译时增强。
 
 Spring AOP中的动态代理主要有两种方式，JDK动态代理和CGLIB动态代理。JDK动态代理通过反射来接收被代理的类，并且要求被代理的类必须实现一个接口。JDK动态代理的核心是InvocationHandler接口和Proxy类。
 
 如果目标类没有实现接口，那么Spring AOP会选择使用CGLIB来动态代理目标类。CGLIB（Code Generation Library），是一个代码生成的类库，可以在运行时动态的生成某个类的子类，注意，CGLIB是通过继承的方式做的动态代理，因此如果某个类被标记为final，那么它是无法使用CGLIB做动态代理的
 
-# 12.你如何理解AOP中的连接点（Joinpoint）、切点（Pointcut）、增强（Advice）、引介（Introduction）、织入（Weaving）、切面（Aspect）这些概念?
+# 12.你如何理解AOP中的连接点(Joinpoint),切点(Pointcut),增强(Advice),引介(Introduction),织入(Weaving),切面(Aspect)这些概念
 1. __切面(Aspect)__ ：官方的抽象定义为“一个关注点的模块化，这个关注点可能会横切多个对象”。PointCut + Advice 形成了切面Aspect，这个概念本身即代表切面的所有元素。但到这一地步并不是完整的，因为还不知道如何将切面植入到代码中，解决此问题的技术就是PROXY
 2. __连接点（Joinpoint)__ ：程序执行过程中的某一行为。
 3. 通知(Advice） ：“切面”对于某个“连接点”所产生的动作。在切入点干什么，指定在PointCut地方做什么事情（增强），打日志、执行缓存、处理异常等等。
@@ -453,7 +453,7 @@ Spring AOP中的动态代理主要有两种方式，JDK动态代理和CGLIB动�
 5. __引入(ntroduction)__：添加方法或字段到被通知的类。 Spring允许引入新的接口到任何被通知的对象。例如，你可以使用一个引入使任何对象实现 IsModified接口，来简化缓存。Spring中要使用Introduction, 可有通过DelegatingIntroductionInterceptor来实现通知，通过DefaultIntroductionAdvisor来配置Advice和代理类要实现的接口
 6. __织入(Weaving)__：组装方面来创建一个被通知对象。这可以在编译时完成（例如使用AspectJ编译器），也可以在运行时完成。Spring和其他纯Java AOP框架一样，在运行时完成织入
 
-# 13.Spring支持的事务管理类型有哪些？
+# 13.Spring支持的事务管理类型有哪些
 Spring支持编程式事务管理和声明式事务管理。许多Spring框架的用户选择声明式事务管理，因为这种方式和应用程序的关联较少，因此更加符合轻量级容器的概念。声明式事务管理要优于编程式事务管理，尽管在灵活性方面它弱于编程式事务管理，因为编程式事务允许你通过代码控制业务。
 
 事务分为全局事务和局部事务。全局事务由应用服务器管理，需要底层服务器JTA支持（如WebLogic、WildFly等）。局部事务和底层采用的持久化方案有关，例如使用JDBC进行持久化时，需要使用Connetion对象来操作事务；而采用Hibernate进行持久化时，需要使用Session对象来操作事务。
@@ -484,7 +484,7 @@ Spring 优点总结:
 # 15.Struts拦截器和Spring AOP区别
 拦截器是AOP的一种实现，struts2 拦截器采用xwork2的interceptor！而spring的AOP基于IoC基础,其底层采用动态代理与CGLIB代理两种方式结合的实现方式。
 
-# 16.持久层设计要考虑的问题有哪些?
+# 16.持久层设计要考虑的问题有哪些
 所谓”持久”就是将数据保存到可掉电式存储设备中以便今后使用，简单的说，就是将内存中的数据保存到关系型数据库、文件系统、消息队列等提供持久化支持的设备中。持久层就是系统中专注于实现数据持久化的相对独立的层面。
 
 持久层设计的目标包括：
@@ -502,7 +502,7 @@ Spring 优点总结:
 - 持久态：持久态对象的实例在数据库中有对应的记录，并拥有一个持久化标识（ID）。对持久态对象进行delete操作后，数据库中对应的记录将被删除，那么持久态对象与数据库记录不再存在对应关系，持久态对象变成移除态（可以视为瞬时态）。持久态对象被修改变更后，不会马上同步到数据库，直到数据库事务提交。
 - 游离态：当Session进行了close()、clear()、evict()或flush()后，实体对象从持久态变成游离态，对象虽然拥有持久和与数据库对应记录一致的标识值，但是因为对象已经从会话中清除掉，对象不在持久化管理之内，所以处于游离态（也叫脱管态）。游离态的对象与临时状态对象是十分相似的，只是它还含有持久化标识。
 
-# 18.Hibernate中SessionFactory是线程安全的吗？Session是线程安全的吗（两个线程能够共享同一个Session吗）？
+# 18.Hibernate中SessionFactory是线程安全的吗,Session是线程安全的吗(两个线程能够共享同一个Session吗)
 SessionFactory对应Hibernate的一个数据存储的概念，它是线程安全的，可以被多个线程并发访问。
 
 SessionFactory一般只会在启动的时候构建。对于应用程序，最好将SessionFactory通过单例模式进行封装以便于访问。
@@ -513,7 +513,7 @@ Session是由SessionFactory创建的，在任务完成之后它会被关闭。Se
 
 Session会延迟获取数据库连接（也就是在需要的时候才会获取）。为了避免创建太多的session，可以使用ThreadLocal将session和当前线程绑定在一起，这样可以让同一个线程获得的总是同一个session。Hibernate 3中SessionFactory的getCurrentSession()方法就可以做到
 
-# 19.Hibernate中Session的load和get方法的区别是什么？
+# 19.Hibernate中Session的load和get方法的区别是什么
 主要有以下三项区别：
 
 1. 如果没有找到符合条件的记录，get方法返回null，load方法抛出异常。
@@ -522,7 +522,7 @@ Session会延迟获取数据库连接（也就是在需要的时候才会获取�
 
 说明：对于load()方法Hibernate认为该数据在数据库中一定存在可以放心的使用代理来实现延迟加载，如果没有数据就抛出异常，而通过get()方法获取的数据可以不存在。
 
-# 20.如何理解Hibernate的延迟加载机制？在实际应用中，延迟加载与Session关闭的矛盾是如何处理的？
+# 20.如何理解Hibernate的延迟加载机制,在实际应用中,延迟加载与Session关闭的矛盾是如何处理的
 延迟加载就是并不是在读取的时候就把数据加载进来，而是等到使用时再加载。Hibernate使用了虚拟代理机制实现延迟加载，我们使用Session的load()方法加载数据或者一对多关联映射在使用延迟加载的情况下从一的一方加载多的一方，得到的都是虚拟代理，简单的说返回给用户的并不是实体本身，而是实体对象的代理。代理对象在用户调用getter方法时才会去数据库加载数据。但加载数据就需要数据库连接。而当我们把会话关闭时，数据库连接就同时关闭了。
 
 延迟加载与session关闭的矛盾一般可以这样处理： 
@@ -541,7 +541,7 @@ Session会延迟获取数据库连接（也就是在需要的时候才会获取�
 7. 在开发过程中, 开启hibernate.show_sql选项查看生成的SQL，从而了解底层的状况；开发完成后关闭此选项。 
 8. 考虑数据库本身的优化，合理的索引、恰当的数据分区策略等都会对持久层的性能带来可观的提升，但这些需要专业的DBA（数据库管理员）提供支持。
 
-# 22.锁机制有什么用？简述Hibernate的悲观锁和乐观锁机制。
+# 22.锁机制有什么用,简述Hibernate的悲观锁和乐观锁机制
 有些业务逻辑在执行过程中要求对数据进行排他性的访问，于是需要通过一些机制保证在此过程中数据被锁住不会被外界修改，这就是所谓的锁机制
 
 Hibernate支持悲观锁和乐观锁两种锁机制。
@@ -554,7 +554,7 @@ Hibernate中通过Session的get()和load()方法从数据库中加载对象时�
 
 使用乐观锁会增加了一个版本字段，很明显这需要额外的空间来存储这个版本字段，浪费了空间，但是乐观锁会让系统具有更好的并发性，这是对时间的节省。因此乐观锁也是典型的空间换时间的策略。
 
-# 23.Hibernate如何实现分页查询？
+# 23.Hibernate如何实现分页查询
 
 通过Hibernate实现分页查询，开发人员只需要提供HQL语句(调用Session的createQuery()方法)或查询条件(调用Session的createCriteria()方法)、设置查询起始行数(调用Query或Criteria接口的setFirstResult()方法）和最大查询行数(调用Query或Criteria接口的setMaxResults()方法)并调用Query或Criteria接口的list()方法，Hibernate会自动生成分页查询的SQL语句。
 

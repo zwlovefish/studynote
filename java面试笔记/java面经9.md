@@ -3,11 +3,11 @@
 - [1.forward与redirect区别,说一下你知道的状态码,redirect的状态码是多少](#1forward与redirect区别说一下你知道的状态码redirect的状态码是多少)
   - [forward过程](#forward过程)
   - [redirect过程](#redirect过程)
-- [2.servlet生命周期,是否单例,为什么是单例.](#2servlet生命周期是否单例为什么是单例)
+- [2.servlet生命周期,是否单例,为什么是单例](#2servlet生命周期是否单例为什么是单例)
 - [3.Servlet和CGI的区别](#3servlet和cgi的区别)
   - [什么是CGI](#什么是cgi)
-  - [CGI功能:](#cgi功能)
-  - [运行环境:](#运行环境)
+  - [CGI功能](#cgi功能)
+  - [运行环境](#运行环境)
   - [CGI处理步骤](#cgi处理步骤)
 - [4.Servlet执行时一般实现哪几个方法](#4servlet执行时一般实现哪几个方法)
   - [GenericServlet与HttpServlet类](#genericservlet与httpservlet类)
@@ -98,7 +98,7 @@
 
 redirect的状态码是302
 
-# 2.servlet生命周期,是否单例,为什么是单例.
+# 2.servlet生命周期,是否单例,为什么是单例
 ![Servlet运行原理](../images/Servlet运行原理.jpg)
 
 Servlet生命周期定义了一个Servlet如何被加载、初始化，以及它怎样接收请求、响应请求，提供服务。在讨论Servlet生命周期之前，先让我们来看一下这几个方法：
@@ -158,9 +158,9 @@ Servlet是非线程安全的，如何实现线程安全的Servlet：
 # 3.Servlet和CGI的区别
 ##  什么是CGI
 CGI(Common Gateway Interface 公共网关接口)是HTTP服务器与你的或其它机器上的程序进行“交谈”的一种工具，其程序须运行在网络服务器上。
-## CGI功能:
+## CGI功能
 绝大多数的CGI程序被用来解释处理来自表单的输入信息，并在服 务器产生相应的处理，或将相应的信息反馈给浏览器。CGI程序使 网页具有交互功能。
-## 运行环境:
+## 运行环境
 CGI程序在UNIX操作系统上CERN或NCSA格式的服务器上运行。 在其它操作系统（如：windows NT及windows95等）的服务器上 也广泛地使用CGI程序，同时它也适用于各种类型机器。
 ## CGI处理步骤
 1. 通过Internet把用户请求送到服务器

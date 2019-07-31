@@ -1,30 +1,30 @@
 <!-- MarkdownTOC -->
 
-- [1.谈一谈Hibernate的一级缓存、二级缓存和查询缓存](#1谈一谈hibernate的一级缓存、二级缓存和查询缓存)
-    - [什么是缓存呢？](#什么是缓存呢？)
+- [1.谈一谈Hibernate的一级缓存,二级缓存和查询缓存](#1谈一谈hibernate的一级缓存二级缓存和查询缓存)
+    - [什么是缓存呢](#什么是缓存呢)
     - [缓存在软件系统中的位置](#缓存在软件系统中的位置)
-    - [hibernate的缓存一般分为几种？](#hibernate的缓存一般分为几种？)
+    - [hibernate的缓存一般分为几种](#hibernate的缓存一般分为几种)
     - [一级缓存](#一级缓存)
     - [二级缓存](#二级缓存)
     - [查询缓存](#查询缓存)
     - [结论](#结论)
-    - [其他补充：](#其他补充：)
+    - [其他补充:](#其他补充)
 - [2.说说STRUTS的应用](#2说说struts的应用)
-    - [struts1与struts2都是mvc框架的经典实现模式。](#struts1与struts2都是mvc框架的经典实现模式。)
+    - [struts1与struts2都是mvc框架的经典实现模式](#struts1与struts2都是mvc框架的经典实现模式)
     - [Struts2的核心是什么,体现了什么思想](#struts2的核心是什么体现了什么思想)
     - [为何继承ActionSupport](#为何继承actionsupport)
     - [Struts2 如何定位action中的方法](#struts2-如何定位action中的方法)
     - [模型驱动和属性驱动的区别是什么](#模型驱动和属性驱动的区别是什么)
-    - [Struts2是怎样进行值封装的？](#struts2是怎样进行值封装的？)
+    - [Struts2是怎样进行值封装的](#struts2是怎样进行值封装的)
     - [Struts2如何进行校验](#struts2如何进行校验)
     - [谈谈Struts2 的国际化](#谈谈struts2-的国际化)
     - [OGNL是什么你在项目中如何使用它](#ognl是什么你在项目中如何使用它)
     - [Strust2如何访问Servlet API](#strust2如何访问servlet-api)
-    - [什么是拦截器 说说Struts2用拦截器来干什么 说出6个拦截器来](#什么是拦截器-说说struts2用拦截器来干什么-说出6个拦截器来)
-    - [如何实现自定义拦截器？](#如何实现自定义拦截器？)
+    - [什么是拦截器,说说Struts2用拦截器来干什么,说出6个拦截器来](#什么是拦截器说说struts2用拦截器来干什么说出6个拦截器来)
+    - [如何实现自定义拦截器](#如何实现自定义拦截器)
     - [ActionContext是用来干什么的](#actioncontext是用来干什么的)
-    - [Struts2是如何实现mvc的：struts2的底层视图默认是freemaker。](#struts2是如何实现mvc的：struts2的底层视图默认是freemaker。)
-    - [为什么要继承默认的包？](#为什么要继承默认的包？)
+    - [Struts2是如何实现mvc的,struts2的底层视图默认是freemaker](#struts2是如何实现mvc的struts2的底层视图默认是freemaker)
+    - [为什么要继承默认的包](#为什么要继承默认的包)
     - [常见的有那些有十几种结果集类型](#常见的有那些有十几种结果集类型)
     - [开发项目时struts2在页面怎样拿值](#开发项目时struts2在页面怎样拿值)
     - [怎么样用Struts2进行文件的上传或者下载](#怎么样用struts2进行文件的上传或者下载)
@@ -33,8 +33,8 @@
     - [ValueStack分为那两部分,组成部分是什么,分别怎么访问](#valuestack分为那两部分组成部分是什么分别怎么访问)
     - [标签和el表达式有什么区别](#标签和el表达式有什么区别)
     - [struts2的请求处理流程](#struts2的请求处理流程)
-- [3.解释一下MyBatis中命名空间（namespace）的作用](#3解释一下mybatis中命名空间（namespace）的作用)
-- [4.MyBatis中的动态SQL是什么意思？](#4mybatis中的动态sql是什么意思？)
+- [3.解释一下MyBatis中命名空间\(namespace\)的作用](#3解释一下mybatis中命名空间namespace的作用)
+- [4.MyBatis中的动态SQL是什么意思](#4mybatis中的动态sql是什么意思)
     - [if](#if)
     - [choose,when和otherwise](#choosewhen和otherwise)
     - [where](#where)
@@ -42,26 +42,26 @@
     - [set](#set)
     - [foreach](#foreach)
 - [5.Spring MVC注解的优点](#5spring-mvc注解的优点)
-- [6.springmvc和spring-boot区别？](#6springmvc和spring-boot区别？)
-    - [spring和springMvc：](#spring和springmvc：)
-    - [springMvc和springBoot：](#springmvc和springboot：)
-    - [springBoot和springCloud：](#springboot和springcloud：)
-    - [总结：](#总结：)
-- [7.SpringMVC的运行机制，运行机制的每一部分的相关知识？](#7springmvc的运行机制，运行机制的每一部分的相关知识？)
+- [6.springmvc和spring-boot区别](#6springmvc和spring-boot区别)
+    - [spring和springMvc](#spring和springmvc)
+    - [springMvc和springBoot](#springmvc和springboot)
+    - [springBoot和springCloud](#springboot和springcloud)
+    - [总结](#总结)
+- [7.SpringMVC的运行机制,运行机制的每一部分的相关知识](#7springmvc的运行机制运行机制的每一部分的相关知识)
     - [SpringMVC流程](#springmvc流程)
     - [组件说明](#组件说明)
-    - [核心架构的具体流程步骤如下：](#核心架构的具体流程步骤如下：)
+    - [核心架构的具体流程步骤如下](#核心架构的具体流程步骤如下)
     - [springmvc原理](#springmvc原理)
-- [8.Mybatis和Hibernate区别？](#8mybatis和hibernate区别？)
-- [9.启动项目时如何实现不在链接里输入项目名就能启动?](#9启动项目时如何实现不在链接里输入项目名就能启动)
-- [10.1分钟之内只能处理1000个请求，你怎么实现，手撕代码?](#101分钟之内只能处理1000个请求，你怎么实现，手撕代码)
+- [8.Mybatis和Hibernate区别](#8mybatis和hibernate区别)
+- [9.启动项目时如何实现不在链接里输入项目名就能启动](#9启动项目时如何实现不在链接里输入项目名就能启动)
+- [10.1分钟之内只能处理1000个请求,你怎么实现,手撕代码](#101分钟之内只能处理1000个请求你怎么实现手撕代码)
 - [11.什么时候用assert](#11什么时候用assert)
 - [12.JAVA应用服务器有那些](#12java应用服务器有那些)
 - [13.JSP的内置对象及方法](#13jsp的内置对象及方法)
-    - [何为作用域?](#何为作用域)
+    - [何为作用域](#何为作用域)
     - [作用域规定的是变量的有效期限](#作用域规定的是变量的有效期限)
     - [jsp动作及作用](#jsp动作及作用)
-- [14.JSP和Servlet有哪些相同点和不同点，他们之间的联系是什么？（JSP）](#14jsp和servlet有哪些相同点和不同点，他们之间的联系是什么？（jsp）)
+- [14.JSP和Servlet有哪些相同点和不同点,他们之间的联系是什么?(JSP）](#14jsp和servlet有哪些相同点和不同点他们之间的联系是什么jsp）)
 - [15.说一说四种会话跟踪技术](#15说一说四种会话跟踪技术)
     - [什么是会话](#什么是会话)
     - [什么是会话跟踪](#什么是会话跟踪)
@@ -69,21 +69,21 @@
     - [介绍](#介绍)
     - [四种会话跟踪技术](#四种会话跟踪技术)
     - [四种会话跟踪技术的对比](#四种会话跟踪技术的对比)
-    - [Session和Cookie区别：](#session和cookie区别：)
+    - [Session和Cookie区别](#session和cookie区别)
 - [16.讲讲Request对象的主要方法](#16讲讲request对象的主要方法)
-- [17.说说weblogic中一个Domain的缺省目录结构?比如要将一个简单的helloWorld.jsp放入何目录下,然后在浏览器上就可打入主机？](#17说说weblogic中一个domain的缺省目录结构比如要将一个简单的helloworldjsp放入何目录下然后在浏览器上就可打入主机？)
-- [18.请谈谈JSP有哪些内置对象？作用分别是什么？](#18请谈谈jsp有哪些内置对象？作用分别是什么？)
-- [19.说一下表达式语言（EL）的隐式对象及其作用](#19说一下表达式语言（el）的隐式对象及其作用)
-- [20.JSP中的静态包含和动态包含有什么区别？](#20jsp中的静态包含和动态包含有什么区别？)
-- [21.过滤器有哪些作用和用法？](#21过滤器有哪些作用和用法？)
+- [17.说说weblogic中一个Domain的缺省目录结构?比如要将一个简单的helloWorld.jsp放入何目录下,然后在浏览器上就可打入主机](#17说说weblogic中一个domain的缺省目录结构比如要将一个简单的helloworldjsp放入何目录下然后在浏览器上就可打入主机)
+- [18.请谈谈JSP有哪些内置对象,作用分别是什么](#18请谈谈jsp有哪些内置对象作用分别是什么)
+- [19.说一下表达式语言\(EL\)的隐式对象及其作用](#19说一下表达式语言el的隐式对象及其作用)
+- [20.JSP中的静态包含和动态包含有什么区别](#20jsp中的静态包含和动态包含有什么区别)
+- [21.过滤器有哪些作用和用法](#21过滤器有哪些作用和用法)
     - [什么是过滤器](#什么是过滤器)
     - [过滤器的作用](#过滤器的作用)
     - [过滤器的工作方式](#过滤器的工作方式)
     - [使用场合](#使用场合)
     - [使用步骤](#使用步骤)
     - [常用配置项](#常用配置项)
-    - [过滤器链，有多个过滤器就会形成过滤器连](#过滤器链，有多个过滤器就会形成过滤器连)
-- [22.请谈谈你对Javaweb开发中的监听器的理解？](#22请谈谈你对javaweb开发中的监听器的理解？)
+    - [过滤器链,有多个过滤器就会形成过滤器连](#过滤器链有多个过滤器就会形成过滤器连)
+- [22.请谈谈你对Javaweb开发中的监听器的理解](#22请谈谈你对javaweb开发中的监听器的理解)
     - [概述](#概述)
     - [Servlet监听器的分类](#servlet监听器的分类)
     - [监听ServletContext域对象的创建和销毁](#监听servletcontext域对象的创建和销毁)
@@ -94,8 +94,8 @@
 <!-- /MarkdownTOC -->
 
 
-# 1.谈一谈Hibernate的一级缓存、二级缓存和查询缓存
-## 什么是缓存呢？
+# 1.谈一谈Hibernate的一级缓存,二级缓存和查询缓存
+## 什么是缓存呢
 缓存：是计算机领域的概念，它介于应用程序和永久性数据存储源之间。
 
 缓存：一般人的理解是在内存中的一块空间，可以将二级缓存配置到硬盘。用白话来说，就是一个存储数据的容器。我们关注的是，哪些数据需要被放入二级缓存。
@@ -105,7 +105,7 @@
 ## 缓存在软件系统中的位置
 ![Hibernate缓存在软件系统中的位置](../images/Hibernate缓存在软件系统中的位置.png)
 
-## hibernate的缓存一般分为几种？
+## hibernate的缓存一般分为几种
 分为三种：一级缓存，二级缓存和查询缓存
 
 ## 一级缓存
@@ -163,14 +163,14 @@ session为应用程序提供了管理缓存的方法：evict(Object o)和clear()
 
 >https://www.cnblogs.com/wl0000-03/p/6377990.html
 
-## 其他补充：
+## 其他补充:
 
 1. Hibernate的Session提供了一级缓存的功能，默认总是有效的，当应用程序保存持久化实体、修改持久化实体时，Session并不会立即把这种改变提交到数据库，而是缓存在当前的Session中，除非显示调用了Session的flush()方法或通过close()方法关闭Session。通过一级缓存，可以减少程序与数据库的交互，从而提高数据库访问性能。
 2. SessionFactory级别的二级缓存是全局性的，所有的Session可以共享这个二级缓存。不过二级缓存默认是关闭的，需要显示开启并指定需要使用哪种二级缓存实现类（可以使用第三方提供的实现）。一旦开启了二级缓存并设置了需要使用二级缓存的实体类，SessionFactory就会缓存访问过的该实体类的每个对象，除非缓存的数据超出了指定的缓存空间。
 3. 一级缓存和二级缓存都是对整个实体进行缓存，不会缓存普通属性，如果希望对普通属性进行缓存，可以使用查询缓存。查询缓存是将HQL或SQL语句以及它们的查询结果作为键值对进行缓存，对于同样的查询可以直接从缓存中获取数据。查询缓存默认也是关闭的，需要显示开启。
 
 # 2.说说STRUTS的应用
-## struts1与struts2都是mvc框架的经典实现模式。
+## struts1与struts2都是mvc框架的经典实现模式
 Struts2不是从Struts1升级而来,而是有WebWork改名而来,而WebWork只是Xwork加了很多WEB拦截器而已?
 区别：
 
@@ -210,7 +210,7 @@ Action接口提供了五个常量(success,error,login,input,none)。
 注意：模型驱动使用时注意的是在使用前先把属性类实例化，否则会出现空指针错误，拿返回对象的值需要用拷贝内存因为地址发生改变。
 模型驱动不可以使用局部类型转换器。
 
-## Struts2是怎样进行值封装的？
+## Struts2是怎样进行值封装的
 struts2的值封装实际上是采用了ognl表达式。struts2的拦截器经过模型驱动时会先判断action是否实现了ModelDriven，如果是则拿到模型的实例放在了栈的顶部，到属性驱动的时候会从栈里面把栈顶的实例给取出来，从页面传进来的值放在一个map集合当中，通过map集合进行迭代会通过ognl技术把值封装到实例中。
 
 ## Struts2如何进行校验
@@ -293,12 +293,12 @@ ognl 3个常用的符号 # $ %
 2. 通过ActionContext的子类ServletActionContext去获取原滋原味的API。
 3. 可以通过实现ServletRequestAware接口，重写里面的setServletRequest方法可以获得request，实际上是通过set的依赖注入。
 
-## 什么是拦截器 说说Struts2用拦截器来干什么 说出6个拦截器来
+## 什么是拦截器,说说Struts2用拦截器来干什么,说出6个拦截器来
 在访问类的某个方法或者属性之前执行，拦截的是Action的请求，进行拦截然后在方法的执行前或者之后加入某些操作，    
 如：国际化，权限，效验等与源代码无关的操作。     
 国际化，表单重复提交，类型转换，自动装配，数据封装,异常处理，模型驱动，请求参数，处理类型转换错误，日志拦截器。
 
-## 如何实现自定义拦截器？
+## 如何实现自定义拦截器
 可以继承MethodFilterInterceptor重写doIntercept方法指定某个方法进行拦截，或者继承AbstractInterceptor，重写intercept方法
 
 在xml配置文件中定义自定义拦截器，然后注入到拦截器栈中，再把拦截器引用到action中。
@@ -317,7 +317,7 @@ ActionContext是Action的上下文。
 4. 有个值栈来装action实例与创建的模型驱动的实例:ValueStack。
 5. ActionContext是线程安全的-用本地线程实现的。
 
-## Struts2是如何实现mvc的：struts2的底层视图默认是freemaker。
+## Struts2是如何实现mvc的,struts2的底层视图默认是freemaker
 什么是mvc？
 
     M：模型，V：视图，C：控制器
@@ -332,7 +332,7 @@ ActionContext是Action的上下文。
 
     解决了数据封装，类型转换，数据效验，国际化，异常处理等问题。
 
-## 为什么要继承默认的包？
+## 为什么要继承默认的包
 因为在Strtus2里面默认有很多的常量,拦截器,还有一些bean,如果继承默认的包,这些默认值和常量就会继承过来
 
 ## 常见的有那些有十几种结果集类型
@@ -372,10 +372,10 @@ s:iterater ?s:property s:form s:url s:if 等等
 7. 由调度器去调用Action，当然这里还涉及到一些相关的拦截器的调用。
 8. Action执行完后，这个调度器还会创建一个Result返回结果集，返回结果前还可以做一些操作(结果集前的监听器)。
 
-# 3.解释一下MyBatis中命名空间（namespace）的作用
+# 3.解释一下MyBatis中命名空间(namespace)的作用
 在大型项目中，可能存在大量的SQL语句，这时候为每个SQL语句起一个唯一的标识（ID）就变得并不容易了。为了解决这个问题，在MyBatis中，可以为每个映射文件起一个唯一的命名空间，这样定义在这个映射文件中的每个SQL语句就成了定义在这个命名空间中的一个ID。只要我们能够保证每个命名空间中这个ID是唯一的，即使在不同映射文件中的语句ID相同，也不会再产生冲突了。
 
-# 4.MyBatis中的动态SQL是什么意思？
+# 4.MyBatis中的动态SQL是什么意思
 对于一些复杂的查询，我们可能会指定多个查询条件，但是这些条件可能存在也可能不存在，需要根据用户指定的条件动态生成SQL语句。如果不使用持久层框架我们可能需要自己拼装SQL语句，还好MyBatis提供了动态SQL的功能来解决这个问题。MyBatis中用于实现动态SQL的元素主要有：
 
 - if
@@ -631,20 +631,20 @@ public List<Blog> dynamicForeach3Test(Map<String, Object> params);
 4. 通用配置还是走XML吧，比如事务配置，比如数据库连接池等等，即通用的配置集中化，而不是分散化，如很多人使用@Transactional来配置事务，在很多情况下这是一种太分散化的配置；
 5. XML方式比注解的可扩展性和复杂性维护上好的多，比如需要哪些组件，不需要哪些；在面对这种情况，注解扫描机制比较逊色，因为规则很难去写或根本不可能写出来；
 
-# 6.springmvc和spring-boot区别？
-## spring和springMvc：
+# 6.springmvc和spring-boot区别
+## spring和springMvc
 1. spring是一个一站式的轻量级的java开发框架，核心是控制反转（IOC）和面向切面（AOP），针对于开发的WEB层(springMvc)、业务层(Ioc)、持久层(jdbcTemplate)等都提供了多种配置解决方案；
 2. springMvc是spring基础之上的一个MVC框架，主要处理web开发的路径映射和视图渲染，属于spring框架中WEB层开发的一部分；
 
-## springMvc和springBoot：
+## springMvc和springBoot
 1. springMvc属于一个企业WEB开发的MVC框架，涵盖面包括前端视图开发、文件配置、后台接口逻辑开发等，XML、config等配置相对比较繁琐复杂；
 2. springBoot框架相对于springMvc框架来说，更专注于开发微服务后台接口，不开发前端视图；
 
-## springBoot和springCloud：
+## springBoot和springCloud
 1. spring boot使用了默认大于配置的理念，集成了快速开发的spring多个插件，同时自动过滤不需要配置的多余的插件，简化了项目的开发配置流程，一定程度上取消xml配置，是一套快速配置开发的脚手架，能快速开发单个微服务；
 2. spring cloud大部分的功能插件都是基于springBoot去实现的，springCloud关注于全局的微服务整合和管理，将多个springBoot单体微服务进行整合以及管理；  springCloud依赖于springBoot开发，而springBoot可以独立开发；
 
-## 总结：
+## 总结
 1. Spring 框架就像一个家族，有众多衍生产品例如 boot、security、jpa等等。但他们的基础都是Spring的ioc、aop等. ioc 提供了依赖注入的容器， aop解决了面向横切面编程，然后在此两者的基础上实现了其他延伸产品的高级功能；
 2. springMvc是基于Servlet 的一个MVC框架主要解决WEB开发的问题，因为Spring的配置非常复杂，各种XML、JavaConfig、servlet处理起来比较繁琐；
 3. 为了简化开发者的使用，从而创造性地推出了springBoot框架，默认优于配置，简化了springMvc的配置流程；
@@ -652,7 +652,7 @@ public List<Blog> dynamicForeach3Test(Map<String, Object> params);
 4. 对于springCloud框架来说，它和springBoot一样，注重的是微服务的开发，但是springCloud更关注的是全局微服务的整合和管理，相当于管理多个springBoot框架的单体微服务；
 >https://blog.csdn.net/alan_liuyue/article/details/80656687
 
-# 7.SpringMVC的运行机制，运行机制的每一部分的相关知识？
+# 7.SpringMVC的运行机制,运行机制的每一部分的相关知识
 ![springMVC工作原理图](../images/springMVC工作原理图.jpg)
 ## SpringMVC流程
 1. 用户发送请求至前端控制器DispatcherServlet。
@@ -696,7 +696,7 @@ View Resolver负责将处理结果生成View视图，View Resolver首先根据�
 6. 视图View(需要工程师开发jsp...)
 View是一个接口，实现类支持不同的View类型（jsp、freemarker、pdf...）
 
-## 核心架构的具体流程步骤如下：
+## 核心架构的具体流程步骤如下
 
 1. 首先用户发送请求——>DispatcherServlet，前端控制器收到请求后自己不进行处理，而是委托给其他的解析器进行处理，作为统一访问点，进行全局的流程控制；
 2. DispatcherServlet——>HandlerMapping， HandlerMapping 将会把请求映射为HandlerExecutionChain 对象（包含一个Handler 处理器（页面控制器）对象、多个HandlerInterceptor 拦截器）对象，通过这种策略模式，很容易添加新的映射策略；
@@ -731,7 +731,7 @@ View是一个接口，实现类支持不同的View类型（jsp、freemarker、pd
 
 第十一步：前端控制器向用户响应结果
 
-# 8.Mybatis和Hibernate区别？
+# 8.Mybatis和Hibernate区别
 - 简介
 
 Hibernate：Hibernate是当前最流行的ORM框架之一，对JDBC提供了较为完整的封装。Hibernate的O/R Mapping实现了POJO 和数据库表之间的映射，以及SQL的自动生成和执行。
@@ -758,7 +758,7 @@ Mybatis：小巧、方便、高效、简单、直接、半自动化
 
 Hibernate：强大、方便、高效、复杂、间接、全自动化
 
-# 9.启动项目时如何实现不在链接里输入项目名就能启动?
+# 9.启动项目时如何实现不在链接里输入项目名就能启动
 修改Tomcat配置文件 server.xml。找到自己的项目配置 ：
 ```XML
 <Context docBase="oneProject" path="/one Project" reloadable="true" source="org.eclipse.jst.jee.server:userManager"/>
@@ -768,7 +768,7 @@ Hibernate：强大、方便、高效、复杂、间接、全自动化
 <Context docBase="oneProject" path="/" reloadable="true" source="org.eclipse.jst.jee.server:userManager"/>
 ```
 
-# 10.1分钟之内只能处理1000个请求，你怎么实现，手撕代码?
+# 10.1分钟之内只能处理1000个请求,你怎么实现,手撕代码
 Application 对所有用户访问的次数计数。同时定义一个计时器，单位为一分钟。如果Application 中的用户在单位时间内超出请求次数，就拒绝处理该请求。一分钟再刷新application的值为0.
 
 使用一个Map 维护变量：
@@ -827,7 +827,7 @@ Tomcat
 >https://blog.csdn.net/qq_39299893/article/details/80470392
 ![JSP九大内置对象及其作用域](../images/JSP九大内置对象及其作用域.png)
 
-## 何为作用域?
+## 何为作用域
 大概流程是这样的，我们访问index.jsp的时候，分别对pageContext, request, session,application四个作用域中的变量进行累加。（当然先判断这个变量是不是存在，如果变量不存在，则要把变量初始化成1）。计算完成后就从index.jsp执行forward跳转到test.jsp。在test.jsp里再进行一次累加，然后显示出这四个整数来。
 
 从显示的结果来看，我们可以直观的得出结论：
@@ -872,7 +872,7 @@ JSP共有以下6种基本动作：
 6. jsp:plugin：根据浏览器类型为Java插件生成OBJECT或EMBED标记
 >https://www.cnblogs.com/MissSu/p/6149244.html
 
-# 14.JSP和Servlet有哪些相同点和不同点，他们之间的联系是什么？（JSP）
+# 14.JSP和Servlet有哪些相同点和不同点,他们之间的联系是什么?(JSP）
 1. jsp经编译后就变成了Servlet.(JSP的本质就是Servlet，JVM只能识别java的类，不能识别JSP的代码,Web容器将JSP的代码编译成JVM能够识别的java类)
 2. jsp更擅长表现于页面显示,servlet更擅长于逻辑控制.
 3. Servlet中没有内置对象，Jsp中的内置对象都是必须通过HttpServletRequest对象，HttpServletResponse对象以及HttpServlet对象得到.
@@ -948,7 +948,7 @@ __重写原理：__当服务器程序调用request.getSession();代码时，其�
         会话数据全部存放在服务端，减轻了客户端及网络压力，但加剧了服务端压力
         既然是基于前三种会话技术之一（Cookie、url重写、隐藏表单域），因此也具备其对应的几个特点
 
-## Session和Cookie区别：
+## Session和Cookie区别
 1. cookie数据存放在客户的浏览器上，session数据放在服务器上。
 2. cookie不是很安全，别人可以分析存放在本地的cookie并进行cookie欺骗，考虑到安全应当使用session。
 3. session会在一定时间内保存在服务器上。当访问增多，会比较占用你服务器的性能，考虑到减轻服务器性能方面，应当使用cookie。
@@ -988,10 +988,10 @@ __重写原理：__当服务器程序调用request.getSession();代码时，其�
 23. getServerPort()：获取服务器的端口号
 24. removeAttribute(String name)：删除请求中的一个属性
 
-# 17.说说weblogic中一个Domain的缺省目录结构?比如要将一个简单的helloWorld.jsp放入何目录下,然后在浏览器上就可打入主机？
+# 17.说说weblogic中一个Domain的缺省目录结构?比如要将一个简单的helloWorld.jsp放入何目录下,然后在浏览器上就可打入主机
 <font color="red">什么是weblogic啊？需要学习一波</font>
 
-# 18.请谈谈JSP有哪些内置对象？作用分别是什么？
+# 18.请谈谈JSP有哪些内置对象,作用分别是什么
 1. request 用户端请求，此请求会包含来自GET/POST请求的参数。request表示HttpServletRequest对象。它包含了有关浏览器请求的信息，并且提供了几个用于获取cookie, header,和session数据的有用的方法。
 2. response 网页传回用户端的回应。response表示HttpServletResponse对象，并提供了几个用于设置送回浏览器的响应的方法（如cookies,头信息等）
 3. pageContext 网页的属性是在这里管理。pageContext表示一个javax.servlet.jsp.PageContext对象。它是用于方便存取各种范围的名字空间、servlet相关的对象的API，并且包装了通用的
@@ -1002,7 +1002,7 @@ __重写原理：__当服务器程序调用request.getSession();代码时，其�
 8. page JSP网页本身。page表示从该页面产生的一个servlet实例
 9. exception 针对错误网页，未捕捉的例外。
 
-# 19.说一下表达式语言（EL）的隐式对象及其作用
+# 19.说一下表达式语言(EL)的隐式对象及其作用
 EL的隐式对象包括：
 
 1. pageContext
@@ -1017,7 +1017,7 @@ EL的隐式对象包括：
 10. requestScope（访问request作用域）
 11. pageScope（访问page作用域）。
 
-# 20.JSP中的静态包含和动态包含有什么区别？
+# 20.JSP中的静态包含和动态包含有什么区别
 1. <%@ include file=” ”%>是指令元素。<jsp:include page=” ”/\>是行为元素
 2. 最终编译成java文件的数目不同。
     1. 静态包含在转换成为java文件的时候将包含文件的内容“复制”到主体文件，然后作为一个整体编译。最终编译为一个java文件。
@@ -1032,7 +1032,7 @@ EL的隐式对象包括：
     - 静态包含最终编译成一个java文件，有一个request对象很好理解。而动态包含最终编译成多个jsp文件，为何会使用一个request对象呢？其实这些jsp组合的过程是一个请求转发的过程，自然也使用同一个request对象了。
 >https://www.cnblogs.com/wxgblogs/p/5602689.html
 
-# 21.过滤器有哪些作用和用法？
+# 21.过滤器有哪些作用和用法
 ## 什么是过滤器
 过滤器是向WEB应用程序的请求和响应添加功能的WEB服务组件
 ## 过滤器的作用
@@ -1083,7 +1083,7 @@ EL的隐式对象包括：
         - ASYNC,//异步的
         - ERROR;//出错的
 
-## 过滤器链，有多个过滤器就会形成过滤器连
+## 过滤器链,有多个过滤器就会形成过滤器连
 关于chain.doFilter(request,response)它的作用是将请求转发给过滤器链上下一个对象。这里的下一个指的是下一个filter，如果没有filter那就是你请求的资源。 一般filter都是一个链,web.xml 里面配置了几个就有几个。一个一个的连在一起 
 
 request -> filter1 -> filter2 ->filter3 -> .... -> request resource.
@@ -1140,7 +1140,7 @@ public class CharsetFilter implements Filter {
 过滤器是在服务器启动时就会创建的，只会创建一个实例，常驻内存，也就是说服务器一启动就会执行Filter的init(FilterConfig config)方法.
 当Filter被移除或服务器正常关闭时，会执行destroy方法.
 
-# 22.请谈谈你对Javaweb开发中的监听器的理解？
+# 22.请谈谈你对Javaweb开发中的监听器的理解
 ## 概述
 JavaWeb中的监听器是Servlet规范中定义的一种特殊类，它用于监听web应用程序中的ServletContext，HttpSession和ServletRequest等域对象的创建与销毁事件，以及监听这些域对象中的属性发生修改的事件。
 ## Servlet监听器的分类
