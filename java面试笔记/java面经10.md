@@ -1,6 +1,14 @@
 <!-- MarkdownTOC -->
 
 - [1.请对以下在J2EE中常用的名词进行解释\(或简单描述\)](#1请对以下在j2ee中常用的名词进行解释或简单描述)
+    - [web 容器](#web-容器)
+    - [Web container](#web-container)
+    - [EJB容器](#ejb容器)
+    - [JNDI\(Java Naming & Directory Interface\)JAVA命名目录服务](#jndijava-naming--directory-interfacejava命名目录服务)
+    - [JMS\(ava Message Service\)JAVA消息服务](#jmsava-message-servicejava消息服务)
+    - [JTA\(Java Transaction API\)JAVA事务服务](#jtajava-transaction-apijava事务服务)
+    - [JAF\(Java Action FrameWork\)JAVA安全认证框架](#jafjava-action-frameworkjava安全认证框架)
+    - [RMI/IIOP\(Remote Method Invocation/internet对象请求中介协议\)](#rmiiiopremote-method-invocationinternet对象请求中介协议)
 - [2.数据库水平切分,垂直切分](#2数据库水平切分垂直切分)
     - [水平分割](#水平分割)
     - [垂直分割](#垂直分割)
@@ -30,14 +38,22 @@
 
 
 # 1.请对以下在J2EE中常用的名词进行解释(或简单描述)
-- web 容器：给处于其中的应用程序组件（JSP，SERVLET）提供一个环境，使JSP,SERVLET直接和容器中的环境变量接接口互，不必关注其它系统问题。主要有WEB服务器来实现。例如：TOMCAT,WEBLOGIC,WEBSPHERE等。该容器提供的接口严格遵守J2EE规范中的WEBAPPLICATION 标准。我们把遵守以上标准的WEB服务器就叫做J2EE中的WEB容器。
-- Web container：实现J2EE体系结构中Web组件协议的容器。这个协议规定了一个Web组件运行时的环境，包括安全，一致性，生命周期管理，事务，配置和其它的服务。一个提供和JSP和J2EE平台APIs界面相同服务的容器。一个Web container 由Web服务器或者J2EE服务器提供。
-EJB容器：Enterprise java bean 容器。更具有行业领域特色。他提供给运行在其中的组件EJB各种管理功能。只要满足J2EE规范的EJB放入该容器，马上就会被容器进行高效率的管理。并且可以通过现成的接口来获得系统级别的服务。例如邮件服务、事务管理。一个实现了J2EE体系结构中EJB组件规范的容器。这个规范指定了一个Enterprise bean的运行时环境，包括安全，一致性，生命周期，事务，配置，和其他的服务。
-- JNDI：（Java Naming & Directory Interface）JAVA命名目录服务。主要提供的功能是：提供一个目录系统，让其它各地的应用程序在其上面留下自己的索引，从而满足快速查找和定位分布式应用程序的功能。
-- JMS：（Java Message Service）JAVA消息服务。主要实现各个应用程序之间的通讯。包括点对点和广播。
-- JTA：（Java Transaction API）JAVA事务服务。提供各种分布式事务服务。应用程序只需调用其提供的接口即可。
-- JAF：（Java Action FrameWork）JAVA安全认证框架。提供一些安全控制方面的框架。让开发者通过各种部署和自定义实现自己的个性安全控制策略。
-- RMI/IIOP: （Remote Method Invocation /internet对象请求中介协议）他们主要用于通过远程调用服务。例如，远程有一台计算机上运行一个程序，它提供股票分析服务，我们可以在本地计算机上实现对其直接调用。当然这是要通过一定的规范才能在异构的系统之间进行通信。RMI是JAVA特有的。RMI-IIOP出现以前，只有RMI和 CORBA两种选择来进行分布式程序设计。RMI-IIOP综合了RMI和CORBA的优点，克服了他们的缺点，使得程序员能更方便的编写分布式程序设计，实现分布式计算。首先，RMI-IIOP综合了RMI的简单性和CORBA的多语言性（兼容性），其次RMI-IIOP克服了RMI只能用于Java 的缺点和CORBA的复杂性。
+## web 容器
+给处于其中的应用程序组件（JSP，SERVLET）提供一个环境，使JSP,SERVLET直接和容器中的环境变量接接口互，不必关注其它系统问题。主要有WEB服务器来实现。例如：TOMCAT,WEBLOGIC,WEBSPHERE等。该容器提供的接口严格遵守J2EE规范中的WEBAPPLICATION 标准。我们把遵守以上标准的WEB服务器就叫做J2EE中的WEB容器。
+## Web container
+实现J2EE体系结构中Web组件协议的容器。这个协议规定了一个Web组件运行时的环境，包括安全，一致性，生命周期管理，事务，配置和其它的服务。一个提供和JSP和J2EE平台APIs界面相同服务的容器。一个Web container 由Web服务器或者J2EE服务器提供。
+## EJB容器
+Enterprise java bean 容器。更具有行业领域特色。他提供给运行在其中的组件EJB各种管理功能。只要满足J2EE规范的EJB放入该容器，马上就会被容器进行高效率的管理。并且可以通过现成的接口来获得系统级别的服务。例如邮件服务、事务管理。一个实现了J2EE体系结构中EJB组件规范的容器。这个规范指定了一个Enterprise bean的运行时环境，包括安全，一致性，生命周期，事务，配置，和其他的服务。
+## JNDI(Java Naming & Directory Interface)JAVA命名目录服务
+主要提供的功能是：提供一个目录系统，让其它各地的应用程序在其上面留下自己的索引，从而满足快速查找和定位分布式应用程序的功能。
+## JMS(ava Message Service)JAVA消息服务
+主要实现各个应用程序之间的通讯。包括点对点和广播。
+## JTA(Java Transaction API)JAVA事务服务
+提供各种分布式事务服务。应用程序只需调用其提供的接口即可。
+## JAF(Java Action FrameWork)JAVA安全认证框架
+提供一些安全控制方面的框架。让开发者通过各种部署和自定义实现自己的个性安全控制策略。
+## RMI/IIOP(Remote Method Invocation/internet对象请求中介协议)
+他们主要用于通过远程调用服务。例如，远程有一台计算机上运行一个程序，它提供股票分析服务，我们可以在本地计算机上实现对其直接调用。当然这是要通过一定的规范才能在异构的系统之间进行通信。RMI是JAVA特有的。RMI-IIOP出现以前，只有RMI和 CORBA两种选择来进行分布式程序设计。RMI-IIOP综合了RMI和CORBA的优点，克服了他们的缺点，使得程序员能更方便的编写分布式程序设计，实现分布式计算。首先，RMI-IIOP综合了RMI的简单性和CORBA的多语言性（兼容性），其次RMI-IIOP克服了RMI只能用于Java 的缺点和CORBA的复杂性。
 
 # 2.数据库水平切分,垂直切分
 ## 水平分割
