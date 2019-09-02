@@ -30,6 +30,7 @@
 - [21.java中有几种类型的流,JDK为每种类型的流提供了一些抽象类以供继承,请说出他们分别是哪些类](#21java中有几种类型的流jdk为每种类型的流提供了一些抽象类以供继承请说出他们分别是哪些类)
 - [22.什么是java序列化,如何实现java序列化](#22什么是java序列化如何实现java序列化)
 - [23.运行时异常与受检异常有什么区别](#23运行时异常与受检异常有什么区别)
+- [24. Double-Check中的volatile作用](#24-double-check中的volatile作用)
 
 <!-- /MarkdownTOC -->
 
@@ -461,12 +462,12 @@ JRE是Java Runtime Environment的缩写，是Java程序的运行环境。既然�
 
 ## 通过反射生成对象主要通过俩种方式
 - 使用 Class 对象的 newInstance() 方法来创建对象对应类的实例。
-```JAVA
+```java
 Class<?> c  = String.calss;
 Object str = c.getInstance();
 ```
 - 先通过Class对象获取制定的Constructor对象，在调用Constructor对象的newInstance()方法来创建实例。这种方法可以用指定的构造器构造类的实例。
-```JAVA
+```java
  //获取String所对应的Class对象
    Class<?> c = String.class;
   //获取String类带一个String参数的构造器
@@ -713,7 +714,7 @@ Try{
 ```
 
 自定义异常测试类:
-```JAVA
+```java
 package code;
 class MyException extends Exception
 {
@@ -794,7 +795,7 @@ java.io.ObjectOutputStream代表对象输出流，它的writeObject(Object obj)�
 
 java.io.ObjectInputStream代表对象输入流，它的readObject()方法从一个源输入流中读取字节序列，再把它们反序列化为一个对象，并将其返回。
 
-```JAVA
+```java
 import java.io.*;
 import java.util.Date;
 
@@ -844,3 +845,59 @@ Java提供了两类主要的异常:runtime exception和checked exception。check
 出现运行时异常后，系统会把异常一直往上层抛，一直遇到处理代码。如果没有处理块，到最上层，如果是多线程就由Thread.run()抛出，如果是单线程就被main()抛出。抛出之后，如果是线程，这个线程也就退出了。如果是主程序抛出的异常，那么这整个程序也就退出了。运行时异常是Exception的子类，也有一般异常的特点，是可以被Catch块处理的。只不过往往我们不对他处理罢了。也就是说，你如果不对运行时异常进行处理，那么出现运行时异常之后，要么是线程中止，要么是主程序终止。 
 
 如果不想终止，则必须扑捉所有的运行时异常，决不让这个处理线程退出。队列里面出现异常数据了，正常的处理应该是把异常数据舍弃，然后记录日志。不应该由于异常数据而影响下面对正常数据的处理。在这个场景这样处理可能是一个比较好的应用，但并不代表在所有的场景你都应该如此。如果在其它场景，遇到了一些错误，如果退出程序比较好，这时你就可以不太理会运行时异常，或者是通过对异常的处理显式的控制程序退出。
+
+# 24. Double-Check中的volatile作用
+一个单例模式的代码：
+```java
+class Instance{
+
+}
+public class DoubleCheckedLocking{
+    private static Instance instance = null;
+    public static Instance getInstance(){
+        if(instance == null){
+            synchronized(DoubleCheckedLocking.class){
+                if(instance == null){
+                    instance = new Instance();
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
+- 第一个if (instance == null)，其实是为了解决效率问题，只有instance为null的时候，才进入synchronized的代码段——大大减少了几率。
+- 第二个if (instance == null)，则是为了防止可能出现多个实例的情况
+
+那么还会有问题吗？
+
+主要在于instance = new Instance();这句。这并非是一个原子操作， 事实上，在JVM中，这句实际上做了3件事情。
+
+1. 给instance分配内存
+2. 调用Instance的构造函数来初始化成员变量，形成实例
+3. 将instance对象指向分配的内存空间(执行完这一步，instance才是非null)
+
+但是在JVM的即时编译器中存在 __指令重排序__ 的优化。也就是说上面的第二步和第三步的顺序是不能保证的，最终的执行顺序可能是 __1-2-3__ 也可能是 __1-3-2__ 。如果是后者，则在 3 执行完毕、2 未执行之前，被线程二抢占了，这时 instance 已经是非 null 了（但却没有初始化），所以线程二会直接返回 instance，然后使用，然后顺理成章地报错。
+
+再稍微解释一下，就是说，由于有一个『instance已经不为null但是仍没有完成初始化』的中间状态，而这个时候，如果有其他线程刚好运行到第一层if (instance == null)这里，这里读取到的instance已经不为null了，所以就直接把这个中间状态的instance拿去用了，就会产生问题。这里的关键在于——线程T1对instance的写操作没有完成，线程T2就执行了读操作。
+```java
+class Instance{
+
+}
+public class DoubleCheckedLocking{
+    private static voltile Instance instance = null;
+    public static Instance getInstance(){
+        if(instance == null){
+            synchronized(DoubleCheckedLocking.class){
+                if(instance == null){
+                    instance = new Instance();
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
+
+
+
